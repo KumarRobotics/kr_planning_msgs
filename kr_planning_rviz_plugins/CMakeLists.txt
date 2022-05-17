@@ -27,13 +27,13 @@ set(QT_LIBRARIES Qt5::Widgets)
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME}
+  LIBRARIES ${PROJECT_NAME} kr_planning_utils
   CATKIN_DEPENDS kr_planning_msgs)
 
-# add_library(${PROJECT_NAME} src/data_ros_utils.cpp src/primitive_ros_utils.cpp)
-# target_include_directories(${PROJECT_NAME} PUBLIC ${catkin_INCLUDE_DIRS}
-#                                                   include)
-# target_link_libraries(${PROJECT_NAME} PUBLIC ${catkin_LIBRARIES} Eigen3::Eigen)
+add_library(kr_planning_utils src/data_ros_utils.cpp)
+target_include_directories(kr_planning_utils PUBLIC ${catkin_INCLUDE_DIRS}
+                                                  include)
+target_link_libraries(kr_planning_utils PUBLIC ${catkin_LIBRARIES} Eigen3::Eigen)
 
 set(SOURCE_FILES
     src/bound_visual.cpp
