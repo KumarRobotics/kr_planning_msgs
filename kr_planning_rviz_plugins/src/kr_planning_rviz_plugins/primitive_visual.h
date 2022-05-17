@@ -4,7 +4,7 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <planning_ros_utils/primitive_ros_utils.h>
+#include <kr_planning_rviz_plugins/primitive_ros_utils.h>
 #include <rviz/ogre_helpers/billboard_line.h>
 
 namespace planning_rviz_plugins {
@@ -15,7 +15,7 @@ class PrimitiveVisual {
 
   virtual ~PrimitiveVisual();
 
-  void setMessage(const std::vector<planning_ros_msgs::Primitive> &msgs);
+  void setMessage(const std::vector<kr_planning_msgs::Primitive> &msgs);
 
   void setFramePosition(const Ogre::Vector3 &position);
   void setFrameOrientation(const Ogre::Quaternion &orientation);

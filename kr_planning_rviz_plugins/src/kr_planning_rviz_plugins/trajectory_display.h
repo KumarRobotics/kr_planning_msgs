@@ -1,6 +1,6 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
-#include <planning_ros_msgs/Trajectory.h>
+#include <kr_planning_msgs/Trajectory.h>
 #include <rviz/frame_manager.h>
 #include <rviz/load_resource.h>
 #include <rviz/message_filter_display.h>
@@ -14,7 +14,7 @@
 
 namespace planning_rviz_plugins {
 class TrajectoryDisplay
-    : public rviz::MessageFilterDisplay<planning_ros_msgs::Trajectory> {
+    : public rviz::MessageFilterDisplay<kr_planning_msgs::Trajectory> {
   Q_OBJECT
  public:
   TrajectoryDisplay();
@@ -46,7 +46,7 @@ class TrajectoryDisplay
   void updateYawNum();
 
  private:
-  void processMessage(const planning_ros_msgs::Trajectory::ConstPtr &msg);
+  void processMessage(const kr_planning_msgs::Trajectory::ConstPtr &msg);
   void visualizeMessage();
 
   std::shared_ptr<TrajectoryVisual> visual_;
@@ -73,6 +73,6 @@ class TrajectoryDisplay
   Ogre::Vector3 position_;
   Ogre::Quaternion orientation_;
 
-  planning_ros_msgs::Trajectory trajectory_;
+  kr_planning_msgs::Trajectory trajectory_;
 };
 }  // namespace planning_rviz_plugins

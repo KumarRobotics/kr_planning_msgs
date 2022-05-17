@@ -49,7 +49,7 @@ void PathArrayDisplay::updateNodeScale() {
 }
 
 void PathArrayDisplay::processMessage(
-    const planning_ros_msgs::PathArray::ConstPtr &msg) {
+    const kr_planning_msgs::PathArray::ConstPtr &msg) {
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position_, orientation_)) {
     ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",

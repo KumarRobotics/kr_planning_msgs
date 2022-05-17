@@ -4,7 +4,7 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <planning_ros_utils/primitive_ros_utils.h>
+#include <kr_planning_rviz_plugins/primitive_ros_utils.h>
 #include <rviz/ogre_helpers/billboard_line.h>
 
 namespace planning_rviz_plugins {
@@ -15,7 +15,7 @@ class TrajectoryVisual {
 
   virtual ~TrajectoryVisual();
 
-  void setMessage(const planning_ros_msgs::Trajectory &msg);
+  void setMessage(const kr_planning_msgs::Trajectory &msg);
 
   void setFramePosition(const Ogre::Vector3 &position);
   void setFrameOrientation(const Ogre::Quaternion &orientation);

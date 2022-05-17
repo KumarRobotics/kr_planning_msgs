@@ -1,10 +1,10 @@
-#include "primitive_array_display.h"
+#include "trajectory_display.h"
 
 namespace planning_rviz_plugins {
-PrimitiveArrayDisplay::PrimitiveArrayDisplay() {
+TrajectoryDisplay::TrajectoryDisplay() {
   num_property_ = new rviz::IntProperty(
-      "Num", 10, "Number of samples of each primitive to display.", this,
-      SLOT(updateNum()));
+      "Num of samples", 100, "Number of samples of trajectory to display.",
+      this, SLOT(updateNum()));
   yaw_triangle_scale_property_ = new rviz::FloatProperty(
       "YawTriangleScale", 0.5, "0.5 is the default value.", this,
       SLOT(updateYawTriangleScale()));
@@ -12,7 +12,7 @@ PrimitiveArrayDisplay::PrimitiveArrayDisplay() {
       "YawTriangleAngle", 0.7, "0.7 is the default value.", this,
       SLOT(updateYawTriangleAngle()));
   yaw_num_property_ = new rviz::IntProperty(
-      "NumYaw", 2, "Number of yaw samples of each primitive to display.", this,
+      "NumYaw", 20, "Number of yaw samples of trajectory to display.", this,
       SLOT(updateYawNum()));
   pos_color_property_ = new rviz::ColorProperty(
       "PosColor", QColor(204, 51, 204), "Color to draw the Pos.", this,
@@ -54,83 +54,83 @@ PrimitiveArrayDisplay::PrimitiveArrayDisplay() {
                                              this, SLOT(updateYawVis()));
 }
 
-void PrimitiveArrayDisplay::onInitialize() { MFDClass::onInitialize(); }
+void TrajectoryDisplay::onInitialize() { MFDClass::onInitialize(); }
 
-PrimitiveArrayDisplay::~PrimitiveArrayDisplay() {}
+TrajectoryDisplay::~TrajectoryDisplay() {}
 
-void PrimitiveArrayDisplay::reset() {
+void TrajectoryDisplay::reset() {
   MFDClass::reset();
   visual_ = nullptr;
 }
 
-void PrimitiveArrayDisplay::updateVelVis() { visualizeMessage(); }
+void TrajectoryDisplay::updateVelVis() { visualizeMessage(); }
 
-void PrimitiveArrayDisplay::updateAccVis() { visualizeMessage(); }
+void TrajectoryDisplay::updateAccVis() { visualizeMessage(); }
 
-void PrimitiveArrayDisplay::updateJrkVis() { visualizeMessage(); }
+void TrajectoryDisplay::updateJrkVis() { visualizeMessage(); }
 
-void PrimitiveArrayDisplay::updateYawVis() { visualizeMessage(); }
+void TrajectoryDisplay::updateYawVis() { visualizeMessage(); }
 
-void PrimitiveArrayDisplay::updatePosColorAndAlpha() {
+void TrajectoryDisplay::updatePosColorAndAlpha() {
   Ogre::ColourValue color = pos_color_property_->getOgreColor();
   if (visual_) visual_->setPosColor(color.r, color.g, color.b, 1);
 }
 
-void PrimitiveArrayDisplay::updateVelColorAndAlpha() {
+void TrajectoryDisplay::updateVelColorAndAlpha() {
   Ogre::ColourValue color = vel_color_property_->getOgreColor();
   if (visual_) visual_->setVelColor(color.r, color.g, color.b, 1);
 }
 
-void PrimitiveArrayDisplay::updateAccColorAndAlpha() {
+void TrajectoryDisplay::updateAccColorAndAlpha() {
   Ogre::ColourValue color = acc_color_property_->getOgreColor();
   if (visual_) visual_->setAccColor(color.r, color.g, color.b, 1);
 }
 
-void PrimitiveArrayDisplay::updateJrkColorAndAlpha() {
+void TrajectoryDisplay::updateJrkColorAndAlpha() {
   Ogre::ColourValue color = jrk_color_property_->getOgreColor();
   if (visual_) visual_->setJrkColor(color.r, color.g, color.b, 1);
 }
 
-void PrimitiveArrayDisplay::updateYawColorAndAlpha() {
+void TrajectoryDisplay::updateYawColorAndAlpha() {
   Ogre::ColourValue color = yaw_color_property_->getOgreColor();
   if (visual_) visual_->setYawColor(color.r, color.g, color.b, 1);
 }
 
-void PrimitiveArrayDisplay::updatePosScale() {
+void TrajectoryDisplay::updatePosScale() {
   float s = pos_scale_property_->getFloat();
   if (visual_) visual_->setPosScale(s);
 }
 
-void PrimitiveArrayDisplay::updateVelScale() {
+void TrajectoryDisplay::updateVelScale() {
   float s = vel_scale_property_->getFloat();
   if (visual_) visual_->setVelScale(s);
 }
 
-void PrimitiveArrayDisplay::updateAccScale() {
+void TrajectoryDisplay::updateAccScale() {
   float s = acc_scale_property_->getFloat();
   if (visual_) visual_->setAccScale(s);
 }
 
-void PrimitiveArrayDisplay::updateJrkScale() {
+void TrajectoryDisplay::updateJrkScale() {
   float s = jrk_scale_property_->getFloat();
   if (visual_) visual_->setJrkScale(s);
 }
 
-void PrimitiveArrayDisplay::updateYawScale() {
+void TrajectoryDisplay::updateYawScale() {
   float s = yaw_scale_property_->getFloat();
   if (visual_) visual_->setYawScale(s);
 }
 
-void PrimitiveArrayDisplay::updateYawTriangleScale() { visualizeMessage(); }
+void TrajectoryDisplay::updateYawTriangleScale() { visualizeMessage(); }
 
-void PrimitiveArrayDisplay::updateYawTriangleAngle() { visualizeMessage(); }
+void TrajectoryDisplay::updateYawTriangleAngle() { visualizeMessage(); }
 
-void PrimitiveArrayDisplay::updateNum() { visualizeMessage(); }
+void TrajectoryDisplay::updateNum() { visualizeMessage(); }
 
-void PrimitiveArrayDisplay::updateYawNum() { visualizeMessage(); }
+void TrajectoryDisplay::updateYawNum() { visualizeMessage(); }
 
-void PrimitiveArrayDisplay::processMessage(
-    const planning_ros_msgs::PrimitiveArray::ConstPtr &msg) {
+void TrajectoryDisplay::processMessage(
+    const kr_planning_msgs::Trajectory::ConstPtr &msg) {
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position_, orientation_)) {
     ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
@@ -138,14 +138,15 @@ void PrimitiveArrayDisplay::processMessage(
     return;
   }
 
-  prs_msg_ = *msg;
+  trajectory_ = *msg;
 
   visualizeMessage();
 }
 
-void PrimitiveArrayDisplay::visualizeMessage() {
-  visual_.reset(new PrimitiveVisual(context_->getSceneManager(), scene_node_));
-  if (prs_msg_.primitives.empty() || !pos_color_property_ ||
+void TrajectoryDisplay::visualizeMessage() {
+  visual_.reset(new TrajectoryVisual(context_->getSceneManager(), scene_node_));
+
+  if (trajectory_.primitives.empty() || !pos_color_property_ ||
       !vel_color_property_ || !acc_color_property_ || !yaw_color_property_ ||
       !pos_scale_property_ || !vel_scale_property_ || !acc_scale_property_ ||
       !yaw_scale_property_ || !yaw_triangle_scale_property_ ||
@@ -178,7 +179,7 @@ void PrimitiveArrayDisplay::visualizeMessage() {
   float yaw_tria_angle = yaw_triangle_angle_property_->getFloat();
   visual_->setYawTriangleAngle(yaw_tria_angle);
 
-  visual_->setMessage(prs_msg_.primitives);
+  visual_->setMessage(trajectory_);
 
   visual_->setFramePosition(position_);
   visual_->setFrameOrientation(orientation_);
@@ -208,5 +209,4 @@ void PrimitiveArrayDisplay::visualizeMessage() {
 }  // namespace planning_rviz_plugins
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(planning_rviz_plugins::PrimitiveArrayDisplay,
-                       rviz::Display)
+PLUGINLIB_EXPORT_CLASS(planning_rviz_plugins::TrajectoryDisplay, rviz::Display)

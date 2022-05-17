@@ -44,7 +44,7 @@ MapDisplay::MapDisplay()
 MapDisplay::~MapDisplay() { delete point_cloud_common_; }
 
 void MapDisplay::setMap(std::shared_ptr<MPL::VoxelMapUtil> &map_util,
-                        const planning_ros_msgs::VoxelMap &msg) {
+                        const kr_planning_msgs::VoxelMap &msg) {
   Vec3f ori(msg.origin.x, msg.origin.y, msg.origin.z);
   Vec3i dim(msg.dim.x, msg.dim.y, msg.dim.z);
   double res = msg.resolution;
@@ -54,7 +54,7 @@ void MapDisplay::setMap(std::shared_ptr<MPL::VoxelMapUtil> &map_util,
 }
 
 void MapDisplay::getMap(std::shared_ptr<MPL::VoxelMapUtil> &map_util,
-                        planning_ros_msgs::VoxelMap &map) {
+                        kr_planning_msgs::VoxelMap &map) {
   Vec3f ori = map_util->getOrigin();
   Vec3i dim = map_util->getDim();
   double res = map_util->getRes();
@@ -181,7 +181,7 @@ vec_E<vec_Vec3f> MapDisplay::getBound() {
 }
 
 void MapDisplay::processMessage(
-    const planning_ros_msgs::VoxelMapConstPtr &msg) {
+    const kr_planning_msgs::VoxelMapConstPtr &msg) {
   setMap(map_util_, *msg);
 
   if (!context_->getFrameManager()->getTransform(

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(planning_ros_utils)
+project(kr_planning_rviz_plugins)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -10,7 +10,7 @@ find_package(
              roscpp
              pcl_ros
              eigen_conversions
-             planning_ros_msgs
+             kr_planning_msgs
              tf_conversions
              motion_primitive_library)
 
@@ -29,7 +29,7 @@ set(QT_LIBRARIES Qt5::Widgets)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME} planning_rviz_plugins
-  CATKIN_DEPENDS planning_ros_msgs motion_primitive_library)
+  CATKIN_DEPENDS kr_planning_msgs motion_primitive_library)
 
 add_library(${PROJECT_NAME} src/data_ros_utils.cpp src/primitive_ros_utils.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC ${catkin_INCLUDE_DIRS}

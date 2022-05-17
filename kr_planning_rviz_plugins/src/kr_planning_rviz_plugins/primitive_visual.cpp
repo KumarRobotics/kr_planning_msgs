@@ -13,7 +13,7 @@ PrimitiveVisual::~PrimitiveVisual() {
 }
 
 void PrimitiveVisual::setMessage(
-    const std::vector<planning_ros_msgs::Primitive> &msgs) {
+    const std::vector<kr_planning_msgs::Primitive> &msgs) {
   poss_.clear();
   vels_.clear();
   accs_.clear();

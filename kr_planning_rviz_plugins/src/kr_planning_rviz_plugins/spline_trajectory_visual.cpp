@@ -194,7 +194,7 @@ void SplineTrajectoryVisual::setCurve() {
 }
 
 void SplineTrajectoryVisual::setMessage(
-    const planning_ros_msgs::SplineTrajectory::ConstPtr& msg) {
+    const kr_planning_msgs::SplineTrajectory::ConstPtr& msg) {
   // traj_.reset(my_ptr);
   traj_ = msg;
   setCurve();

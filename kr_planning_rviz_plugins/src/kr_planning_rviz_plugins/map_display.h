@@ -1,8 +1,8 @@
 #pragma once
 
 #include <mpl_collision/map_util.h>
-#include <planning_ros_msgs/VoxelMap.h>
-#include <planning_ros_utils/data_ros_utils.h>
+#include <kr_planning_msgs/VoxelMap.h>
+#include <kr_planning_rviz_plugins/data_ros_utils.h>
 #include <rviz/default_plugin/point_cloud_common.h>
 #include <rviz/display_context.h>
 #include <rviz/frame_manager.h>
@@ -20,7 +20,7 @@
 
 namespace planning_rviz_plugins {
 class MapDisplay
-    : public rviz::MessageFilterDisplay<planning_ros_msgs::VoxelMap> {
+    : public rviz::MessageFilterDisplay<kr_planning_msgs::VoxelMap> {
   Q_OBJECT
  public:
   MapDisplay();
@@ -37,13 +37,13 @@ class MapDisplay
 
  protected:
   void setMap(std::shared_ptr<MPL::VoxelMapUtil>& map_util,
-              const planning_ros_msgs::VoxelMap& msg);
+              const kr_planning_msgs::VoxelMap& msg);
   void getMap(std::shared_ptr<MPL::VoxelMapUtil>& map_util,
-              planning_ros_msgs::VoxelMap& map);
+              kr_planning_msgs::VoxelMap& map);
 
   void onInitialize();
 
-  void processMessage(const planning_ros_msgs::VoxelMapConstPtr& map);
+  void processMessage(const kr_planning_msgs::VoxelMapConstPtr& map);
   void visualizeMessage(int state);
   void visualizeMesh(const vec_Vec3f& pts, double res);
   vec_E<vec_Vec3f> getBound();

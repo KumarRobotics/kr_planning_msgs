@@ -4,8 +4,8 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <planning_ros_msgs/Path.h>
-#include <planning_ros_utils/data_ros_utils.h>
+#include <kr_planning_msgs/Path.h>
+#include <kr_planning_rviz_plugins/data_ros_utils.h>
 #include <rviz/ogre_helpers/billboard_line.h>
 #include <rviz/ogre_helpers/shape.h>
 

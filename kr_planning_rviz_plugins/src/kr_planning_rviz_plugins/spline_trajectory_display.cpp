@@ -152,7 +152,7 @@ void SplineTrajectoryDisplay::updateSampleLength() {
 
 // This is our callback to handle an incoming message.
 void SplineTrajectoryDisplay::processMessage(
-    const planning_ros_msgs::SplineTrajectory::ConstPtr &msg) {
+    const kr_planning_msgs::SplineTrajectory::ConstPtr &msg) {
   // Here we call the rviz::FrameManager to get the transform from the
   // fixed frame to the frame in the header of this SplineTrajectory message. If
   // it fails, we can't do anything else so we return.

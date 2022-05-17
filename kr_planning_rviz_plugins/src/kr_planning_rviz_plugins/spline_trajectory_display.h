@@ -4,7 +4,7 @@
 #define MAP_PLAN_PLANNING_ROS_UTILS_SRC_PLANNING_RVIZ_PLUGINS_SPLINE_TRAJECTORY_DISPLAY_H_
 
 #ifndef Q_MOC_RUN
-#include <planning_ros_msgs/SplineTrajectory.h>
+#include <kr_planning_msgs/SplineTrajectory.h>
 #include <rviz/message_filter_display.h>
 
 #include <boost/circular_buffer.hpp>
@@ -59,7 +59,7 @@ class SplineTrajectoryVisual;
 // idiom for the visuals is that when the objects exist, they appear
 // in the scene, and when they are deleted, they disappear.
 class SplineTrajectoryDisplay
-    : public rviz::MessageFilterDisplay<planning_ros_msgs::SplineTrajectory> {
+    : public rviz::MessageFilterDisplay<kr_planning_msgs::SplineTrajectory> {
   Q_OBJECT      // NOLINT
       public :  // NOLINT
                 // Constructor.  pluginlib::ClassLoader creates instances by
@@ -89,7 +89,7 @@ class SplineTrajectoryDisplay
   void updateSampleLength();
   // Function to handle an incoming ROS message.
  private:
-  void processMessage(const planning_ros_msgs::SplineTrajectory::ConstPtr& msg);
+  void processMessage(const kr_planning_msgs::SplineTrajectory::ConstPtr& msg);
 
   // Storage for the list of visuals.  It is a circular buffer where
   // data gets popped from the front (oldest) and pushed to the back (newest)

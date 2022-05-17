@@ -6,7 +6,7 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <planning_ros_msgs/SplineTrajectory.h>
+#include <kr_planning_msgs/SplineTrajectory.h>
 
 #include <Eigen/Core>
 #include <Eigen/Dense>
@@ -30,7 +30,7 @@ class Object;
 // Declare the visual class for this display.
 //
 // Each instance of SplineTrajectoryVisual represents the visualization of a
-// single planning_ros_msgs::SplineTrajectory message.  Currently it just shows
+// single kr_planning_msgs::SplineTrajectory message.  Currently it just shows
 // an arrow with the direction and magnitude of the acceleration vector, but
 // could easily be expanded to include more of the message data.
 namespace planning_rviz_plugins {
@@ -47,7 +47,7 @@ class SplineTrajectoryVisual {
 
   void draw();
   // Configure the visual to show the data in the message.
-  void setMessage(const planning_ros_msgs::SplineTrajectory::ConstPtr& msg);
+  void setMessage(const kr_planning_msgs::SplineTrajectory::ConstPtr& msg);
 
   // Set the pose of the coordinate frame the message refers to.
   // These could be done inside setMessage(), but that would require
@@ -92,7 +92,7 @@ class SplineTrajectoryVisual {
                                    const Ogre::Vector3& p1, double scale,
                                    rviz::Arrow* shape);
 
-  planning_ros_msgs::SplineTrajectory::ConstPtr traj_;
+  kr_planning_msgs::SplineTrajectory::ConstPtr traj_;
 
   // A SceneNode whose pose is set to match the coordinate frame of
   // the SplineTrajectory message header.

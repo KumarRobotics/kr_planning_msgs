@@ -47,7 +47,7 @@ void PathDisplay::updateNodeScale() {
   if (visual_) visual_->setNodeScale(s);
 }
 
-void PathDisplay::processMessage(const planning_ros_msgs::Path::ConstPtr &msg) {
+void PathDisplay::processMessage(const kr_planning_msgs::Path::ConstPtr &msg) {
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position_, orientation_)) {
     ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",

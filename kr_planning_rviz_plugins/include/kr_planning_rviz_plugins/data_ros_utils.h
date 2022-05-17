@@ -2,7 +2,7 @@
 
 #include <geometry_msgs/Twist.h>
 #include <mpl_basis/data_type.h>
-#include <planning_ros_msgs/PathArray.h>
+#include <kr_planning_msgs/PathArray.h>
 #include <sensor_msgs/PointCloud.h>
 #include <tf_conversions/tf_eigen.h>
 
@@ -53,11 +53,11 @@ vec_Vec3f cloud_to_vec(const sensor_msgs::PointCloud &cloud);
 vec_Vec3f cloud_to_vec_filter(const sensor_msgs::PointCloud &cloud,
                               const double eps);
 
-vec_Vec3f ros_to_path(const planning_ros_msgs::Path &msg);
+vec_Vec3f ros_to_path(const kr_planning_msgs::Path &msg);
 
 template <int Dim>
-planning_ros_msgs::Path path_to_ros(const vec_Vecf<Dim> &path, double h = 0) {
-  planning_ros_msgs::Path msg;
+kr_planning_msgs::Path path_to_ros(const vec_Vecf<Dim> &path, double h = 0) {
+  kr_planning_msgs::Path msg;
   for (const auto &itt : path) {
     geometry_msgs::Point pt;
     pt.x = itt(0);
@@ -69,20 +69,20 @@ planning_ros_msgs::Path path_to_ros(const vec_Vecf<Dim> &path, double h = 0) {
 }
 
 template <int Dim>
-planning_ros_msgs::PathArray path_array_to_ros(
+kr_planning_msgs::PathArray path_array_to_ros(
     const vec_E<vec_Vecf<Dim>> &paths, double h = 0) {
-  planning_ros_msgs::PathArray msg;
+  kr_planning_msgs::PathArray msg;
   for (const auto &it : paths) msg.paths.push_back(path_to_ros(it, h));
   return msg;
 }
 
 template <int Dim>
-planning_ros_msgs::PathArray path_array_to_ros(
+kr_planning_msgs::PathArray path_array_to_ros(
     const std::vector<std::pair<std::string, vec_Vecf<Dim>>> &paths,
     double h = 0) {
-  planning_ros_msgs::PathArray msg;
+  kr_planning_msgs::PathArray msg;
   for (const auto &it : paths) {
-    planning_ros_msgs::Path path_msg = path_to_ros(it.second, h);
+    kr_planning_msgs::Path path_msg = path_to_ros(it.second, h);
     path_msg.name = it.first;
     msg.paths.push_back(path_msg);
   }

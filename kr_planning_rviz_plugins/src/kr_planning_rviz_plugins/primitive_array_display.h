@@ -1,6 +1,6 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
-#include <planning_ros_msgs/PrimitiveArray.h>
+#include <kr_planning_msgs/PrimitiveArray.h>
 #include <rviz/frame_manager.h>
 #include <rviz/load_resource.h>
 #include <rviz/message_filter_display.h>
@@ -14,7 +14,7 @@
 
 namespace planning_rviz_plugins {
 class PrimitiveArrayDisplay
-    : public rviz::MessageFilterDisplay<planning_ros_msgs::PrimitiveArray> {
+    : public rviz::MessageFilterDisplay<kr_planning_msgs::PrimitiveArray> {
   Q_OBJECT
  public:
   PrimitiveArrayDisplay();
@@ -46,7 +46,7 @@ class PrimitiveArrayDisplay
   void updateYawNum();
 
  private:
-  void processMessage(const planning_ros_msgs::PrimitiveArray::ConstPtr &msg);
+  void processMessage(const kr_planning_msgs::PrimitiveArray::ConstPtr &msg);
   void visualizeMessage();
 
   std::shared_ptr<PrimitiveVisual> visual_;
@@ -73,6 +73,6 @@ class PrimitiveArrayDisplay
   Ogre::Vector3 position_;
   Ogre::Quaternion orientation_;
 
-  planning_ros_msgs::PrimitiveArray prs_msg_;
+  kr_planning_msgs::PrimitiveArray prs_msg_;
 };
 }  // namespace planning_rviz_plugins

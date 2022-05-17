@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>planning_ros_utils</name>
+  <name>kr_planning_rviz_plugins</name>
   <version>0.0.0</version>
-  <description>The planning_ros_utils package</description>
+  <description>The kr_planning_rviz_plugins package</description>
 
   <maintainer email="sikang@todo.todo">sikang</maintainer>
   <maintainer email="laurajar@seas.upenn.edu">Laura Jarin-Lipschitz</maintainer>
@@ -16,7 +16,7 @@
   <depend>eigen_conversions</depend>
   <depend>tf_conversions</depend>
   <depend>motion_primitive_library</depend>
-  <depend>planning_ros_msgs</depend>
+  <depend>kr_planning_msgs</depend>
 
   <export>
     <rviz plugin="${prefix}/plugin_description.xml"/>

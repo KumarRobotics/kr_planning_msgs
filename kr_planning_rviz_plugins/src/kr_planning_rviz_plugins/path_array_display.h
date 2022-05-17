@@ -1,6 +1,6 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
-#include <planning_ros_msgs/PathArray.h>
+#include <kr_planning_msgs/PathArray.h>
 #include <rviz/frame_manager.h>
 #include <rviz/load_resource.h>
 #include <rviz/message_filter_display.h>
@@ -14,7 +14,7 @@
 
 namespace planning_rviz_plugins {
 class PathArrayDisplay
-    : public rviz::MessageFilterDisplay<planning_ros_msgs::PathArray> {
+    : public rviz::MessageFilterDisplay<kr_planning_msgs::PathArray> {
   Q_OBJECT
  public:
   PathArrayDisplay();
@@ -33,7 +33,7 @@ class PathArrayDisplay
   void updateID();
 
  private:
-  void processMessage(const planning_ros_msgs::PathArray::ConstPtr &msg);
+  void processMessage(const kr_planning_msgs::PathArray::ConstPtr &msg);
   void visualizeMessage(int state);
 
   std::shared_ptr<PathVisual> visual_;
@@ -47,6 +47,6 @@ class PathArrayDisplay
   Ogre::Vector3 position_;
   Ogre::Quaternion orientation_;
 
-  planning_ros_msgs::PathArray paths_;
+  kr_planning_msgs::PathArray paths_;
 };
 }  // namespace planning_rviz_plugins

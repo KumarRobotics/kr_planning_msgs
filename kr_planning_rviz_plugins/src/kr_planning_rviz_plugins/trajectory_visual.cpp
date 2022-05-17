@@ -12,7 +12,7 @@ TrajectoryVisual::~TrajectoryVisual() {
   scene_manager_->destroySceneNode(frame_node_);
 }
 
-void TrajectoryVisual::setMessage(const planning_ros_msgs::Trajectory &msg) {
+void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory &msg) {
   poss_.clear();
   vels_.clear();
   accs_.clear();

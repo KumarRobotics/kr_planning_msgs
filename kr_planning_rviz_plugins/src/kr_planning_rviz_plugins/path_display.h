@@ -1,6 +1,6 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
-#include <planning_ros_msgs/Path.h>
+#include <kr_planning_msgs/Path.h>
 #include <rviz/frame_manager.h>
 #include <rviz/load_resource.h>
 #include <rviz/message_filter_display.h>
@@ -12,7 +12,7 @@
 #include "path_visual.h"
 
 namespace planning_rviz_plugins {
-class PathDisplay : public rviz::MessageFilterDisplay<planning_ros_msgs::Path> {
+class PathDisplay : public rviz::MessageFilterDisplay<kr_planning_msgs::Path> {
   Q_OBJECT
 
  public:
@@ -31,7 +31,7 @@ class PathDisplay : public rviz::MessageFilterDisplay<planning_ros_msgs::Path> {
   void updateNodeScale();
 
  private:
-  void processMessage(const planning_ros_msgs::Path::ConstPtr &msg);
+  void processMessage(const kr_planning_msgs::Path::ConstPtr &msg);
   void visualizeMessage();
 
   std::shared_ptr<PathVisual> visual_;
