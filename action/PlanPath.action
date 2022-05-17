@@ -1,0 +1,11 @@
+# Action goal
+geometry_msgs/Pose p_init
+geometry_msgs/Pose p_final
+geometry_msgs/Pose[] p_finals
+---
+# Action result
+bool success
+kr_planning_msgs/Path path
+---
+# Action feedback
+duration computation_time
