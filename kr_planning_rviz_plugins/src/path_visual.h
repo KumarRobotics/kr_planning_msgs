@@ -9,7 +9,7 @@
 #include <rviz/ogre_helpers/billboard_line.h>
 #include <rviz/ogre_helpers/shape.h>
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 class PathVisual {
  public:
   PathVisual(Ogre::SceneManager *scene_manager, Ogre::SceneNode *parent_node);
@@ -34,6 +34,6 @@ class PathVisual {
   Ogre::SceneNode *frame_node_;
   Ogre::SceneManager *scene_manager_;
 };
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins
 
 #endif

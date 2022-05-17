@@ -1,6 +1,6 @@
 #include "trajectory_visual.h"
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 
 TrajectoryVisual::TrajectoryVisual(Ogre::SceneManager *scene_manager,
                                    Ogre::SceneNode *parent_node) {
@@ -41,7 +41,7 @@ void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory &msg) {
   Mat3f R;
   R << cos(theta), -sin(theta), 0, sin(theta), cos(theta), 0, 0, 0, 1;
 
-  const auto p = toTrajectory3D(msg);
+  const auto p = toTrajectory3D(msg); //TODO:laura
   const auto waypoints = p.sample(num_ - 1);
 
   for (unsigned int i = 0; i < waypoints.size(); i++) {
@@ -175,4 +175,4 @@ void TrajectoryVisual::setYawTriangleScale(float s) { syaw_ = s; }
 
 void TrajectoryVisual::setYawTriangleAngle(float d) { dyaw_ = d; }
 
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins

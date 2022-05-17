@@ -3,7 +3,7 @@
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 
 MapDisplay::MapDisplay()
     : point_cloud_common_(new rviz::PointCloudCommon(this)) {
@@ -38,12 +38,12 @@ MapDisplay::MapDisplay()
   mesh_height_ = mesh_height_property_->getFloat();
   // Update: changed this to work with ros noetic update in July 2021
   // update_nh_.setCallbackQueue(point_cloud_common_->getCallbackQueue());
-  map_util_.reset(new MPL::VoxelMapUtil());
+  map_util_.reset(new VoxelMapUtil());
 }
 
 MapDisplay::~MapDisplay() { delete point_cloud_common_; }
 
-void MapDisplay::setMap(std::shared_ptr<MPL::VoxelMapUtil> &map_util,
+void MapDisplay::setMap(std::shared_ptr<VoxelMapUtil> &map_util,
                         const kr_planning_msgs::VoxelMap &msg) {
   Vec3f ori(msg.origin.x, msg.origin.y, msg.origin.z);
   Vec3i dim(msg.dim.x, msg.dim.y, msg.dim.z);
@@ -53,7 +53,7 @@ void MapDisplay::setMap(std::shared_ptr<MPL::VoxelMapUtil> &map_util,
   map_util->setMap(ori, dim, map, res);
 }
 
-void MapDisplay::getMap(std::shared_ptr<MPL::VoxelMapUtil> &map_util,
+void MapDisplay::getMap(std::shared_ptr<VoxelMapUtil> &map_util,
                         kr_planning_msgs::VoxelMap &map) {
   Vec3f ori = map_util->getOrigin();
   Vec3i dim = map_util->getDim();
@@ -180,8 +180,7 @@ vec_E<vec_Vec3f> MapDisplay::getBound() {
   return bs;
 }
 
-void MapDisplay::processMessage(
-    const kr_planning_msgs::VoxelMapConstPtr &msg) {
+void MapDisplay::processMessage(const kr_planning_msgs::VoxelMapConstPtr &msg) {
   setMap(map_util_, *msg);
 
   if (!context_->getFrameManager()->getTransform(
@@ -317,7 +316,7 @@ void MapDisplay::reset() {
   visual_ = nullptr;
   visuals_mesh_.clear();
 }
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(planning_rviz_plugins::MapDisplay, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(kr_planning_rviz_plugins::MapDisplay, rviz::Display)

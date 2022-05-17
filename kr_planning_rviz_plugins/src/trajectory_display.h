@@ -1,6 +1,6 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
-#include <kr_planning_msgs/PrimitiveArray.h>
+#include <kr_planning_msgs/Trajectory.h>
 #include <rviz/frame_manager.h>
 #include <rviz/load_resource.h>
 #include <rviz/message_filter_display.h>
@@ -10,15 +10,15 @@
 #include <rviz/properties/int_property.h>
 #include <rviz/visualization_manager.h>
 
-#include "primitive_visual.h"
+#include "trajectory_visual.h"
 
-namespace planning_rviz_plugins {
-class PrimitiveArrayDisplay
-    : public rviz::MessageFilterDisplay<kr_planning_msgs::PrimitiveArray> {
+namespace kr_planning_rviz_plugins {
+class TrajectoryDisplay
+    : public rviz::MessageFilterDisplay<kr_planning_msgs::Trajectory> {
   Q_OBJECT
  public:
-  PrimitiveArrayDisplay();
-  virtual ~PrimitiveArrayDisplay();
+  TrajectoryDisplay();
+  virtual ~TrajectoryDisplay();
 
  protected:
   virtual void onInitialize();
@@ -46,10 +46,10 @@ class PrimitiveArrayDisplay
   void updateYawNum();
 
  private:
-  void processMessage(const kr_planning_msgs::PrimitiveArray::ConstPtr &msg);
+  void processMessage(const kr_planning_msgs::Trajectory::ConstPtr &msg);
   void visualizeMessage();
 
-  std::shared_ptr<PrimitiveVisual> visual_;
+  std::shared_ptr<TrajectoryVisual> visual_;
 
   rviz::ColorProperty *pos_color_property_;
   rviz::ColorProperty *vel_color_property_;
@@ -73,6 +73,6 @@ class PrimitiveArrayDisplay
   Ogre::Vector3 position_;
   Ogre::Quaternion orientation_;
 
-  kr_planning_msgs::PrimitiveArray prs_msg_;
+  kr_planning_msgs::Trajectory trajectory_;
 };
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins

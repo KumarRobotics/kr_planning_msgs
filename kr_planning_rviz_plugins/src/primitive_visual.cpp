@@ -1,6 +1,6 @@
 #include "primitive_visual.h"
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 
 PrimitiveVisual::PrimitiveVisual(Ogre::SceneManager *scene_manager,
                                  Ogre::SceneNode *parent_node) {
@@ -54,7 +54,7 @@ void PrimitiveVisual::setMessage(
   R << cos(theta), -sin(theta), 0, sin(theta), cos(theta), 0, 0, 0, 1;
 
   for (size_t n = 0; n < N; n++) {
-    const auto p = toPrimitive3D(msgs[n]);
+    const auto p = toPrimitive3D(msgs[n]); //TODO:laura
     const auto waypoints = p.sample(num_ - 1);
 
     for (size_t i = 0; i < waypoints.size(); i++) {
@@ -194,4 +194,4 @@ void PrimitiveVisual::setYawTriangleScale(float s) { syaw_ = s; }
 
 void PrimitiveVisual::setYawTriangleAngle(float d) { dyaw_ = d; }
 
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins

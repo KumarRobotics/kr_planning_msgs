@@ -9,7 +9,7 @@
 #include <rviz/ogre_helpers/line.h>
 #include <rviz/ogre_helpers/shape.h>
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 
 // BEGIN_TUTORIAL
 SplineTrajectoryVisual::SplineTrajectoryVisual(
@@ -298,4 +298,4 @@ Eigen::VectorXd SplineTrajectoryVisual::evaluate(double t,
   return result;
 }
 
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins

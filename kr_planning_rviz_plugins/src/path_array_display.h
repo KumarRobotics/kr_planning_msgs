@@ -12,7 +12,7 @@
 
 #include "path_visual.h"
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 class PathArrayDisplay
     : public rviz::MessageFilterDisplay<kr_planning_msgs::PathArray> {
   Q_OBJECT
@@ -49,4 +49,4 @@ class PathArrayDisplay
 
   kr_planning_msgs::PathArray paths_;
 };
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins

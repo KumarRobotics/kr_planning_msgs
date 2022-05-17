@@ -1,6 +1,6 @@
 #include "trajectory_display.h"
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 TrajectoryDisplay::TrajectoryDisplay() {
   num_property_ = new rviz::IntProperty(
       "Num of samples", 100, "Number of samples of trajectory to display.",
@@ -206,7 +206,7 @@ void TrajectoryDisplay::visualizeMessage() {
   Ogre::ColourValue yaw_color = yaw_color_property_->getOgreColor();
   visual_->setYawColor(yaw_color.r, yaw_color.g, yaw_color.b, 1);
 }
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(planning_rviz_plugins::TrajectoryDisplay, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(kr_planning_rviz_plugins::TrajectoryDisplay, rviz::Display)

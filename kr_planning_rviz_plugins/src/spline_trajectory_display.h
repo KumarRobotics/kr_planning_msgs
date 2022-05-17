@@ -37,7 +37,7 @@ class EnumProperty;
 class BoolProperty;
 }  // namespace rviz
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 
 class SplineTrajectoryVisual;
 
@@ -111,6 +111,6 @@ class SplineTrajectoryDisplay
   rviz::IntProperty* tangent_samples_property_;
   rviz::EnumProperty* style_property_;
 };
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins
 
 #endif  // MAP_PLAN_PLANNING_ROS_UTILS_SRC_PLANNING_RVIZ_PLUGINS_SPLINE_TRAJECTORY_DISPLAY_H_

@@ -4,10 +4,10 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <mpl_basis/data_type.h>
+#include <kr_planning_rviz_plugins/data_type.h>
 #include <rviz/ogre_helpers/mesh_shape.h>
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 class MeshVisual {
  public:
   MeshVisual(Ogre::SceneManager *scene_manager, Ogre::SceneNode *parent_node);
@@ -27,6 +27,6 @@ class MeshVisual {
 
   Ogre::SceneManager *scene_manager_;
 };
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins
 
 #endif

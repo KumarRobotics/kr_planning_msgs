@@ -1,6 +1,6 @@
 #include "mesh_visual.h"
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 MeshVisual::MeshVisual(Ogre::SceneManager *scene_manager,
                        Ogre::SceneNode *parent_node) {
   scene_manager_ = scene_manager;
@@ -50,4 +50,4 @@ void MeshVisual::setFrameOrientation(const Ogre::Quaternion &orientation) {
 void MeshVisual::setColor(float r, float g, float b, float a) {
   obj_->setColor(r, g, b, a);
 }
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins

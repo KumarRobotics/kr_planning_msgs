@@ -1,6 +1,6 @@
 #include "primitive_array_display.h"
 
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 PrimitiveArrayDisplay::PrimitiveArrayDisplay() {
   num_property_ = new rviz::IntProperty(
       "Num", 10, "Number of samples of each primitive to display.", this,
@@ -205,8 +205,8 @@ void PrimitiveArrayDisplay::visualizeMessage() {
   Ogre::ColourValue yaw_color = yaw_color_property_->getOgreColor();
   visual_->setYawColor(yaw_color.r, yaw_color.g, yaw_color.b, 1);
 }
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(planning_rviz_plugins::PrimitiveArrayDisplay,
+PLUGINLIB_EXPORT_CLASS(kr_planning_rviz_plugins::PrimitiveArrayDisplay,
                        rviz::Display)

@@ -17,7 +17,7 @@
 
 // The constructor must have no arguments, so we can't give the
 // constructor the parameters it needs to fully initialize.
-namespace planning_rviz_plugins {
+namespace kr_planning_rviz_plugins {
 
 SplineTrajectoryDisplay::SplineTrajectoryDisplay() {
   color_property_ = new rviz::ColorProperty("Color", QColor(204, 51, 204),
@@ -201,9 +201,9 @@ void SplineTrajectoryDisplay::processMessage(
   visuals_.push_back(visual);
 }
 void SplineTrajectoryDisplay::randomizeColor() {}
-}  // namespace planning_rviz_plugins
+}  // namespace kr_planning_rviz_plugins
 // Tell pluginlib about this class.  It is important to do this in
 // global scope, outside our package's namespace.
 #include <pluginlib/class_list_macros.h>  // NOLINT()
-PLUGINLIB_EXPORT_CLASS(planning_rviz_plugins::SplineTrajectoryDisplay,
+PLUGINLIB_EXPORT_CLASS(kr_planning_rviz_plugins::SplineTrajectoryDisplay,
                        rviz::Display)

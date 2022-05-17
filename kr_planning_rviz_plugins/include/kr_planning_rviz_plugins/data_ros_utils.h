@@ -1,8 +1,8 @@
 #pragma once
 
 #include <geometry_msgs/Twist.h>
-#include <mpl_basis/data_type.h>
 #include <kr_planning_msgs/PathArray.h>
+#include <kr_planning_rviz_plugins/data_type.h>
 #include <sensor_msgs/PointCloud.h>
 #include <tf_conversions/tf_eigen.h>
 
@@ -69,8 +69,8 @@ kr_planning_msgs::Path path_to_ros(const vec_Vecf<Dim> &path, double h = 0) {
 }
 
 template <int Dim>
-kr_planning_msgs::PathArray path_array_to_ros(
-    const vec_E<vec_Vecf<Dim>> &paths, double h = 0) {
+kr_planning_msgs::PathArray path_array_to_ros(const vec_E<vec_Vecf<Dim>> &paths,
+                                              double h = 0) {
   kr_planning_msgs::PathArray msg;
   for (const auto &it : paths) msg.paths.push_back(path_to_ros(it, h));
   return msg;
