@@ -4,18 +4,28 @@
 
 namespace kr_planning_rviz_plugins {
 PathDisplay::PathDisplay() {
-  line_color_property_ = new rviz::ColorProperty(
-      "LineColor", QColor(204, 51, 204), "Color to draw the line.", this,
-      SLOT(updateLineColorAndAlpha()));
-  node_color_property_ = new rviz::ColorProperty(
-      "NodeColor", QColor(85, 85, 255), "Color to draw the node.", this,
-      SLOT(updateNodeColorAndAlpha()));
-  line_scale_property_ =
-      new rviz::FloatProperty("LineScale", 0.1, "0.1 is the default value.",
-                              this, SLOT(updateLineScale()));
-  node_scale_property_ =
-      new rviz::FloatProperty("NodeScale", 0.15, "0.15 is the default value.",
-                              this, SLOT(updateNodeScale()));
+  line_color_property_ =
+      new rviz::ColorProperty("LineColor",
+                              QColor(204, 51, 204),
+                              "Color to draw the line.",
+                              this,
+                              SLOT(updateLineColorAndAlpha()));
+  node_color_property_ =
+      new rviz::ColorProperty("NodeColor",
+                              QColor(85, 85, 255),
+                              "Color to draw the node.",
+                              this,
+                              SLOT(updateNodeColorAndAlpha()));
+  line_scale_property_ = new rviz::FloatProperty("LineScale",
+                                                 0.1,
+                                                 "0.1 is the default value.",
+                                                 this,
+                                                 SLOT(updateLineScale()));
+  node_scale_property_ = new rviz::FloatProperty("NodeScale",
+                                                 0.15,
+                                                 "0.15 is the default value.",
+                                                 this,
+                                                 SLOT(updateNodeScale()));
 }
 
 void PathDisplay::onInitialize() { MFDClass::onInitialize(); }
@@ -47,11 +57,12 @@ void PathDisplay::updateNodeScale() {
   if (visual_) visual_->setNodeScale(s);
 }
 
-void PathDisplay::processMessage(const kr_planning_msgs::Path::ConstPtr &msg) {
+void PathDisplay::processMessage(const kr_planning_msgs::Path::ConstPtr& msg) {
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position_, orientation_)) {
     ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
-              msg->header.frame_id.c_str(), qPrintable(fixed_frame_));
+              msg->header.frame_id.c_str(),
+              qPrintable(fixed_frame_));
     return;
   }
 

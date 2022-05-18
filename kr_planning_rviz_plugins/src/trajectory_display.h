@@ -46,29 +46,29 @@ class TrajectoryDisplay
   void updateYawNum();
 
  private:
-  void processMessage(const kr_planning_msgs::Trajectory::ConstPtr &msg);
+  void processMessage(const kr_planning_msgs::Trajectory::ConstPtr& msg);
   void visualizeMessage();
 
   std::shared_ptr<TrajectoryVisual> visual_;
 
-  rviz::ColorProperty *pos_color_property_;
-  rviz::ColorProperty *vel_color_property_;
-  rviz::ColorProperty *acc_color_property_;
-  rviz::ColorProperty *jrk_color_property_;
-  rviz::ColorProperty *yaw_color_property_;
-  rviz::FloatProperty *pos_scale_property_;
-  rviz::FloatProperty *vel_scale_property_;
-  rviz::FloatProperty *acc_scale_property_;
-  rviz::FloatProperty *jrk_scale_property_;
-  rviz::FloatProperty *yaw_scale_property_;
-  rviz::FloatProperty *yaw_triangle_scale_property_;
-  rviz::FloatProperty *yaw_triangle_angle_property_;
-  rviz::BoolProperty *vel_vis_property_;
-  rviz::BoolProperty *acc_vis_property_;
-  rviz::BoolProperty *jrk_vis_property_;
-  rviz::BoolProperty *yaw_vis_property_;
-  rviz::IntProperty *num_property_;
-  rviz::IntProperty *yaw_num_property_;
+  rviz::ColorProperty* pos_color_property_;
+  rviz::ColorProperty* vel_color_property_;
+  rviz::ColorProperty* acc_color_property_;
+  rviz::ColorProperty* jrk_color_property_;
+  rviz::ColorProperty* yaw_color_property_;
+  rviz::FloatProperty* pos_scale_property_;
+  rviz::FloatProperty* vel_scale_property_;
+  rviz::FloatProperty* acc_scale_property_;
+  rviz::FloatProperty* jrk_scale_property_;
+  rviz::FloatProperty* yaw_scale_property_;
+  rviz::FloatProperty* yaw_triangle_scale_property_;
+  rviz::FloatProperty* yaw_triangle_angle_property_;
+  rviz::BoolProperty* vel_vis_property_;
+  rviz::BoolProperty* acc_vis_property_;
+  rviz::BoolProperty* jrk_vis_property_;
+  rviz::BoolProperty* yaw_vis_property_;
+  rviz::IntProperty* num_property_;
+  rviz::IntProperty* yaw_num_property_;
 
   Ogre::Vector3 position_;
   Ogre::Quaternion orientation_;

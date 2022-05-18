@@ -65,7 +65,9 @@ class SplineTrajectoryVisual {
   void setScale(float thickness);
   void setCurve();
 
-  void resetTrajPoints(int traj_points, int tangent_points, bool use_v,
+  void resetTrajPoints(int traj_points,
+                       int tangent_points,
+                       bool use_v,
                        bool use_a);
 
  private:
@@ -86,10 +88,12 @@ class SplineTrajectoryVisual {
   bool acc_on_{false};
 
   static void setShapeFromPosePair(const Ogre::Vector3& p0,
-                                   const Ogre::Vector3& p1, double scale,
+                                   const Ogre::Vector3& p1,
+                                   double scale,
                                    rviz::Shape* shape);
   static void setShapeFromPosePair(const Ogre::Vector3& p0,
-                                   const Ogre::Vector3& p1, double scale,
+                                   const Ogre::Vector3& p1,
+                                   double scale,
                                    rviz::Arrow* shape);
 
   kr_planning_msgs::SplineTrajectory::ConstPtr traj_;

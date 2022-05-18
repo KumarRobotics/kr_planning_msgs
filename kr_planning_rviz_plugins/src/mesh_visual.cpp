@@ -1,8 +1,8 @@
 #include "mesh_visual.h"
 
 namespace kr_planning_rviz_plugins {
-MeshVisual::MeshVisual(Ogre::SceneManager *scene_manager,
-                       Ogre::SceneNode *parent_node) {
+MeshVisual::MeshVisual(Ogre::SceneManager* scene_manager,
+                       Ogre::SceneNode* parent_node) {
   scene_manager_ = scene_manager;
   frame_node_ = parent_node->createChildSceneNode();
   obj_.reset(new rviz::MeshShape(scene_manager_, frame_node_));
@@ -10,13 +10,13 @@ MeshVisual::MeshVisual(Ogre::SceneManager *scene_manager,
 
 MeshVisual::~MeshVisual() { scene_manager_->destroySceneNode(frame_node_); }
 
-void MeshVisual::setMessage(const vec_E<vec_Vec3f> &vss) {
+void MeshVisual::setMessage(const vec_E<vec_Vec3f>& vss) {
   if (vss.empty()) return;
   obj_->clear();
 
   int cnt = 0;
   obj_->beginTriangles();
-  for (const auto &vs : vss) {
+  for (const auto& vs : vss) {
     if (vs.size() < 3) continue;
 
     const Vec3f p0(vs[0](0), vs[0](1), vs[0](2));
@@ -39,11 +39,11 @@ void MeshVisual::setMessage(const vec_E<vec_Vec3f> &vss) {
 }
 
 // Position and orientation are passed through to the SceneNode.
-void MeshVisual::setFramePosition(const Ogre::Vector3 &position) {
+void MeshVisual::setFramePosition(const Ogre::Vector3& position) {
   frame_node_->setPosition(position);
 }
 
-void MeshVisual::setFrameOrientation(const Ogre::Quaternion &orientation) {
+void MeshVisual::setFrameOrientation(const Ogre::Quaternion& orientation) {
   frame_node_->setOrientation(orientation);
 }
 

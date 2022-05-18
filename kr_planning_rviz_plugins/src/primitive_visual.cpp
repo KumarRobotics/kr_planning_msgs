@@ -2,8 +2,8 @@
 
 namespace kr_planning_rviz_plugins {
 
-PrimitiveVisual::PrimitiveVisual(Ogre::SceneManager *scene_manager,
-                                 Ogre::SceneNode *parent_node) {
+PrimitiveVisual::PrimitiveVisual(Ogre::SceneManager* scene_manager,
+                                 Ogre::SceneNode* parent_node) {
   scene_manager_ = scene_manager;
   frame_node_ = parent_node->createChildSceneNode();
 }
@@ -13,7 +13,7 @@ PrimitiveVisual::~PrimitiveVisual() {
 }
 
 void PrimitiveVisual::setMessage(
-    const std::vector<kr_planning_msgs::Primitive> &msgs) {
+    const std::vector<kr_planning_msgs::Primitive>& msgs) {
   poss_.clear();
   vels_.clear();
   accs_.clear();
@@ -22,7 +22,7 @@ void PrimitiveVisual::setMessage(
 
   if (num_ < 2) return;
 
-  for (const auto &pr : msgs) {
+  for (const auto& pr : msgs) {
     for (size_t i = 0; i < pr.cx.size(); i++)
       if (std::isnan(pr.cx[i]) || std::isinf(pr.cx[i])) return;
     for (size_t i = 0; i < pr.cy.size(); i++)
@@ -54,7 +54,7 @@ void PrimitiveVisual::setMessage(
   R << cos(theta), -sin(theta), 0, sin(theta), cos(theta), 0, 0, 0, 1;
 
   for (size_t n = 0; n < N; n++) {
-    const auto p = toPrimitive3D(msgs[n]); //TODO:laura
+    const auto p = toPrimitive3D(msgs[n]);  // TODO:laura
     const auto waypoints = p.sample(num_ - 1);
 
     for (size_t i = 0; i < waypoints.size(); i++) {
@@ -142,52 +142,52 @@ void PrimitiveVisual::setJrkVis(bool vis) { jrk_vis_ = vis; }
 
 void PrimitiveVisual::setYawVis(bool vis) { yaw_vis_ = vis; }
 
-void PrimitiveVisual::setFramePosition(const Ogre::Vector3 &position) {
+void PrimitiveVisual::setFramePosition(const Ogre::Vector3& position) {
   frame_node_->setPosition(position);
 }
 
-void PrimitiveVisual::setFrameOrientation(const Ogre::Quaternion &orientation) {
+void PrimitiveVisual::setFrameOrientation(const Ogre::Quaternion& orientation) {
   frame_node_->setOrientation(orientation);
 }
 
 void PrimitiveVisual::setPosColor(float r, float g, float b, float a) {
-  for (auto &it : poss_) it->setColor(r, g, b, a);
+  for (auto& it : poss_) it->setColor(r, g, b, a);
 }
 
 void PrimitiveVisual::setVelColor(float r, float g, float b, float a) {
-  for (auto &it : vels_) it->setColor(r, g, b, a);
+  for (auto& it : vels_) it->setColor(r, g, b, a);
 }
 
 void PrimitiveVisual::setAccColor(float r, float g, float b, float a) {
-  for (auto &it : accs_) it->setColor(r, g, b, a);
+  for (auto& it : accs_) it->setColor(r, g, b, a);
 }
 
 void PrimitiveVisual::setJrkColor(float r, float g, float b, float a) {
-  for (auto &it : jrks_) it->setColor(r, g, b, a);
+  for (auto& it : jrks_) it->setColor(r, g, b, a);
 }
 
 void PrimitiveVisual::setYawColor(float r, float g, float b, float a) {
-  for (auto &it : yaws_) it->setColor(r, g, b, a);
+  for (auto& it : yaws_) it->setColor(r, g, b, a);
 }
 
 void PrimitiveVisual::setPosScale(float s) {
-  for (auto &it : poss_) it->setLineWidth(s);
+  for (auto& it : poss_) it->setLineWidth(s);
 }
 
 void PrimitiveVisual::setVelScale(float s) {
-  for (auto &it : vels_) it->setLineWidth(s);
+  for (auto& it : vels_) it->setLineWidth(s);
 }
 
 void PrimitiveVisual::setAccScale(float s) {
-  for (auto &it : accs_) it->setLineWidth(s);
+  for (auto& it : accs_) it->setLineWidth(s);
 }
 
 void PrimitiveVisual::setJrkScale(float s) {
-  for (auto &it : jrks_) it->setLineWidth(s);
+  for (auto& it : jrks_) it->setLineWidth(s);
 }
 
 void PrimitiveVisual::setYawScale(float s) {
-  for (auto &it : yaws_) it->setLineWidth(s);
+  for (auto& it : yaws_) it->setLineWidth(s);
 }
 
 void PrimitiveVisual::setYawTriangleScale(float s) { syaw_ = s; }

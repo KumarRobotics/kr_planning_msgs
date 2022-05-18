@@ -30,7 +30,7 @@ catkin_package(
   LIBRARIES ${PROJECT_NAME} kr_planning_utils
   CATKIN_DEPENDS kr_planning_msgs)
 
-add_library(kr_planning_utils src/data_ros_utils.cpp)
+add_library(kr_planning_utils src/utils/data_ros_utils.cpp)
 target_include_directories(kr_planning_utils PUBLIC ${catkin_INCLUDE_DIRS}
                                                   include)
 target_link_libraries(kr_planning_utils PUBLIC ${catkin_LIBRARIES} Eigen3::Eigen)

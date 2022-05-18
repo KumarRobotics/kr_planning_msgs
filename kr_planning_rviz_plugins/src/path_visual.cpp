@@ -2,31 +2,31 @@
 
 namespace kr_planning_rviz_plugins {
 
-PathVisual::PathVisual(Ogre::SceneManager *scene_manager,
-                       Ogre::SceneNode *parent_node) {
+PathVisual::PathVisual(Ogre::SceneManager* scene_manager,
+                       Ogre::SceneNode* parent_node) {
   scene_manager_ = scene_manager;
   frame_node_ = parent_node->createChildSceneNode();
 }
 
 PathVisual::~PathVisual() { scene_manager_->destroySceneNode(frame_node_); }
 
-void PathVisual::setMessage(const vec_Vec3f &path) {
+void PathVisual::setMessage(const vec_Vec3f& path) {
   nodes_.clear();
   lines_.clear();
 
   if (path.empty()) return;
 
-  for (const auto &it : path) {
+  for (const auto& it : path) {
     if (std::isnan(it(0)) || std::isnan(it(1)) || std::isnan(it(2))) return;
   }
 
   nodes_.resize(path.size());
   lines_.resize(path.size() - 1);
 
-  for (auto &it : nodes_)
-    it.reset(new rviz::Shape(rviz::Shape::Type::Sphere, scene_manager_,
-                             frame_node_));
-  for (auto &it : lines_)
+  for (auto& it : nodes_)
+    it.reset(new rviz::Shape(
+        rviz::Shape::Type::Sphere, scene_manager_, frame_node_));
+  for (auto& it : lines_)
     it.reset(new rviz::BillboardLine(scene_manager_, frame_node_));
 
   for (int i = 0; i < (int)path.size(); i++) {
@@ -40,15 +40,15 @@ void PathVisual::setMessage(const vec_Vec3f &path) {
   }
 }
 
-void PathVisual::addMessage(const vec_Vec3f &path) {
+void PathVisual::addMessage(const vec_Vec3f& path) {
   if (path.empty()) return;
 
   unsigned int nodes_prev_size = nodes_.size();
   nodes_.resize(nodes_prev_size + path.size());
 
   for (unsigned int i = nodes_prev_size; i < nodes_.size(); i++)
-    nodes_[i].reset(new rviz::Shape(rviz::Shape::Type::Sphere, scene_manager_,
-                                    frame_node_));
+    nodes_[i].reset(new rviz::Shape(
+        rviz::Shape::Type::Sphere, scene_manager_, frame_node_));
 
   unsigned int lines_prev_size = lines_.size();
   lines_.resize(lines_prev_size + path.size() - 1);
@@ -69,27 +69,27 @@ void PathVisual::addMessage(const vec_Vec3f &path) {
   }
 }
 
-void PathVisual::setFramePosition(const Ogre::Vector3 &position) {
+void PathVisual::setFramePosition(const Ogre::Vector3& position) {
   frame_node_->setPosition(position);
 }
 
-void PathVisual::setFrameOrientation(const Ogre::Quaternion &orientation) {
+void PathVisual::setFrameOrientation(const Ogre::Quaternion& orientation) {
   frame_node_->setOrientation(orientation);
 }
 
 void PathVisual::setLineColor(float r, float g, float b, float a) {
-  for (auto &it : lines_) it->setColor(r, g, b, a);
+  for (auto& it : lines_) it->setColor(r, g, b, a);
 }
 
 void PathVisual::setNodeColor(float r, float g, float b, float a) {
-  for (auto &it : nodes_) it->setColor(r, g, b, a);
+  for (auto& it : nodes_) it->setColor(r, g, b, a);
 }
 
 void PathVisual::setLineScale(float s) {
-  for (auto &it : lines_) it->setLineWidth(s);
+  for (auto& it : lines_) it->setLineWidth(s);
 }
 
 void PathVisual::setNodeScale(float s) {
-  for (auto &it : nodes_) it->setScale(Ogre::Vector3(s, s, s));
+  for (auto& it : nodes_) it->setScale(Ogre::Vector3(s, s, s));
 }
 }  // namespace kr_planning_rviz_plugins

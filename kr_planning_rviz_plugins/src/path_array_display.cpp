@@ -2,21 +2,34 @@
 
 namespace kr_planning_rviz_plugins {
 PathArrayDisplay::PathArrayDisplay() {
-  line_color_property_ = new rviz::ColorProperty(
-      "LineColor", QColor(204, 51, 204), "Color to draw the line.", this,
-      SLOT(updateLineColorAndAlpha()));
-  node_color_property_ = new rviz::ColorProperty(
-      "NodeColor", QColor(85, 85, 255), "Color to draw the node.", this,
-      SLOT(updateNodeColorAndAlpha()));
-  line_scale_property_ =
-      new rviz::FloatProperty("LineScale", 0.1, "0.1 is the default value.",
-                              this, SLOT(updateLineScale()));
-  node_scale_property_ =
-      new rviz::FloatProperty("NodeScale", 0.15, "0.15 is the default value.",
-                              this, SLOT(updateNodeScale()));
+  line_color_property_ =
+      new rviz::ColorProperty("LineColor",
+                              QColor(204, 51, 204),
+                              "Color to draw the line.",
+                              this,
+                              SLOT(updateLineColorAndAlpha()));
+  node_color_property_ =
+      new rviz::ColorProperty("NodeColor",
+                              QColor(85, 85, 255),
+                              "Color to draw the node.",
+                              this,
+                              SLOT(updateNodeColorAndAlpha()));
+  line_scale_property_ = new rviz::FloatProperty("LineScale",
+                                                 0.1,
+                                                 "0.1 is the default value.",
+                                                 this,
+                                                 SLOT(updateLineScale()));
+  node_scale_property_ = new rviz::FloatProperty("NodeScale",
+                                                 0.15,
+                                                 "0.15 is the default value.",
+                                                 this,
+                                                 SLOT(updateNodeScale()));
   id_property_ = new rviz::EnumProperty(
-      "ID", "All", "Visualize individual path using its id, All is the default",
-      this, SLOT(updateID()));
+      "ID",
+      "All",
+      "Visualize individual path using its id, All is the default",
+      this,
+      SLOT(updateID()));
 }
 
 void PathArrayDisplay::onInitialize() { MFDClass::onInitialize(); }
@@ -49,11 +62,12 @@ void PathArrayDisplay::updateNodeScale() {
 }
 
 void PathArrayDisplay::processMessage(
-    const kr_planning_msgs::PathArray::ConstPtr &msg) {
+    const kr_planning_msgs::PathArray::ConstPtr& msg) {
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position_, orientation_)) {
     ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
-              msg->header.frame_id.c_str(), qPrintable(fixed_frame_));
+              msg->header.frame_id.c_str(),
+              qPrintable(fixed_frame_));
     return;
   }
 
@@ -118,4 +132,5 @@ void PathArrayDisplay::updateID() {
 }  // namespace kr_planning_rviz_plugins
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(kr_planning_rviz_plugins::PathArrayDisplay, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(kr_planning_rviz_plugins::PathArrayDisplay,
+                       rviz::Display)

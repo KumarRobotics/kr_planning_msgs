@@ -11,28 +11,41 @@ MapDisplay::MapDisplay()
   // instance.  Use that for processing incoming messages.
 
   state_property_ = new rviz::EnumProperty(
-      "State", "Occupied",
+      "State",
+      "Occupied",
       "Visualize voxels at three different states: "
       "Occupied, Free and Unknown, this option allows selecting visualizing ",
-      this, SLOT(updateState()));
+      this,
+      SLOT(updateState()));
   state_property_->addOption("Occupied", 0);
   state_property_->addOption("Free", 1);
   state_property_->addOption("Unknown", 2);
   state_property_->addOption("Bound", 3);
 
-  bound_scale_property_ = new rviz::FloatProperty(
-      "BoundScale", 0.1, "Line width of the bounding box.", this,
-      SLOT(updateBoundScale()));
+  bound_scale_property_ =
+      new rviz::FloatProperty("BoundScale",
+                              0.1,
+                              "Line width of the bounding box.",
+                              this,
+                              SLOT(updateBoundScale()));
 
-  mesh_height_property_ = new rviz::FloatProperty(
-      "MeshHeight", 0.5, "Select height to visualize mesh.", this,
-      SLOT(updateMeshHeight()));
+  mesh_height_property_ =
+      new rviz::FloatProperty("MeshHeight",
+                              0.5,
+                              "Select height to visualize mesh.",
+                              this,
+                              SLOT(updateMeshHeight()));
   mesh_color_property_ =
-      new rviz::ColorProperty("MeshColor", QColor(0, 170, 255), "Mesh color.",
-                              this, SLOT(updateMeshColorAndAlpha()));
+      new rviz::ColorProperty("MeshColor",
+                              QColor(0, 170, 255),
+                              "Mesh color.",
+                              this,
+                              SLOT(updateMeshColorAndAlpha()));
   mesh_alpha_property_ = new rviz::FloatProperty(
-      "MeshAlpha", 0.2,
-      "0 is fully transparent, 1.0 is fully opaque, only affect mesh", this,
+      "MeshAlpha",
+      0.2,
+      "0 is fully transparent, 1.0 is fully opaque, only affect mesh",
+      this,
       SLOT(updateMeshColorAndAlpha()));
 
   mesh_height_ = mesh_height_property_->getFloat();
@@ -43,8 +56,8 @@ MapDisplay::MapDisplay()
 
 MapDisplay::~MapDisplay() { delete point_cloud_common_; }
 
-void MapDisplay::setMap(std::shared_ptr<VoxelMapUtil> &map_util,
-                        const kr_planning_msgs::VoxelMap &msg) {
+void MapDisplay::setMap(std::shared_ptr<VoxelMapUtil>& map_util,
+                        const kr_planning_msgs::VoxelMap& msg) {
   Vec3f ori(msg.origin.x, msg.origin.y, msg.origin.z);
   Vec3i dim(msg.dim.x, msg.dim.y, msg.dim.z);
   double res = msg.resolution;
@@ -53,8 +66,8 @@ void MapDisplay::setMap(std::shared_ptr<VoxelMapUtil> &map_util,
   map_util->setMap(ori, dim, map, res);
 }
 
-void MapDisplay::getMap(std::shared_ptr<VoxelMapUtil> &map_util,
-                        kr_planning_msgs::VoxelMap &map) {
+void MapDisplay::getMap(std::shared_ptr<VoxelMapUtil>& map_util,
+                        kr_planning_msgs::VoxelMap& map) {
   Vec3f ori = map_util->getOrigin();
   Vec3i dim = map_util->getDim();
   double res = map_util->getRes();
@@ -180,13 +193,14 @@ vec_E<vec_Vec3f> MapDisplay::getBound() {
   return bs;
 }
 
-void MapDisplay::processMessage(const kr_planning_msgs::VoxelMapConstPtr &msg) {
+void MapDisplay::processMessage(const kr_planning_msgs::VoxelMapConstPtr& msg) {
   setMap(map_util_, *msg);
 
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position_, orientation_)) {
     ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
-              msg->header.frame_id.c_str(), qPrintable(fixed_frame_));
+              msg->header.frame_id.c_str(),
+              qPrintable(fixed_frame_));
     return;
   }
 
@@ -209,10 +223,10 @@ void MapDisplay::processMessage(const kr_planning_msgs::VoxelMapConstPtr &msg) {
   visualizeMessage(state);
 }
 
-void MapDisplay::visualizeMesh(const vec_Vec3f &pts, double res) {
+void MapDisplay::visualizeMesh(const vec_Vec3f& pts, double res) {
   visuals_mesh_.clear();
   vec_E<vec_Vec3f> vss;
-  for (const auto &pt : pts) {
+  for (const auto& pt : pts) {
     if (std::abs(pt(2) - mesh_height_) > res / 2) continue;
     Vec3f pt1(pt(0) - res / 2, pt(1) - res / 2, pt(2));
     Vec3f pt2(pt(0) + res / 2, pt(1) - res / 2, pt(2));
@@ -305,7 +319,7 @@ void MapDisplay::updateMeshColorAndAlpha() {
   Ogre::ColourValue color = mesh_color_property_->getOgreColor();
 
   if (visual_) {
-    for (auto &it : visuals_mesh_)
+    for (auto& it : visuals_mesh_)
       it->setColor(color.r, color.g, color.b, alpha);
   }
 }

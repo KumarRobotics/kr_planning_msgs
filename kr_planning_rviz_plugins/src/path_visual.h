@@ -12,15 +12,15 @@
 namespace kr_planning_rviz_plugins {
 class PathVisual {
  public:
-  PathVisual(Ogre::SceneManager *scene_manager, Ogre::SceneNode *parent_node);
+  PathVisual(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
 
   virtual ~PathVisual();
 
-  void setMessage(const vec_Vec3f &path);
-  void addMessage(const vec_Vec3f &path);
+  void setMessage(const vec_Vec3f& path);
+  void addMessage(const vec_Vec3f& path);
 
-  void setFramePosition(const Ogre::Vector3 &position);
-  void setFrameOrientation(const Ogre::Quaternion &orientation);
+  void setFramePosition(const Ogre::Vector3& position);
+  void setFrameOrientation(const Ogre::Quaternion& orientation);
 
   void setLineColor(float r, float g, float b, float a);
   void setNodeColor(float r, float g, float b, float a);
@@ -31,8 +31,8 @@ class PathVisual {
   std::vector<std::unique_ptr<rviz::BillboardLine>> lines_;
   std::vector<std::unique_ptr<rviz::Shape>> nodes_;
 
-  Ogre::SceneNode *frame_node_;
-  Ogre::SceneManager *scene_manager_;
+  Ogre::SceneNode* frame_node_;
+  Ogre::SceneManager* scene_manager_;
 };
 }  // namespace kr_planning_rviz_plugins
 

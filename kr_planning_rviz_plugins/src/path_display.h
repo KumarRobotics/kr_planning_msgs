@@ -31,15 +31,15 @@ class PathDisplay : public rviz::MessageFilterDisplay<kr_planning_msgs::Path> {
   void updateNodeScale();
 
  private:
-  void processMessage(const kr_planning_msgs::Path::ConstPtr &msg);
+  void processMessage(const kr_planning_msgs::Path::ConstPtr& msg);
   void visualizeMessage();
 
   std::shared_ptr<PathVisual> visual_;
 
-  rviz::ColorProperty *line_color_property_;
-  rviz::ColorProperty *node_color_property_;
-  rviz::FloatProperty *line_scale_property_;
-  rviz::FloatProperty *node_scale_property_;
+  rviz::ColorProperty* line_color_property_;
+  rviz::ColorProperty* node_color_property_;
+  rviz::FloatProperty* line_scale_property_;
+  rviz::FloatProperty* node_scale_property_;
 
   Ogre::Vector3 position_;
   Ogre::Quaternion orientation_;

@@ -20,56 +20,77 @@
 namespace kr_planning_rviz_plugins {
 
 SplineTrajectoryDisplay::SplineTrajectoryDisplay() {
-  color_property_ = new rviz::ColorProperty("Color", QColor(204, 51, 204),
-                                            "Color of trajectory.", this,
+  color_property_ = new rviz::ColorProperty("Color",
+                                            QColor(204, 51, 204),
+                                            "Color of trajectory.",
+                                            this,
                                             SLOT(updateColorAndAlpha()));
 
-  alpha_property_ = new rviz::FloatProperty(
-      "Alpha", 1.0, "0 is fully transparent, 1.0 is fully opaque.", this,
-      SLOT(updateColorAndAlpha()));
-  color_property_v_ = new rviz::ColorProperty(
-      "Velocity Color", QColor(20, 251, 204), "Color of velocity.", this,
-      SLOT(updateColorAndAlpha()));
-  color_property_a_ = new rviz::ColorProperty(
-      "Acceleration Color", QColor(241, 21, 24), "Color of acceleration.", this,
-      SLOT(updateColorAndAlpha()));
+  alpha_property_ =
+      new rviz::FloatProperty("Alpha",
+                              1.0,
+                              "0 is fully transparent, 1.0 is fully opaque.",
+                              this,
+                              SLOT(updateColorAndAlpha()));
+  color_property_v_ = new rviz::ColorProperty("Velocity Color",
+                                              QColor(20, 251, 204),
+                                              "Color of velocity.",
+                                              this,
+                                              SLOT(updateColorAndAlpha()));
+  color_property_a_ = new rviz::ColorProperty("Acceleration Color",
+                                              QColor(241, 21, 24),
+                                              "Color of acceleration.",
+                                              this,
+                                              SLOT(updateColorAndAlpha()));
 
   thickness_property_ =
-      new rviz::FloatProperty("Line Thickness", 0.1,
+      new rviz::FloatProperty("Line Thickness",
+                              0.1,
                               "Does nothing for Sikang style trajectories "
                               "because lines are always 1px in Ogre api",
-                              this, SLOT(updateScale()));
+                              this,
+                              SLOT(updateScale()));
   thickness_property_->setMin(0.01);
   thickness_property_->setMax(3.00);
 
-  use_v_property_ =
-      new rviz::BoolProperty("Plot Velocity", true, "Turns arrow/lines on/off",
-                             this, SLOT(updateSampleLength()));
-  use_a_property_ = new rviz::BoolProperty("Plot Acceleration", false,
-                                           "Turns arrow/lines on/off", this,
+  use_v_property_ = new rviz::BoolProperty("Plot Velocity",
+                                           true,
+                                           "Turns arrow/lines on/off",
+                                           this,
+                                           SLOT(updateSampleLength()));
+  use_a_property_ = new rviz::BoolProperty("Plot Acceleration",
+                                           false,
+                                           "Turns arrow/lines on/off",
+                                           this,
                                            SLOT(updateSampleLength()));
 
   history_length_property_ = new rviz::IntProperty(
-      "History Length", 1,
+      "History Length",
+      1,
       "Number of prior trajectories to display. Warning!! "
       "Setting this too high is not recommended, it will "
       "bog down rviz",
-      this, SLOT(updateHistoryLength()));
+      this,
+      SLOT(updateHistoryLength()));
   history_length_property_->setMin(1);
   history_length_property_->setMax(150);
 
   traj_samples_property_ =
-      new rviz::IntProperty("SplineTrajectory Samples", 50,
-                            "Number of samples used to draw trajectory", this,
+      new rviz::IntProperty("SplineTrajectory Samples",
+                            50,
+                            "Number of samples used to draw trajectory",
+                            this,
                             SLOT(updateSampleLength()));
   traj_samples_property_->setMin(10);
   traj_samples_property_->setMax(500);
 
   tangent_samples_property_ =
-      new rviz::IntProperty("Tangent Samples", 25,
+      new rviz::IntProperty("Tangent Samples",
+                            25,
                             "Number of samples used to draw velocity and "
                             "acceleration arrows or lines",
-                            this, SLOT(updateSampleLength()));
+                            this,
+                            SLOT(updateSampleLength()));
   tangent_samples_property_->setMin(10);
   tangent_samples_property_->setMax(500);
 }
@@ -152,7 +173,7 @@ void SplineTrajectoryDisplay::updateSampleLength() {
 
 // This is our callback to handle an incoming message.
 void SplineTrajectoryDisplay::processMessage(
-    const kr_planning_msgs::SplineTrajectory::ConstPtr &msg) {
+    const kr_planning_msgs::SplineTrajectory::ConstPtr& msg) {
   // Here we call the rviz::FrameManager to get the transform from the
   // fixed frame to the frame in the header of this SplineTrajectory message. If
   // it fails, we can't do anything else so we return.
@@ -162,7 +183,8 @@ void SplineTrajectoryDisplay::processMessage(
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position, orientation)) {
     ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
-              msg->header.frame_id.c_str(), qPrintable(fixed_frame_));
+              msg->header.frame_id.c_str(),
+              qPrintable(fixed_frame_));
     return;
   }
 

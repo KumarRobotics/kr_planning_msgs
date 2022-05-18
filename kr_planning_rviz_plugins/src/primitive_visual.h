@@ -4,23 +4,22 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <rviz/ogre_helpers/billboard_line.h>
 #include <kr_planning_msgs/PrimitiveArray.h>
 #include <kr_planning_rviz_plugins/data_type.h>
-
+#include <rviz/ogre_helpers/billboard_line.h>
 
 namespace kr_planning_rviz_plugins {
 class PrimitiveVisual {
  public:
-  PrimitiveVisual(Ogre::SceneManager *scene_manager,
-                  Ogre::SceneNode *parent_node);
+  PrimitiveVisual(Ogre::SceneManager* scene_manager,
+                  Ogre::SceneNode* parent_node);
 
   virtual ~PrimitiveVisual();
 
-  void setMessage(const std::vector<kr_planning_msgs::Primitive> &msgs);
+  void setMessage(const std::vector<kr_planning_msgs::Primitive>& msgs);
 
-  void setFramePosition(const Ogre::Vector3 &position);
-  void setFrameOrientation(const Ogre::Quaternion &orientation);
+  void setFramePosition(const Ogre::Vector3& position);
+  void setFrameOrientation(const Ogre::Quaternion& orientation);
 
   void setNum(int n);
   void setYawNum(int n);
@@ -48,8 +47,8 @@ class PrimitiveVisual {
   std::vector<std::unique_ptr<rviz::BillboardLine>> jrks_;
   std::vector<std::unique_ptr<rviz::BillboardLine>> yaws_;
 
-  Ogre::SceneNode *frame_node_;
-  Ogre::SceneManager *scene_manager_;
+  Ogre::SceneNode* frame_node_;
+  Ogre::SceneManager* scene_manager_;
 
   int num_;
   int yaw_num_;

@@ -4,24 +4,22 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <rviz/ogre_helpers/billboard_line.h>
 #include <kr_planning_msgs/Trajectory.h>
 #include <kr_planning_rviz_plugins/data_type.h>
-
-
+#include <rviz/ogre_helpers/billboard_line.h>
 
 namespace kr_planning_rviz_plugins {
 class TrajectoryVisual {
  public:
-  TrajectoryVisual(Ogre::SceneManager *scene_manager,
-                   Ogre::SceneNode *parent_node);
+  TrajectoryVisual(Ogre::SceneManager* scene_manager,
+                   Ogre::SceneNode* parent_node);
 
   virtual ~TrajectoryVisual();
 
-  void setMessage(const kr_planning_msgs::Trajectory &msg);
+  void setMessage(const kr_planning_msgs::Trajectory& msg);
 
-  void setFramePosition(const Ogre::Vector3 &position);
-  void setFrameOrientation(const Ogre::Quaternion &orientation);
+  void setFramePosition(const Ogre::Vector3& position);
+  void setFrameOrientation(const Ogre::Quaternion& orientation);
 
   void setNum(int n);
   void setYawNum(int n);
@@ -49,8 +47,8 @@ class TrajectoryVisual {
   std::vector<std::unique_ptr<rviz::BillboardLine>> jrks_;
   std::vector<std::unique_ptr<rviz::BillboardLine>> yaws_;
 
-  Ogre::SceneNode *frame_node_;
-  Ogre::SceneManager *scene_manager_;
+  Ogre::SceneNode* frame_node_;
+  Ogre::SceneManager* scene_manager_;
 
   int num_;
   int yaw_num_;

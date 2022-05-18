@@ -2,56 +2,88 @@
 
 namespace kr_planning_rviz_plugins {
 PrimitiveArrayDisplay::PrimitiveArrayDisplay() {
-  num_property_ = new rviz::IntProperty(
-      "Num", 10, "Number of samples of each primitive to display.", this,
-      SLOT(updateNum()));
-  yaw_triangle_scale_property_ = new rviz::FloatProperty(
-      "YawTriangleScale", 0.5, "0.5 is the default value.", this,
-      SLOT(updateYawTriangleScale()));
-  yaw_triangle_angle_property_ = new rviz::FloatProperty(
-      "YawTriangleAngle", 0.7, "0.7 is the default value.", this,
-      SLOT(updateYawTriangleAngle()));
+  num_property_ =
+      new rviz::IntProperty("Num",
+                            10,
+                            "Number of samples of each primitive to display.",
+                            this,
+                            SLOT(updateNum()));
+  yaw_triangle_scale_property_ =
+      new rviz::FloatProperty("YawTriangleScale",
+                              0.5,
+                              "0.5 is the default value.",
+                              this,
+                              SLOT(updateYawTriangleScale()));
+  yaw_triangle_angle_property_ =
+      new rviz::FloatProperty("YawTriangleAngle",
+                              0.7,
+                              "0.7 is the default value.",
+                              this,
+                              SLOT(updateYawTriangleAngle()));
   yaw_num_property_ = new rviz::IntProperty(
-      "NumYaw", 2, "Number of yaw samples of each primitive to display.", this,
+      "NumYaw",
+      2,
+      "Number of yaw samples of each primitive to display.",
+      this,
       SLOT(updateYawNum()));
-  pos_color_property_ = new rviz::ColorProperty(
-      "PosColor", QColor(204, 51, 204), "Color to draw the Pos.", this,
-      SLOT(updatePosColorAndAlpha()));
-  vel_color_property_ = new rviz::ColorProperty("VelColor", QColor(85, 85, 255),
-                                                "Color to draw the Vel.", this,
+  pos_color_property_ = new rviz::ColorProperty("PosColor",
+                                                QColor(204, 51, 204),
+                                                "Color to draw the Pos.",
+                                                this,
+                                                SLOT(updatePosColorAndAlpha()));
+  vel_color_property_ = new rviz::ColorProperty("VelColor",
+                                                QColor(85, 85, 255),
+                                                "Color to draw the Vel.",
+                                                this,
                                                 SLOT(updateVelColorAndAlpha()));
-  acc_color_property_ = new rviz::ColorProperty("AccColor", QColor(10, 200, 55),
-                                                "Color to draw the Acc.", this,
+  acc_color_property_ = new rviz::ColorProperty("AccColor",
+                                                QColor(10, 200, 55),
+                                                "Color to draw the Acc.",
+                                                this,
                                                 SLOT(updateAccColorAndAlpha()));
-  jrk_color_property_ = new rviz::ColorProperty("JrkColor", QColor(200, 20, 55),
-                                                "Color to draw the Acc.", this,
+  jrk_color_property_ = new rviz::ColorProperty("JrkColor",
+                                                QColor(200, 20, 55),
+                                                "Color to draw the Acc.",
+                                                this,
                                                 SLOT(updateJrkColorAndAlpha()));
-  yaw_color_property_ = new rviz::ColorProperty("YawColor", QColor(100, 20, 55),
-                                                "Color to draw the Yaw.", this,
+  yaw_color_property_ = new rviz::ColorProperty("YawColor",
+                                                QColor(100, 20, 55),
+                                                "Color to draw the Yaw.",
+                                                this,
                                                 SLOT(updateYawColorAndAlpha()));
-  pos_scale_property_ =
-      new rviz::FloatProperty("PosScale", 0.1, "0.1 is the default value.",
-                              this, SLOT(updatePosScale()));
-  vel_scale_property_ =
-      new rviz::FloatProperty("VelScale", 0.02, "0.02 is the default value.",
-                              this, SLOT(updateVelScale()));
-  acc_scale_property_ =
-      new rviz::FloatProperty("AccScale", 0.02, "0.02 is the default value.",
-                              this, SLOT(updateAccScale()));
-  jrk_scale_property_ =
-      new rviz::FloatProperty("JrkScale", 0.02, "0.02 is the default value.",
-                              this, SLOT(updateJrkScale()));
-  yaw_scale_property_ =
-      new rviz::FloatProperty("YawScale", 0.05, "0.05 is the default value.",
-                              this, SLOT(updateYawScale()));
-  vel_vis_property_ = new rviz::BoolProperty("VelVis", 0, "Visualize Vel?",
-                                             this, SLOT(updateVelVis()));
-  acc_vis_property_ = new rviz::BoolProperty("AccVis", 0, "Visualize Acc?",
-                                             this, SLOT(updateAccVis()));
-  jrk_vis_property_ = new rviz::BoolProperty("JrkVis", 0, "Visualize Jrk?",
-                                             this, SLOT(updateJrkVis()));
-  yaw_vis_property_ = new rviz::BoolProperty("YawVis", 0, "Visualize Yaw?",
-                                             this, SLOT(updateYawVis()));
+  pos_scale_property_ = new rviz::FloatProperty("PosScale",
+                                                0.1,
+                                                "0.1 is the default value.",
+                                                this,
+                                                SLOT(updatePosScale()));
+  vel_scale_property_ = new rviz::FloatProperty("VelScale",
+                                                0.02,
+                                                "0.02 is the default value.",
+                                                this,
+                                                SLOT(updateVelScale()));
+  acc_scale_property_ = new rviz::FloatProperty("AccScale",
+                                                0.02,
+                                                "0.02 is the default value.",
+                                                this,
+                                                SLOT(updateAccScale()));
+  jrk_scale_property_ = new rviz::FloatProperty("JrkScale",
+                                                0.02,
+                                                "0.02 is the default value.",
+                                                this,
+                                                SLOT(updateJrkScale()));
+  yaw_scale_property_ = new rviz::FloatProperty("YawScale",
+                                                0.05,
+                                                "0.05 is the default value.",
+                                                this,
+                                                SLOT(updateYawScale()));
+  vel_vis_property_ = new rviz::BoolProperty(
+      "VelVis", 0, "Visualize Vel?", this, SLOT(updateVelVis()));
+  acc_vis_property_ = new rviz::BoolProperty(
+      "AccVis", 0, "Visualize Acc?", this, SLOT(updateAccVis()));
+  jrk_vis_property_ = new rviz::BoolProperty(
+      "JrkVis", 0, "Visualize Jrk?", this, SLOT(updateJrkVis()));
+  yaw_vis_property_ = new rviz::BoolProperty(
+      "YawVis", 0, "Visualize Yaw?", this, SLOT(updateYawVis()));
 }
 
 void PrimitiveArrayDisplay::onInitialize() { MFDClass::onInitialize(); }
@@ -130,11 +162,12 @@ void PrimitiveArrayDisplay::updateNum() { visualizeMessage(); }
 void PrimitiveArrayDisplay::updateYawNum() { visualizeMessage(); }
 
 void PrimitiveArrayDisplay::processMessage(
-    const kr_planning_msgs::PrimitiveArray::ConstPtr &msg) {
+    const kr_planning_msgs::PrimitiveArray::ConstPtr& msg) {
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position_, orientation_)) {
     ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
-              msg->header.frame_id.c_str(), qPrintable(fixed_frame_));
+              msg->header.frame_id.c_str(),
+              qPrintable(fixed_frame_));
     return;
   }
 
