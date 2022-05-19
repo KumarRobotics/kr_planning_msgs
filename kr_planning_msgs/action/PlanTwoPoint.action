@@ -12,6 +12,8 @@ bool check_vel  # check velocity
 bool use_timeout # will kill trajectory after certain time
 duration execution_time # time to execute trajectory
 int64 epoch
+float32 eval_time
+kr_planning_msgs/SplineTrajectory last_traj
 ---
 # Action result
 bool success
