@@ -1,6 +1,7 @@
 #include "kr_planning_rviz_plugins/data_ros_utils.h"
+namespace kr_planning_rviz_plugins {
 
-vec_Vec3f cloud_to_vec(const sensor_msgs::PointCloud &cloud) {
+vec_Vec3f cloud_to_vec(const sensor_msgs::PointCloud& cloud) {
   vec_Vec3f pts;
   pts.resize(cloud.points.size());
   for (unsigned int i = 0; i < cloud.points.size(); i++) {
@@ -12,7 +13,7 @@ vec_Vec3f cloud_to_vec(const sensor_msgs::PointCloud &cloud) {
   return pts;
 }
 
-vec_Vec3f cloud_to_vec_filter(const sensor_msgs::PointCloud &cloud,
+vec_Vec3f cloud_to_vec_filter(const sensor_msgs::PointCloud& cloud,
                               const double eps) {
   vec_Vec3f pts;
   pts.reserve(cloud.points.size());
@@ -31,10 +32,11 @@ vec_Vec3f cloud_to_vec_filter(const sensor_msgs::PointCloud &cloud,
   return pts;
 }
 
-vec_Vec3f ros_to_path(const kr_planning_msgs::Path &msg) {
+vec_Vec3f ros_to_path(const kr_planning_msgs::Path& msg) {
   vec_Vec3f path;
-  for (const auto &it : msg.waypoints) {
+  for (const auto& it : msg.waypoints) {
     path.push_back(Vec3f(it.x, it.y, it.z));
   }
   return path;
 }
+}  // namespace kr_planning_rviz_plugins
