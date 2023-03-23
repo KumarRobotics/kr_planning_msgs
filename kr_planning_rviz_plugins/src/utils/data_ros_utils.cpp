@@ -1,4 +1,4 @@
-#include "kr_planning_rviz_plugins/data_ros_utils.h"
+#include <kr_planning_rviz_plugins/data_ros_utils.h>
 namespace kr {
 vec_Vec3f cloud_to_vec(const sensor_msgs::PointCloud& cloud) {
   vec_Vec3f pts;

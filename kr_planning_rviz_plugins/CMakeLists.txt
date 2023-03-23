@@ -30,7 +30,7 @@ catkin_package(
   LIBRARIES ${PROJECT_NAME} kr_planning_utils
   CATKIN_DEPENDS kr_planning_msgs)
 
-add_library(kr_planning_utils src/utils/data_ros_utils.cpp)
+add_library(kr_planning_utils src/utils/data_ros_utils.cpp src/utils/map_util.cpp)
 target_include_directories(kr_planning_utils PUBLIC ${catkin_INCLUDE_DIRS}
                                                   include)
 target_link_libraries(kr_planning_utils PUBLIC ${catkin_LIBRARIES} Eigen3::Eigen)
@@ -44,16 +44,15 @@ set(SOURCE_FILES
     src/spline_trajectory_visual.cpp
     src/path_array_display.cpp
     src/map_display.cpp
-    # src/primitive_visual.cpp
+    src/primitive_visual.cpp
     src/primitive_array_display.cpp
-    # src/trajectory_visual.cpp
+    src/trajectory_visual.cpp
     src/trajectory_display.cpp
     )
-
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
 target_include_directories(${PROJECT_NAME} PUBLIC include
                                                         ${catkin_INCLUDE_DIRS})
 target_link_libraries(
   ${PROJECT_NAME}
-  PUBLIC ${QT_LIBRARIES} ${catkin_LIBRARIES}
+  PUBLIC kr_planning_utils ${QT_LIBRARIES} ${catkin_LIBRARIES}
          ${rviz_DEFAULT_PLUGIN_LIBRARIES})
