@@ -1,7 +1,6 @@
 #include "primitive_visual.h"
 
-namespace kr_planning_rviz_plugins {
-
+namespace kr {
 PrimitiveVisual::PrimitiveVisual(Ogre::SceneManager* scene_manager,
                                  Ogre::SceneNode* parent_node) {
   scene_manager_ = scene_manager;
@@ -194,4 +193,4 @@ void PrimitiveVisual::setYawTriangleScale(float s) { syaw_ = s; }
 
 void PrimitiveVisual::setYawTriangleAngle(float d) { dyaw_ = d; }
 
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr

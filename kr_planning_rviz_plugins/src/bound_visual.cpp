@@ -1,6 +1,6 @@
 #include "bound_visual.h"
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 BoundVisual::BoundVisual(Ogre::SceneManager* scene_manager,
                          Ogre::SceneNode* parent_node) {
   scene_manager_ = scene_manager;
@@ -48,4 +48,4 @@ void BoundVisual::setColor(float r, float g, float b, float a) {
 void BoundVisual::setScale(float s) {
   for (auto& it : objs_) it->setLineWidth(s);
 }
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr

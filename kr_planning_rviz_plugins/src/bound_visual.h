@@ -7,7 +7,7 @@
 #include <kr_planning_rviz_plugins/data_type.h>
 #include <rviz/ogre_helpers/billboard_line.h>
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 class BoundVisual {
  public:
   BoundVisual(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
@@ -27,6 +27,6 @@ class BoundVisual {
 
   Ogre::SceneManager* scene_manager_;
 };
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
 
 #endif

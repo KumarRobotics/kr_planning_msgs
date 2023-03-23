@@ -6,8 +6,7 @@
 #include <sensor_msgs/PointCloud.h>
 #include <tf_conversions/tf_eigen.h>
 
-namespace kr_planning_rviz_plugins {
-
+namespace kr {
 inline Vec3f pose_to_eigen(const geometry_msgs::Pose& pose) {
   return Vec3f(pose.position.x, pose.position.y, pose.position.z);
 }
@@ -90,4 +89,4 @@ kr_planning_msgs::PathArray path_array_to_ros(
   }
   return msg;
 }
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr

@@ -8,7 +8,7 @@
 #include <kr_planning_rviz_plugins/data_type.h>
 #include <rviz/ogre_helpers/billboard_line.h>
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 class PrimitiveVisual {
  public:
   PrimitiveVisual(Ogre::SceneManager* scene_manager,
@@ -59,6 +59,6 @@ class PrimitiveVisual {
   bool jrk_vis_;
   bool yaw_vis_;
 };
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
 
 #endif

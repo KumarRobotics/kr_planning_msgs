@@ -15,7 +15,6 @@
   <depend>pcl_ros</depend>
   <depend>eigen_conversions</depend>
   <depend>tf_conversions</depend>
-  <depend>motion_primitive_library</depend>
   <depend>kr_planning_msgs</depend>
 
   <export>

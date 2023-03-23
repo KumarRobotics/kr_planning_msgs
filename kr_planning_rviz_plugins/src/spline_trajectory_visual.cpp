@@ -9,8 +9,7 @@
 #include <rviz/ogre_helpers/line.h>
 #include <rviz/ogre_helpers/shape.h>
 
-namespace kr_planning_rviz_plugins {
-
+namespace kr {
 // BEGIN_TUTORIAL
 SplineTrajectoryVisual::SplineTrajectoryVisual(
     Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node) {
@@ -298,4 +297,4 @@ Eigen::VectorXd SplineTrajectoryVisual::evaluate(double t,
   return result;
 }
 
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr

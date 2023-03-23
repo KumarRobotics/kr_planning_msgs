@@ -12,7 +12,7 @@
 
 #include "trajectory_visual.h"
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 class TrajectoryDisplay
     : public rviz::MessageFilterDisplay<kr_planning_msgs::Trajectory> {
   Q_OBJECT
@@ -75,4 +75,4 @@ class TrajectoryDisplay
 
   kr_planning_msgs::Trajectory trajectory_;
 };
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr

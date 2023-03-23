@@ -2,7 +2,7 @@
 
 #include <tf/transform_listener.h>
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 PathDisplay::PathDisplay() {
   line_color_property_ =
       new rviz::ColorProperty("LineColor",
@@ -91,7 +91,7 @@ void PathDisplay::visualizeMessage() {
 
   visual_ = visual;
 }
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(kr_planning_rviz_plugins::PathDisplay, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(kr::PathDisplay, rviz::Display)

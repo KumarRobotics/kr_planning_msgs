@@ -1,6 +1,6 @@
 #include "path_array_display.h"
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 PathArrayDisplay::PathArrayDisplay() {
   line_color_property_ =
       new rviz::ColorProperty("LineColor",
@@ -129,8 +129,8 @@ void PathArrayDisplay::updateID() {
   int id = id_property_->getOptionInt();
   visualizeMessage(id);
 }
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(kr_planning_rviz_plugins::PathArrayDisplay,
+PLUGINLIB_EXPORT_CLASS(kr::PathArrayDisplay,
                        rviz::Display)

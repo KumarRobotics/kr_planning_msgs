@@ -1,6 +1,5 @@
 #include "kr_planning_rviz_plugins/data_ros_utils.h"
-namespace kr_planning_rviz_plugins {
-
+namespace kr {
 vec_Vec3f cloud_to_vec(const sensor_msgs::PointCloud& cloud) {
   vec_Vec3f pts;
   pts.resize(cloud.points.size());
@@ -39,4 +38,4 @@ vec_Vec3f ros_to_path(const kr_planning_msgs::Path& msg) {
   }
   return path;
 }
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
