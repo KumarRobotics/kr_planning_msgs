@@ -1,4 +1,4 @@
-#include "bound_visual.h"
+#include <kr_planning_rviz_plugins/bound_visual.h>
 
 namespace kr {
 BoundVisual::BoundVisual(Ogre::SceneManager* scene_manager,

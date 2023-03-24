@@ -1,7 +1,6 @@
 // Copyright 2016 Michael Watterson
 
-#include "spline_trajectory_display.h"  // NOLINT()
-
+#include <kr_planning_rviz_plugins/spline_trajectory_display.h>
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <rviz/frame_manager.h>
@@ -13,7 +12,7 @@
 #include <rviz/visualization_manager.h>
 #include <tf/transform_listener.h>
 
-#include "spline_trajectory_visual.h"  // NOLINT()
+#include <kr_planning_rviz_plugins/spline_trajectory_visual.h>  
 
 // The constructor must have no arguments, so we can't give the
 // constructor the parameters it needs to fully initialize.

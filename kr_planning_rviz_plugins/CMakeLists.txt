@@ -49,7 +49,24 @@ set(SOURCE_FILES
     src/trajectory_visual.cpp
     src/trajectory_display.cpp
     )
-add_library(${PROJECT_NAME} ${SOURCE_FILES})
+
+# Something to do with QT that these must be used as source files instead of includes?
+set(HEADER_FILES
+    include/${PROJECT_NAME}/bound_visual.h
+    include/${PROJECT_NAME}/mesh_visual.h
+    include/${PROJECT_NAME}/path_visual.h
+    include/${PROJECT_NAME}/path_display.h
+    include/${PROJECT_NAME}/spline_trajectory_display.h
+    include/${PROJECT_NAME}/spline_trajectory_visual.h
+    include/${PROJECT_NAME}/path_array_display.h
+    include/${PROJECT_NAME}/map_display.h
+    include/${PROJECT_NAME}/primitive_visual.h
+    include/${PROJECT_NAME}/primitive_array_display.h
+    include/${PROJECT_NAME}/trajectory_visual.h
+    include/${PROJECT_NAME}/trajectory_display.h
+)
+add_library(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES} )
+
 target_include_directories(${PROJECT_NAME} PUBLIC include
                                                         ${catkin_INCLUDE_DIRS})
 target_link_libraries(

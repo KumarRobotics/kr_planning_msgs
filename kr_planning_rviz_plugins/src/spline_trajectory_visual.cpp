@@ -2,7 +2,7 @@
 // NOTE: The parameterization for the polynomial expected is s \in [0,1]
 // Time duration dt is used to evaluate polynomial p(t/dt) for t \in [0,dt]
 
-#include "spline_trajectory_visual.h"  // NOLINT()
+#include <kr_planning_rviz_plugins/spline_trajectory_visual.h>
 
 #include <ros/console.h>
 #include <rviz/ogre_helpers/arrow.h>

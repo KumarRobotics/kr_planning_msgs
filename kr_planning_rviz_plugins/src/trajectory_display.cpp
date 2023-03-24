@@ -1,4 +1,4 @@
-#include "trajectory_display.h"
+#include <kr_planning_rviz_plugins/trajectory_display.h>
 
 namespace kr {
 TrajectoryDisplay::TrajectoryDisplay() {

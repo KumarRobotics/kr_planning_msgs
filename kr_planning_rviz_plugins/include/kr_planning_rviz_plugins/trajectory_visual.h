@@ -8,6 +8,9 @@
 #include <kr_planning_rviz_plugins/data_type.h>
 #include <rviz/ogre_helpers/billboard_line.h>
 
+#include <Eigen/Dense>
+#include <memory>
+#include <vector>
 namespace kr {
 class TrajectoryVisual {
  public:
@@ -41,6 +44,7 @@ class TrajectoryVisual {
   void setYawVis(bool vis);
 
  private:
+
   std::vector<std::unique_ptr<rviz::BillboardLine>> poss_;
   std::vector<std::unique_ptr<rviz::BillboardLine>> vels_;
   std::vector<std::unique_ptr<rviz::BillboardLine>> accs_;
@@ -58,6 +62,7 @@ class TrajectoryVisual {
   bool acc_vis_;
   bool jrk_vis_;
   bool yaw_vis_;
+  friend class PrimitiveVisual;
 };
 }  // namespace kr
 

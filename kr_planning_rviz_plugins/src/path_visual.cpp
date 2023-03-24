@@ -1,4 +1,4 @@
-#include "path_visual.h"
+#include <kr_planning_rviz_plugins/path_visual.h>
 
 namespace kr {
 PathVisual::PathVisual(Ogre::SceneManager* scene_manager,

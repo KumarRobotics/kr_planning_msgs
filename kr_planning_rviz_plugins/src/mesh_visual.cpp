@@ -1,4 +1,4 @@
-#include "mesh_visual.h"
+#include <kr_planning_rviz_plugins/mesh_visual.h>
 
 namespace kr {
 MeshVisual::MeshVisual(Ogre::SceneManager* scene_manager,

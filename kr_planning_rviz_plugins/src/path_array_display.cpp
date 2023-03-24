@@ -1,4 +1,4 @@
-#include "path_array_display.h"
+#include <kr_planning_rviz_plugins/path_array_display.h>
 
 namespace kr {
 PathArrayDisplay::PathArrayDisplay() {

@@ -1,4 +1,4 @@
-#include "primitive_array_display.h"
+#include <kr_planning_rviz_plugins/primitive_array_display.h>
 
 namespace kr {
 PrimitiveArrayDisplay::PrimitiveArrayDisplay() {
