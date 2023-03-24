@@ -2,6 +2,7 @@
 
 #include <geometry_msgs/Twist.h>
 #include <kr_planning_msgs/PathArray.h>
+#include <kr_planning_msgs/Trajectory.h>
 #include <kr_planning_rviz_plugins/data_type.h>
 #include <sensor_msgs/PointCloud.h>
 #include <tf_conversions/tf_eigen.h>
@@ -89,4 +90,12 @@ kr_planning_msgs::PathArray path_array_to_ros(
   }
   return msg;
 }
+
+double p(double t, std::vector<double> c);
+Eigen::Vector3d evaluate_position(const kr_planning_msgs::Trajectory& msg,
+                                  double t);
+
+std::vector<Eigen::Vector3d> sample_position(
+    const kr_planning_msgs::Trajectory& msg, int N);
+
 }  // namespace kr
