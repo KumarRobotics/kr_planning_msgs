@@ -10,8 +10,8 @@ uint8 FUN=6
 
 # There should be 1 more coeffs than the degree
 int32 degree
-float64 dt
+float32 dt
 uint8 basis
-float64[] coeffs
+float32[] coeffs
 int32 start_index
 int32 end_index
