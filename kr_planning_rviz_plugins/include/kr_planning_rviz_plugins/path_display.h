@@ -11,7 +11,7 @@
 
 #include "path_visual.h"
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 class PathDisplay : public rviz::MessageFilterDisplay<kr_planning_msgs::Path> {
   Q_OBJECT
 
@@ -46,4 +46,4 @@ class PathDisplay : public rviz::MessageFilterDisplay<kr_planning_msgs::Path> {
 
   vec_Vec3f path_;
 };
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr

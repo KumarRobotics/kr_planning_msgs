@@ -12,7 +12,7 @@
 
 #include "primitive_visual.h"
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 class PrimitiveArrayDisplay
     : public rviz::MessageFilterDisplay<kr_planning_msgs::PrimitiveArray> {
   Q_OBJECT
@@ -75,4 +75,4 @@ class PrimitiveArrayDisplay
 
   kr_planning_msgs::PrimitiveArray prs_msg_;
 };
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr

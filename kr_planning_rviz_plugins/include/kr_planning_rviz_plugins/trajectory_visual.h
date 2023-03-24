@@ -1,22 +1,25 @@
-#ifndef PRIMITIVE_VISUAL_H
-#define PRIMITIVE_VISUAL_H
+#ifndef TRAJECTORY_VISUAL_H
+#define TRAJECTORY_VISUAL_H
 
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <kr_planning_msgs/PrimitiveArray.h>
+#include <kr_planning_msgs/Trajectory.h>
 #include <kr_planning_rviz_plugins/data_type.h>
 #include <rviz/ogre_helpers/billboard_line.h>
 
-namespace kr_planning_rviz_plugins {
-class PrimitiveVisual {
+#include <Eigen/Dense>
+#include <memory>
+#include <vector>
+namespace kr {
+class TrajectoryVisual {
  public:
-  PrimitiveVisual(Ogre::SceneManager* scene_manager,
-                  Ogre::SceneNode* parent_node);
+  TrajectoryVisual(Ogre::SceneManager* scene_manager,
+                   Ogre::SceneNode* parent_node);
 
-  virtual ~PrimitiveVisual();
+  virtual ~TrajectoryVisual();
 
-  void setMessage(const std::vector<kr_planning_msgs::Primitive>& msgs);
+  void setMessage(const kr_planning_msgs::Trajectory& msg);
 
   void setFramePosition(const Ogre::Vector3& position);
   void setFrameOrientation(const Ogre::Quaternion& orientation);
@@ -41,6 +44,7 @@ class PrimitiveVisual {
   void setYawVis(bool vis);
 
  private:
+
   std::vector<std::unique_ptr<rviz::BillboardLine>> poss_;
   std::vector<std::unique_ptr<rviz::BillboardLine>> vels_;
   std::vector<std::unique_ptr<rviz::BillboardLine>> accs_;
@@ -58,7 +62,8 @@ class PrimitiveVisual {
   bool acc_vis_;
   bool jrk_vis_;
   bool yaw_vis_;
+  friend class PrimitiveVisual;
 };
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
 
 #endif

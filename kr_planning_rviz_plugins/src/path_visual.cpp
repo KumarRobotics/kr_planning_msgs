@@ -1,7 +1,6 @@
-#include "path_visual.h"
+#include <kr_planning_rviz_plugins/path_visual.h>
 
-namespace kr_planning_rviz_plugins {
-
+namespace kr {
 PathVisual::PathVisual(Ogre::SceneManager* scene_manager,
                        Ogre::SceneNode* parent_node) {
   scene_manager_ = scene_manager;
@@ -92,4 +91,4 @@ void PathVisual::setLineScale(float s) {
 void PathVisual::setNodeScale(float s) {
   for (auto& it : nodes_) it->setScale(Ogre::Vector3(s, s, s));
 }
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr

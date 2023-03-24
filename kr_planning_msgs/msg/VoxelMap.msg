@@ -19,4 +19,4 @@ int8 val_unknown = -1
 int8 val_free = 0
 # Add val_add to the voxel whenever a point lies in it
 int8 val_add = 20
-int8 val_default = 0 
+int8 val_default = 0

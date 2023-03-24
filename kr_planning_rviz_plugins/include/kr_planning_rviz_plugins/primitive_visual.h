@@ -1,22 +1,22 @@
-#ifndef TRAJECTORY_VISUAL_H
-#define TRAJECTORY_VISUAL_H
+#ifndef PRIMITIVE_VISUAL_H
+#define PRIMITIVE_VISUAL_H
 
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <kr_planning_msgs/Trajectory.h>
+#include <kr_planning_msgs/PrimitiveArray.h>
 #include <kr_planning_rviz_plugins/data_type.h>
 #include <rviz/ogre_helpers/billboard_line.h>
 
-namespace kr_planning_rviz_plugins {
-class TrajectoryVisual {
+namespace kr {
+class PrimitiveVisual {
  public:
-  TrajectoryVisual(Ogre::SceneManager* scene_manager,
-                   Ogre::SceneNode* parent_node);
+  PrimitiveVisual(Ogre::SceneManager* scene_manager,
+                  Ogre::SceneNode* parent_node);
 
-  virtual ~TrajectoryVisual();
+  virtual ~PrimitiveVisual();
 
-  void setMessage(const kr_planning_msgs::Trajectory& msg);
+  void setMessage(const std::vector<kr_planning_msgs::Primitive>& msgs);
 
   void setFramePosition(const Ogre::Vector3& position);
   void setFrameOrientation(const Ogre::Quaternion& orientation);
@@ -59,6 +59,6 @@ class TrajectoryVisual {
   bool jrk_vis_;
   bool yaw_vis_;
 };
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
 
 #endif

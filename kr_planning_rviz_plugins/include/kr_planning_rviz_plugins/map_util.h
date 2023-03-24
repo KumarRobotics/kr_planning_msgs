@@ -3,7 +3,7 @@
 #include <kr_planning_msgs/VoxelMap.h>
 #include <kr_planning_rviz_plugins/data_type.h>
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 
 /// The type of map data Tmap is defined as a 1D array
 using Tmap = std::vector<signed char>;
@@ -27,7 +27,7 @@ class MapUtil {
   Vecf<Dim> getOrigin() { return origin_d_; }
 
   /// Get index of a cell for 2D
-  int getIndex(const Veci<Dim> &pn);
+  int getIndex(const Veci<Dim>& pn);
 
   /// Check if the cell is free by index
   bool isFree(int idx) { return map_[idx] < val_occ && map_[idx] >= val_free; }
@@ -37,13 +37,13 @@ class MapUtil {
   bool isOccupied(int idx) { return map_[idx] == val_occ; }
 
   /// Check if the cell is outside by coordinate
-  bool isOutside(const Veci<Dim> &pn);
+  bool isOutside(const Veci<Dim>& pn);
   /// Check if the given cell is free by coordinate
-  bool isFree(const Veci<Dim> &pn);
+  bool isFree(const Veci<Dim>& pn);
   /// Check if the given cell is occupied by coordinate
-  bool isOccupied(const Veci<Dim> &pn);
+  bool isOccupied(const Veci<Dim>& pn);
   /// Check if the given cell is unknown by coordinate
-  bool isUnknown(const Veci<Dim> &pn);
+  bool isUnknown(const Veci<Dim>& pn);
 
   /**
    * @brief Set map
@@ -53,19 +53,21 @@ class MapUtil {
    * @param map array of cell values
    * @param res map resolution
    */
-  void setMap(const Vecf<Dim> &ori, const Veci<Dim> &dim, const Tmap &map,
+  void setMap(const Vecf<Dim>& ori,
+              const Veci<Dim>& dim,
+              const Tmap& map,
               decimal_t res);
 
   /// Print basic information about the util
   void info();
 
   /// Float position to discrete cell coordinate
-  Veci<Dim> floatToInt(const Vecf<Dim> &pt);
+  Veci<Dim> floatToInt(const Vecf<Dim>& pt);
   /// Discrete cell coordinate to float position
-  Vecf<Dim> intToFloat(const Veci<Dim> &pn);
+  Vecf<Dim> intToFloat(const Veci<Dim>& pn);
 
   /// Raytrace from float point pt1 to pt2
-  vec_Veci<Dim> rayTrace(const Vecf<Dim> &pt1, const Vecf<Dim> &pt2);
+  vec_Veci<Dim> rayTrace(const Vecf<Dim>& pt1, const Vecf<Dim>& pt2);
 
   /// Get occupied voxels for 3D
   vec_Vecf<Dim> getCloud();
@@ -103,4 +105,50 @@ typedef MapUtil<2> OccMapUtil;
 
 typedef MapUtil<3> VoxelMapUtil;
 
-}  // namespace kr_planning_rviz_plugins
+template <int Dim>
+inline int MapUtil<Dim>::getIndex(const Veci<Dim>& pn) {
+  if constexpr (Dim == 3) {
+    return pn(0) + dim_(0) * pn(1) + dim_(0) * dim_(1) * pn(2);
+  } else {
+    return pn(0) + dim_(0) * pn(1);
+  }
+}
+
+template <int Dim>
+inline bool MapUtil<Dim>::isOutside(const Veci<Dim>& pn) {
+  if constexpr (Dim == 3) {
+    return (pn(0) < 0 || pn(0) >= dim_(0) || pn(1) < 0 || pn(1) >= dim_(1) ||
+            pn(2) < 0 || pn(2) >= dim_(2));
+  } else {
+    return (pn(0) < 0 || pn(0) >= dim_(0) || pn(1) < 0 || pn(1) >= dim_(1));
+  }
+}
+
+template <int Dim>
+inline bool MapUtil<Dim>::isFree(const Veci<Dim>& pn) {
+  // First check if the voxel is within the bounds of the map and if it isn't,
+  // return false. This is accomplished by taking advantage of short-circuit
+  // evaluation. An if-else statement could also be used here but it isn't
+  // to avoid issues with branch predictions and inline.
+  return (!isOutside(pn) && isFree(getIndex(pn)));
+}
+
+template <int Dim>
+inline bool MapUtil<Dim>::isOccupied(const Veci<Dim>& pn) {
+  // First check if the voxel is within the bounds of the map and if it isn't,
+  // return false. This is accomplished by taking advantage of short-circuit
+  // evaluation. An if-else statement could also be used here but it isn't
+  // to avoid issues with branch predictions and inline.
+  return (!isOutside(pn) && isOccupied(getIndex(pn)));
+}
+
+template <int Dim>
+inline bool MapUtil<Dim>::isUnknown(const Veci<Dim>& pn) {
+  // First check if the voxel is within the bounds of the map and if it isn't,
+  // return false. This is accomplished by taking advantage of short-circuit
+  // evaluation. An if-else statement could also be used here but it isn't
+  // to avoid issues with branch predictions and inline.
+  return (!isOutside(pn) && isUnknown(getIndex(pn)));
+}
+
+}  // namespace kr

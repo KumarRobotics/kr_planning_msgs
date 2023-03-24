@@ -1,32 +1,32 @@
-#ifndef BOUND_VISUAL_H
-#define BOUND_VISUAL_H
+#ifndef MESH_VISUAL_H
+#define MESH_VISUAL_H
 
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
 #include <kr_planning_rviz_plugins/data_type.h>
-#include <rviz/ogre_helpers/billboard_line.h>
+#include <rviz/ogre_helpers/mesh_shape.h>
 
-namespace kr_planning_rviz_plugins {
-class BoundVisual {
+namespace kr {
+class MeshVisual {
  public:
-  BoundVisual(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
-  ~BoundVisual();
+  MeshVisual(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
 
-  void setMessage(const vec_E<vec_Vec3f>& bds);
+  virtual ~MeshVisual();
+
+  void setMessage(const vec_E<vec_Vec3f>& vss);
   void setFramePosition(const Ogre::Vector3& position);
   void setFrameOrientation(const Ogre::Quaternion& orientation);
 
   void setColor(float r, float g, float b, float a);
-  void setScale(float s);
 
  private:
-  std::vector<std::unique_ptr<rviz::BillboardLine>> objs_;
+  std::unique_ptr<rviz::MeshShape> obj_;
 
   Ogre::SceneNode* frame_node_;
 
   Ogre::SceneManager* scene_manager_;
 };
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
 
 #endif

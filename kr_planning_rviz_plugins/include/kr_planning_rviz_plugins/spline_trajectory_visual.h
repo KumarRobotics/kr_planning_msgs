@@ -33,8 +33,7 @@ class Object;
 // single kr_planning_msgs::SplineTrajectory message.  Currently it just shows
 // an arrow with the direction and magnitude of the acceleration vector, but
 // could easily be expanded to include more of the message data.
-namespace kr_planning_rviz_plugins {
-
+namespace kr {
 class SplineTrajectoryVisual {
  public:
   // Constructor.  Creates the visual stuff and puts it into the
@@ -107,5 +106,5 @@ class SplineTrajectoryVisual {
   Ogre::SceneManager* scene_manager_;
 };
 // END_TUTORIAL
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
 #endif  // MAP_PLAN_PLANNING_ROS_UTILS_SRC_PLANNING_RVIZ_PLUGINS_SPLINE_TRAJECTORY_VISUAL_H_

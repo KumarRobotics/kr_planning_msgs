@@ -1,6 +1,6 @@
 <library path="lib/libkr_planning_rviz_plugins">
   <class name="kr_planning_rviz_plugins/VoxelMap"
-    type="kr_planning_rviz_plugins::MapDisplay"
+    type="kr::MapDisplay"
     base_class_type="rviz::Display">
     <description>
       visualize kr_planning_msgs/VoxelMap msg.
@@ -8,7 +8,7 @@
   </class>
 
   <class name="kr_planning_rviz_plugins/Path"
-    type="kr_planning_rviz_plugins::PathDisplay"
+    type="kr::PathDisplay"
     base_class_type="rviz::Display">
     <description>
       visualize kr_planning_msgs/Path msg.
@@ -16,7 +16,7 @@
   </class>
 
   <class name="kr_planning_rviz_plugins/PathArray"
-    type="kr_planning_rviz_plugins::PathArrayDisplay"
+    type="kr::PathArrayDisplay"
     base_class_type="rviz::Display">
     <description>
       visualize kr_planning_msgs/PathArray msg.
@@ -24,7 +24,7 @@
   </class>
 
   <class name="kr_planning_rviz_plugins/Trajectory"
-    type="kr_planning_rviz_plugins::TrajectoryDisplay"
+    type="kr::TrajectoryDisplay"
     base_class_type="rviz::Display">
     <description>
       visualize kr_planning_msgs/Trajectory msg.
@@ -32,7 +32,7 @@
   </class>  
   
   <class name="kr_planning_rviz_plugins/SplineTrajectory"
-    type="kr_planning_rviz_plugins::SplineTrajectoryDisplay"
+    type="kr::SplineTrajectoryDisplay"
     base_class_type="rviz::Display">
     <description>
       visualize kr_planning_msgs/SplineTrajectory msg.
@@ -40,7 +40,7 @@
   </class>
 
   <class name="kr_planning_rviz_plugins/PrimitiveArray"
-    type="kr_planning_rviz_plugins::PrimitiveArrayDisplay"
+    type="kr::PrimitiveArrayDisplay"
     base_class_type="rviz::Display">
     <description>
       visualize kr_planning_msgs/PrimitiveArray msg.

@@ -1,10 +1,9 @@
-#include "map_display.h"
+#include <kr_planning_rviz_plugins/map_display.h>
 
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 
-namespace kr_planning_rviz_plugins {
-
+namespace kr {
 MapDisplay::MapDisplay()
     : point_cloud_common_(new rviz::PointCloudCommon(this)) {
   // PointCloudCommon sets up a callback queue with a thread for each
@@ -330,7 +329,7 @@ void MapDisplay::reset() {
   visual_ = nullptr;
   visuals_mesh_.clear();
 }
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(kr_planning_rviz_plugins::MapDisplay, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(kr::MapDisplay, rviz::Display)

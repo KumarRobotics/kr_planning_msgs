@@ -18,7 +18,7 @@
 #include "./bound_visual.h"
 #include "./mesh_visual.h"
 
-namespace kr_planning_rviz_plugins {
+namespace kr {
 class MapDisplay
     : public rviz::MessageFilterDisplay<kr_planning_msgs::VoxelMap> {
   Q_OBJECT
@@ -66,4 +66,4 @@ class MapDisplay
   Ogre::Vector3 position_;
 };
 
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr

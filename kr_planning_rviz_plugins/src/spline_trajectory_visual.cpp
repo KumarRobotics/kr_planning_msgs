@@ -2,15 +2,14 @@
 // NOTE: The parameterization for the polynomial expected is s \in [0,1]
 // Time duration dt is used to evaluate polynomial p(t/dt) for t \in [0,dt]
 
-#include "spline_trajectory_visual.h"  // NOLINT()
+#include <kr_planning_rviz_plugins/spline_trajectory_visual.h>
 
 #include <ros/console.h>
 #include <rviz/ogre_helpers/arrow.h>
 #include <rviz/ogre_helpers/line.h>
 #include <rviz/ogre_helpers/shape.h>
 
-namespace kr_planning_rviz_plugins {
-
+namespace kr {
 // BEGIN_TUTORIAL
 SplineTrajectoryVisual::SplineTrajectoryVisual(
     Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node) {
@@ -298,4 +297,4 @@ Eigen::VectorXd SplineTrajectoryVisual::evaluate(double t,
   return result;
 }
 
-}  // namespace kr_planning_rviz_plugins
+}  // namespace kr
