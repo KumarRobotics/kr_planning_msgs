@@ -1,5 +1,4 @@
 #include <kr_planning_rviz_plugins/path_display.h>
-
 #include <tf/transform_listener.h>
 
 namespace kr {

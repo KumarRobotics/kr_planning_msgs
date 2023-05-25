@@ -44,7 +44,6 @@ class TrajectoryVisual {
   void setYawVis(bool vis);
 
  private:
-
   std::vector<std::unique_ptr<rviz::BillboardLine>> poss_;
   std::vector<std::unique_ptr<rviz::BillboardLine>> vels_;
   std::vector<std::unique_ptr<rviz::BillboardLine>> accs_;

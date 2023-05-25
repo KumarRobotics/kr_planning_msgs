@@ -241,5 +241,4 @@ void PrimitiveArrayDisplay::visualizeMessage() {
 }  // namespace kr
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(kr::PrimitiveArrayDisplay,
-                       rviz::Display)
+PLUGINLIB_EXPORT_CLASS(kr::PrimitiveArrayDisplay, rviz::Display)

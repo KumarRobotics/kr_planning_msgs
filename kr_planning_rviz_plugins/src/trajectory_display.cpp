@@ -242,5 +242,4 @@ void TrajectoryDisplay::visualizeMessage() {
 }  // namespace kr
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(kr::TrajectoryDisplay,
-                       rviz::Display)
+PLUGINLIB_EXPORT_CLASS(kr::TrajectoryDisplay, rviz::Display)

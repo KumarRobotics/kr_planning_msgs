@@ -1,7 +1,6 @@
-#include <kr_planning_rviz_plugins/map_display.h>
-
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
+#include <kr_planning_rviz_plugins/map_display.h>
 
 namespace kr {
 MapDisplay::MapDisplay()

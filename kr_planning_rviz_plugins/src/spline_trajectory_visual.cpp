@@ -3,7 +3,6 @@
 // Time duration dt is used to evaluate polynomial p(t/dt) for t \in [0,dt]
 
 #include <kr_planning_rviz_plugins/spline_trajectory_visual.h>
-
 #include <ros/console.h>
 #include <rviz/ogre_helpers/arrow.h>
 #include <rviz/ogre_helpers/line.h>

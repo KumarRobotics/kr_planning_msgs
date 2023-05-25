@@ -132,5 +132,4 @@ void PathArrayDisplay::updateID() {
 }  // namespace kr
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(kr::PathArrayDisplay,
-                       rviz::Display)
+PLUGINLIB_EXPORT_CLASS(kr::PathArrayDisplay, rviz::Display)

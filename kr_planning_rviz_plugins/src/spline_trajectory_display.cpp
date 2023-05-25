@@ -1,8 +1,9 @@
 // Copyright 2016 Michael Watterson
 
-#include <kr_planning_rviz_plugins/spline_trajectory_display.h>
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
+#include <kr_planning_rviz_plugins/spline_trajectory_display.h>
+#include <kr_planning_rviz_plugins/spline_trajectory_visual.h>
 #include <rviz/frame_manager.h>
 #include <rviz/load_resource.h>
 #include <rviz/properties/color_property.h>
@@ -11,8 +12,6 @@
 #include <rviz/properties/int_property.h>
 #include <rviz/visualization_manager.h>
 #include <tf/transform_listener.h>
-
-#include <kr_planning_rviz_plugins/spline_trajectory_visual.h>  
 
 // The constructor must have no arguments, so we can't give the
 // constructor the parameters it needs to fully initialize.
@@ -225,5 +224,4 @@ void SplineTrajectoryDisplay::randomizeColor() {}
 // Tell pluginlib about this class.  It is important to do this in
 // global scope, outside our package's namespace.
 #include <pluginlib/class_list_macros.h>  // NOLINT()
-PLUGINLIB_EXPORT_CLASS(kr::SplineTrajectoryDisplay,
-                       rviz::Display)
+PLUGINLIB_EXPORT_CLASS(kr::SplineTrajectoryDisplay, rviz::Display)
