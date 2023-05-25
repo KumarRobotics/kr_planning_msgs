@@ -7,6 +7,10 @@
 #include <sensor_msgs/PointCloud.h>
 #include <tf_conversions/tf_eigen.h>
 
+#include <string>
+#include <utility>
+#include <vector>
+
 namespace kr {
 inline Vec3f pose_to_eigen(const geometry_msgs::Pose& pose) {
   return Vec3f(pose.position.x, pose.position.y, pose.position.z);
@@ -92,10 +96,16 @@ kr_planning_msgs::PathArray path_array_to_ros(
 }
 
 double p(double t, std::vector<double> c);
-Eigen::Vector3d evaluate_position(const kr_planning_msgs::Trajectory& msg,
-                                  double t);
+double v(double t, std::vector<double> c);
+double a(double t, std::vector<double> c);
+double j(double t, std::vector<double> c);
+double evaluator(double t, std::vector<double> c, int deriv_num);
+Eigen::Vector3d evaluate(const kr_planning_msgs::Trajectory& msg,
+                         double t,
+                         int deriv_num);
 
-std::vector<Eigen::Vector3d> sample_position(
-    const kr_planning_msgs::Trajectory& msg, int N);
+std::vector<Eigen::Vector3d> sample(const kr_planning_msgs::Trajectory& msg,
+                                    int N,
+                                    int deriv_num);
 
 }  // namespace kr

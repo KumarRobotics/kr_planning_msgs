@@ -39,22 +39,51 @@ vec_Vec3f ros_to_path(const kr_planning_msgs::Path& msg) {
   return path;
 }
 
- double p(double t, std::vector<double> c) {
+double p(double t, std::vector<double> c) {
   return c.at(0) / 120 * std::pow(t, 5) + c.at(1) / 24 * std::pow(t, 4) +
          c.at(2) / 6 * std::pow(t, 3) + c.at(3) / 2 * t * t + c.at(4) * t +
          c.at(5);
 }
 
- Eigen::Vector3d evaluate_position(
-    const kr_planning_msgs::Trajectory& msg, double t) {
+double v(double t, std::vector<double> c) {
+  return c.at(0) / 24 * std::pow(t, 4) + c.at(1) / 6 * std::pow(t, 3) +
+         c.at(2) / 2 * t * t + c.at(3) * t + c.at(4);
+}
+
+double a(double t, std::vector<double> c) {
+  return c.at(0) / 6 * std::pow(t, 3) + c.at(1) / 2 * t * t + c.at(2) * t +
+         c.at(3);
+}
+
+double j(double t, std::vector<double> c) {
+  return c.at(0) / 2 * std::pow(t, 2) + c.at(1) * t + c.at(2);
+}
+
+double evaluator(double t, std::vector<double> c, int deriv_num) {
+  switch (deriv_num) {
+    case 0:
+      return p(t, c);
+    case 1:
+      return v(t, c);
+    case 2:
+      return a(t, c);
+    case 3:
+      return j(t, c);
+    default:
+      return 0;
+  }
+}
+Eigen::Vector3d evaluate(const kr_planning_msgs::Trajectory& msg,
+                         double t,
+                         int deriv_num) {
   Eigen::Vector3d result(3);
 
   double dt = 0;
   for (const auto& primitive : msg.primitives) {
     if (t < dt + primitive.t || primitive == msg.primitives.back()) {
-      result(0) = p(t - dt, primitive.cx);
-      result(1) = p(t - dt , primitive.cy);
-      result(2) = p(t - dt, primitive.cz);
+      result(0) = evaluator(t - dt, primitive.cx, deriv_num);
+      result(1) = evaluator(t - dt, primitive.cy, deriv_num);
+      result(2) = evaluator(t - dt, primitive.cz, deriv_num);
       break;
     }
     dt += primitive.t;
@@ -62,15 +91,16 @@ vec_Vec3f ros_to_path(const kr_planning_msgs::Path& msg) {
   return result;
 }
 
- std::vector<Eigen::Vector3d> sample_position(
-    const kr_planning_msgs::Trajectory& msg, int N) {
+std::vector<Eigen::Vector3d> sample(const kr_planning_msgs::Trajectory& msg,
+                                    int N,
+                                    int deriv_num) {
   std::vector<Eigen::Vector3d> ps(N + 1);
   double total_time = 0;
   for (const auto& primitive : msg.primitives) {
     total_time += primitive.t;
   }
   double dt = total_time / N;
-  for (int i = 0; i <= N; i++) ps.at(i) = evaluate_position(msg, i * dt);
+  for (int i = 0; i <= N; i++) ps.at(i) = evaluate(msg, i * dt, deriv_num);
 
   return ps;
 }
