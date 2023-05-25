@@ -60,6 +60,7 @@ void PrimitiveVisual::setMessage(
     const auto waypoints_vel = sample(traj_viz_msg, num_ - 1, 1);
     const auto waypoints_acc = sample(traj_viz_msg, num_ - 1, 2);
     const auto waypoints_jrk = sample(traj_viz_msg, num_ - 1, 3);
+    const auto waypoints_yaw = sample(traj_viz_msg, yaw_num_ - 1, 0);
 
     for (size_t i = 0; i < waypoints_pos.size(); i++) {
       const auto p1_pos = waypoints_pos[i];
@@ -96,45 +97,43 @@ void PrimitiveVisual::setMessage(
         accs_[n * num_ + i]->addPoint(pos3);
       }
 
-        if (jrk_vis_) {
-          const Vec3f p3 = p1_pos + R * p1_jrk;
-          const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
-          jrks_[n * num_ + i].reset(
+      if (jrk_vis_) {
+        const Vec3f p3 = p1_pos + R * p1_jrk;
+        const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
+        jrks_[n * num_ + i].reset(
+            new rviz::BillboardLine(scene_manager_, frame_node_));
+        jrks_[n * num_ + i]->addPoint(pos1);
+        jrks_[n * num_ + i]->addPoint(pos3);
+      }
+
+      if (yaw_vis_ && yaw_num_ >= 2) {
+        Vec3f d(syaw_, 0, 0);
+        for (int i = 0; i < yaw_num_; i++) {
+          yaws_[n * yaw_num_ + i].reset(
               new rviz::BillboardLine(scene_manager_, frame_node_));
-          jrks_[n * num_ + i]->addPoint(pos1);
-          jrks_[n * num_ + i]->addPoint(pos3);
+          const auto keyframe = waypoints_yaw[i];
+          double yaw = keyframe(3);
+          double yaw1 = yaw + dyaw_;
+          double yaw2 = yaw - dyaw_;
+          Mat3f Ryaw1, Ryaw2;
+          Ryaw1 << cos(yaw1), -sin(yaw1), 0, sin(yaw1), cos(yaw1), 0, 0, 0, 1;
+          Ryaw2 << cos(yaw2), -sin(yaw2), 0, sin(yaw2), cos(yaw2), 0, 0, 0, 1;
+
+          Vec3f p1_pos = keyframe.head(3);
+          Vec3f p2 = keyframe.head(3) + Ryaw1 * d;
+          Vec3f p3 = keyframe.head(3) + Ryaw2 * d;
+          Vec3f p4 = (p2 + p3) / 2;
+          Ogre::Vector3 pos1(p1_pos(0), p1_pos(1), p1_pos(2));
+          Ogre::Vector3 pos2(p2(0), p2(1), p2(2));
+          Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
+          Ogre::Vector3 pos4(p4(0), p4(1), p4(2));
+          yaws_[n * yaw_num_ + i]->addPoint(pos1);
+          yaws_[n * yaw_num_ + i]->addPoint(pos2);
+          yaws_[n * yaw_num_ + i]->addPoint(pos3);
+          yaws_[n * yaw_num_ + i]->addPoint(pos1);
+          yaws_[n * yaw_num_ + i]->addPoint(pos4);
         }
-    // TODO(laura) Reimplement for yaw
-
-      // if (yaw_vis_ && yaw_num_ >= 2) {
-      //   Vec3f d(syaw_, 0, 0);
-      //   const auto yaw_waypoints_pos = p.sample(yaw_num_ - 1);
-      //   for (int i = 0; i < yaw_num_; i++) {
-      //     yaws_[n * yaw_num_ + i].reset(
-      //         new rviz::BillboardLine(scene_manager_, frame_node_));
-      //     const auto keyframe = yaw_waypoints_pos[i];
-      //     double yaw = keyframe.yaw;
-      //     double yaw1 = yaw + dyaw_;
-      //     double yaw2 = yaw - dyaw_;
-      //     Mat3f Ryaw1, Ryaw2;
-      //     Ryaw1 << cos(yaw1), -sin(yaw1), 0, sin(yaw1), cos(yaw1), 0, 0, 0,
-      //     1; Ryaw2 << cos(yaw2), -sin(yaw2), 0, sin(yaw2), cos(yaw2), 0, 0,
-      //     0, 1;
-
-      //     Vec3f p1_pos = keyframe.pos;
-      //     Vec3f p2 = keyframe.pos + Ryaw1 * d;
-      //     Vec3f p3 = keyframe.pos + Ryaw2 * d;
-      //     Vec3f p4 = (p2 + p3) / 2;
-      //     Ogre::Vector3 pos1(p1_pos(0), p1_pos(1), p1_pos(2));
-      //     Ogre::Vector3 pos2(p2(0), p2(1), p2(2));
-      //     Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
-      //     Ogre::Vector3 pos4(p4(0), p4(1), p4(2));
-      //     yaws_[n * yaw_num_ + i]->addPoint(pos1);
-      //     yaws_[n * yaw_num_ + i]->addPoint(pos2);
-      //     yaws_[n * yaw_num_ + i]->addPoint(pos3);
-      //     yaws_[n * yaw_num_ + i]->addPoint(pos1);
-      //     yaws_[n * yaw_num_ + i]->addPoint(pos4);
-      //   }
+      }
     }
   }
 }

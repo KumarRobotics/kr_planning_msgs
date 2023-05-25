@@ -73,10 +73,14 @@ double evaluator(double t, std::vector<double> c, int deriv_num) {
       return 0;
   }
 }
-Eigen::Vector3d evaluate(const kr_planning_msgs::Trajectory& msg,
+Eigen::VectorXd evaluate(const kr_planning_msgs::Trajectory& msg,
                          double t,
                          int deriv_num) {
-  Eigen::Vector3d result(3);
+  Eigen::VectorXd result;
+  if (deriv_num == 0)
+    result.resize(4);
+  else
+    result.resize(3);
 
   double dt = 0;
   for (const auto& primitive : msg.primitives) {
@@ -84,6 +88,8 @@ Eigen::Vector3d evaluate(const kr_planning_msgs::Trajectory& msg,
       result(0) = evaluator(t - dt, primitive.cx, deriv_num);
       result(1) = evaluator(t - dt, primitive.cy, deriv_num);
       result(2) = evaluator(t - dt, primitive.cz, deriv_num);
+      if (deriv_num == 0)
+        result(3) = evaluator(t - dt, primitive.cyaw, deriv_num);
       break;
     }
     dt += primitive.t;
@@ -91,10 +97,10 @@ Eigen::Vector3d evaluate(const kr_planning_msgs::Trajectory& msg,
   return result;
 }
 
-std::vector<Eigen::Vector3d> sample(const kr_planning_msgs::Trajectory& msg,
+std::vector<Eigen::VectorXd> sample(const kr_planning_msgs::Trajectory& msg,
                                     int N,
                                     int deriv_num) {
-  std::vector<Eigen::Vector3d> ps(N + 1);
+  std::vector<Eigen::VectorXd> ps(N + 1);
   double total_time = 0;
   for (const auto& primitive : msg.primitives) {
     total_time += primitive.t;

@@ -37,8 +37,8 @@ void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory& msg) {
   if (vel_vis_) vels_.resize(num_);
   if (acc_vis_) accs_.resize(num_);
   if (jrk_vis_) jrks_.resize(num_);
-  // if (yaw_vis_) yaws_.resize(yaw_num_);
-  
+  if (yaw_vis_) yaws_.resize(yaw_num_);
+
   double theta = M_PI / 2;
   Mat3f R;
   R << cos(theta), -sin(theta), 0, sin(theta), cos(theta), 0, 0, 0, 1;
@@ -47,6 +47,7 @@ void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory& msg) {
   const auto waypoints_vel = sample(msg, num_ - 1, 1);
   const auto waypoints_acc = sample(msg, num_ - 1, 2);
   const auto waypoints_jrk = sample(msg, num_ - 1, 3);
+  const auto waypoints_yaw = sample(msg, yaw_num_ - 1, 0);
 
   for (unsigned int i = 0; i < waypoints_pos.size(); i++) {
     const auto p1_pos = waypoints_pos[i];
@@ -87,34 +88,33 @@ void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory& msg) {
       jrks_[i]->addPoint(pos3);
     }
 
-    // TODO(laura) Reimplement for yaw
+    if (yaw_vis_) {
+      Vec3f d(syaw_, 0, 0);
+      for (int i = 0; i < yaw_num_; i++) {
+        yaws_[i].reset(new rviz::BillboardLine(scene_manager_, frame_node_));
+        const auto keyframe = waypoints_yaw[i];
+        double yaw = keyframe[3];
+        double yaw1 = yaw + dyaw_;
+        double yaw2 = yaw - dyaw_;
+        Mat3f Ryaw1, Ryaw2;
+        Ryaw1 << cos(yaw1), -sin(yaw1), 0, sin(yaw1), cos(yaw1), 0, 0, 0, 1;
+        Ryaw2 << cos(yaw2), -sin(yaw2), 0, sin(yaw2), cos(yaw2), 0, 0, 0, 1;
 
-    // if (yaw_vis_ && yaw_num_ >= 2) {
-    //   Vec3f d(syaw_, 0, 0);
-    //   const auto yaw_waypoints = sample(msg, yaw_num_ - 1);
-    //   for (int i = 0; i < yaw_num_; i++) {
-    //     yaws_[i].reset(new rviz::BillboardLine(scene_manager_,
-    //     frame_node_)); const auto keyframe = yaw_waypoints[i]; double yaw =
-    //     keyframe.yaw; double yaw1 = yaw + dyaw_; double yaw2 = yaw - dyaw_;
-    //     Mat3f Ryaw1, Ryaw2;
-    //     Ryaw1 << cos(yaw1), -sin(yaw1), 0, sin(yaw1), cos(yaw1), 0, 0, 0,
-    //     1; Ryaw2 << cos(yaw2), -sin(yaw2), 0, sin(yaw2), cos(yaw2), 0, 0,
-    //     0, 1;
-
-    //     Vec3f p1 = keyframe.pos;
-    //     Vec3f p2 = keyframe.pos + Ryaw1 * d;
-    //     Vec3f p3 = keyframe.pos + Ryaw2 * d;
-    //     Vec3f p4 = (p2 + p3) / 2;
-    //     Ogre::Vector3 pos1(p1(0), p1(1), p1(2));
-    //     Ogre::Vector3 pos2(p2(0), p2(1), p2(2));
-    //     Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
-    //     Ogre::Vector3 pos4(p4(0), p4(1), p4(2));
-    //     yaws_[i]->addPoint(pos1);
-    //     yaws_[i]->addPoint(pos2);
-    //     yaws_[i]->addPoint(pos3);
-    //     yaws_[i]->addPoint(pos1);
-    //     yaws_[i]->addPoint(pos4);
-    //   }
+        Vec3f p1 = keyframe.head(3);
+        Vec3f p2 = keyframe.head(3) + Ryaw1 * d;
+        Vec3f p3 = keyframe.head(3) + Ryaw2 * d;
+        Vec3f p4 = (p2 + p3) / 2;
+        Ogre::Vector3 pos1(p1(0), p1(1), p1(2));
+        Ogre::Vector3 pos2(p2(0), p2(1), p2(2));
+        Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
+        Ogre::Vector3 pos4(p4(0), p4(1), p4(2));
+        yaws_[i]->addPoint(pos1);
+        yaws_[i]->addPoint(pos2);
+        yaws_[i]->addPoint(pos3);
+        yaws_[i]->addPoint(pos1);
+        yaws_[i]->addPoint(pos4);
+      }
+    }
   }
 }
 

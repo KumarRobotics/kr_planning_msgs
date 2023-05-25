@@ -100,11 +100,11 @@ double v(double t, std::vector<double> c);
 double a(double t, std::vector<double> c);
 double j(double t, std::vector<double> c);
 double evaluator(double t, std::vector<double> c, int deriv_num);
-Eigen::Vector3d evaluate(const kr_planning_msgs::Trajectory& msg,
+Eigen::VectorXd evaluate(const kr_planning_msgs::Trajectory& msg,
                          double t,
                          int deriv_num);
 
-std::vector<Eigen::Vector3d> sample(const kr_planning_msgs::Trajectory& msg,
+std::vector<Eigen::VectorXd> sample(const kr_planning_msgs::Trajectory& msg,
                                     int N,
                                     int deriv_num);
 
