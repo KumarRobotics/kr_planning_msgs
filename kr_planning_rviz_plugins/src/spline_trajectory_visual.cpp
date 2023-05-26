@@ -146,49 +146,48 @@ void SplineTrajectoryVisual::setCurve() {
     op1 = op2;
   }
 
-  // Eigen::Quaternion<double> rot(1, 0, 0, 0);
-  // // rotate tangent vectors about z
+  Eigen::Quaternion<double> rot(1, 0, 0, 0);
+  // rotate tangent vectors about z
 
-  // // draw tangents
-  // dt = t_total / static_cast<double>(num_vel_points_);
-  // for (int i = 0; i < num_vel_points_; i++) {
-  //   //      std::cout << "i " << i << std::endl;
-  //   if (!vel_on_ && !acc_on_ ) break;
-  //   double dtt = static_cast<double>(i) * dt;
-  //   ;
-  //   op1 = vecFromVecD(evaluate(dtt, 0));
+  // draw tangents
+  dt = t_total / static_cast<double>(num_vel_points_);
+  for (int i = 0; i < num_vel_points_; i++) {
+    //      std::cout << "i " << i << std::endl;
+    if (!vel_on_ && !acc_on_) break;
+    double dtt = static_cast<double>(i) * dt;
+    op1 = vecFromVecD(evaluate(dtt, 0));
 
-  //   // velocity
-  //   if (vel_on_) {
-  //     p2 = evaluate(dtt, 1);
-  //     Eigen::Vector3d p1_3d = Eigen::Vector3d::Zero();
-  //     Eigen::Vector3d p2_3d = Eigen::Vector3d::Zero();
-  //     for (int i = 0; i < 3; i++) {
-  //       if (i < p1.rows()) p1_3d(i) = p1(i);
-  //       if (i < p2.rows()) p2_3d(i) = p2(i);
-  //     }
-  //     p2_3d = rot.matrix() * p2_3d + p1_3d;
-  //     Ogre::Vector3 op2(p2_3d(0), p2_3d(1), p2_3d(2));
-  //       std::shared_ptr<rviz::Arrow> sp =
-  //           std::dynamic_pointer_cast<rviz::Arrow>(vel_arrows_.at(i));
-  //       setShapeFromPosePair(op1, op2, 0.5 * thickness_, sp.get());
-  //   }
-  //   if (acc_on_) {
-  //     p2 = evaluate(dtt, 2);
-  //     Eigen::Vector3d p1_3d = Eigen::Vector3d::Zero();
-  //     Eigen::Vector3d p2_3d = Eigen::Vector3d::Zero();
-  //     for (int i = 0; i < 3; i++) {
-  //       if (i < p1.rows()) p1_3d(i) = p1(i);
-  //       if (i < p2.rows()) p2_3d(i) = p2(i);
-  //     }
+    // velocity
+    if (vel_on_) {
+      p2 = evaluate(dtt, 1);
+      Eigen::Vector3d p1_3d = Eigen::Vector3d::Zero();
+      Eigen::Vector3d p2_3d = Eigen::Vector3d::Zero();
+      for (int i = 0; i < 3; i++) {
+        if (i < p1.rows()) p1_3d(i) = p1(i);
+        if (i < p2.rows()) p2_3d(i) = p2(i);
+      }
+      p2_3d = rot.matrix() * p2_3d + p1_3d;
+      Ogre::Vector3 op2(p2_3d(0), p2_3d(1), p2_3d(2));
+      std::shared_ptr<rviz::Arrow> sp =
+          std::dynamic_pointer_cast<rviz::Arrow>(vel_arrows_.at(i));
+      setShapeFromPosePair(op1, op2, 0.5 * thickness_, sp.get());
+    }
+    if (acc_on_) {
+      p2 = evaluate(dtt, 2);
+      Eigen::Vector3d p1_3d = Eigen::Vector3d::Zero();
+      Eigen::Vector3d p2_3d = Eigen::Vector3d::Zero();
+      for (int i = 0; i < 3; i++) {
+        if (i < p1.rows()) p1_3d(i) = p1(i);
+        if (i < p2.rows()) p2_3d(i) = p2(i);
+      }
 
-  //     p2_3d = rot.matrix() * p2_3d + p1_3d;
-  //     Ogre::Vector3 op2(p2_3d(0), p2_3d(1), p2_3d(2));
-  //       std::shared_ptr<rviz::Arrow> sp =
-  //           std::dynamic_pointer_cast<rviz::Arrow>(acc_arrows_.at(i));
-  //       setShapeFromPosePair(op1, op2, 0.5 * thickness_, sp.get());
-  //   }
-  // }
+      p2_3d = rot.matrix() * p2_3d + p1_3d;
+      Ogre::Vector3 op2(p2_3d(0), p2_3d(1), p2_3d(2));
+      std::shared_ptr<rviz::Arrow> sp =
+          std::dynamic_pointer_cast<rviz::Arrow>(acc_arrows_.at(i));
+      setShapeFromPosePair(op1, op2, 0.5 * thickness_, sp.get());
+    }
+  }
 }
 
 void SplineTrajectoryVisual::setMessage(
@@ -273,6 +272,17 @@ void SplineTrajectoryVisual::setShapeFromPosePair(const Ogre::Vector3& p0,
   shape->setDirection(n);
 }
 
+std::vector<float> SplineTrajectoryVisual::differentiate(
+    const std::vector<float>& p) const {
+  if (p.size() < 2) return std::vector<float>();
+  std::vector<float> v;
+  for (int i = 1; i < p.size(); i++) {
+    double val = static_cast<float>(i);
+    v.push_back(p[i] * val);
+  }
+  return v;
+}
+
 Eigen::VectorXd SplineTrajectoryVisual::evaluate(double t,
                                                  uint deriv_num) const {
   // TODO(laura) make work for derivatives
@@ -282,11 +292,15 @@ Eigen::VectorXd SplineTrajectoryVisual::evaluate(double t,
     auto spline = traj_->data[dim];
     double dt = 0;
     for (auto poly : spline.segs) {
-      result(dim) = poly.coeffs[0];
+      auto poly_coeffs = poly.coeffs;
+      for (int d = 0; d < deriv_num; d++) {
+        poly_coeffs = differentiate(poly_coeffs);
+      }
+      result(dim) = poly_coeffs[0];
 
       if (t < dt + poly.dt || poly == spline.segs.back()) {
-        for (int j = 1; j < poly.coeffs.size(); j++) {
-          result(dim) += poly.coeffs[j] * std::pow((t - dt) / poly.dt, j);
+        for (int j = 1; j < poly_coeffs.size(); j++) {
+          result(dim) += poly_coeffs[j] * std::pow((t - dt) / poly.dt, j);
         }
         break;
       }

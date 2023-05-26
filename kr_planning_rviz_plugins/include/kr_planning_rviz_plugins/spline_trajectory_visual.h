@@ -79,6 +79,7 @@ class SplineTrajectoryVisual {
   std::vector<std::shared_ptr<rviz::Object> > trajectory_lines_;
   std::vector<std::shared_ptr<rviz::Shape> > trajectory_balls_;
   Eigen::VectorXd evaluate(double t, uint deriv_num) const;
+  std::vector<float> differentiate(const std::vector<float>& p) const;
 
   double thickness_{0.1};
   int num_traj_points_{50};
