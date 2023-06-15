@@ -1,0 +1,19 @@
+<launch>
+
+  <node pkg="kr_planning_msgs_utils"
+    type="image_to_map"
+    name="image_to_map"
+    output="screen">
+    <remap from="~voxel_map" to="voxel_map"/>
+    <param name="file" value="$(find kr_planning_msgs_utils)/data/multi_gap.png"/>
+    <param name="resolution" value="0.1"/>
+    <param name="frame_id" value="map"/>
+    <param name="origin_x" value="0"/>
+    <param name="origin_y" value="0"/>
+    <param name="origin_z" value="0"/>
+  </node>
+
+   <!-- <node pkg="rosbag" type="record" name="rosbag_record"
+       args="record -O $(find kr_planning_msgs_utils)/data/image_to_map_test /voxel_map"/> -->
+
+</launch>
