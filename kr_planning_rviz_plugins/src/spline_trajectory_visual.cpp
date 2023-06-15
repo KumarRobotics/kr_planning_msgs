@@ -112,10 +112,7 @@ void SplineTrajectoryVisual::setAccScale(float s) {
 std::vector<Eigen::VectorXd> SplineTrajectoryVisual::sample(
     const kr_planning_msgs::SplineTrajectory& msg, int N, int deriv_num) {
   std::vector<Eigen::VectorXd> ps(N + 1);
-  double total_time = 0;
-  for (const auto& spline : msg.data) {
-    total_time += spline.t_total;
-  }
+  double total_time = msg.data.front().t_total;
   double dt = total_time / N;
   for (int i = 0; i <= N; i++) ps.at(i) = evaluate(msg, i * dt, deriv_num);
 
