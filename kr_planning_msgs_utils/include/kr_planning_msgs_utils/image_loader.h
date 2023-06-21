@@ -159,7 +159,7 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp,
           double ratio = (occ - free_th) / (occ_th - free_th);
           value = 99 * ratio;
         }
-
+        if (m == 0 || m == resp.dim.z - 1) value = +100;//planning taking shortcuts above and below obstacles
         resp.data[MAP_IDX(resp.dim.x, resp.dim.y, i, resp.dim.y - j - 1, m)] =
             value;
       }
