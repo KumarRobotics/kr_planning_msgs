@@ -44,20 +44,27 @@
 #include <SDL/SDL_image.h>
 
 // Use Bullet's Quaternion object to create one from Euler angles
-//#include <LinearMath/btQuaternion.h>
+// #include <LinearMath/btQuaternion.h>
 
-//#include "map_server/image_loader.h"
+// #include "map_server/image_loader.h"
 
 // compute linear index for given map coords
-#define MAP_IDX(sx, i, j) ((sx) * (j) + (i))
+#define MAP_IDX(sx, sy, i, j, k) (sy * sx * k + (sx) * (j) + (i))
+// xi + dim.x * yi + zi * dim.x * dim.y
+//  #define MAP_IDX(sx, i, j) ((sx) * (j) + (i))
 
 enum MapMode { TRINARY, SCALE, RAW };
 
 namespace map_server {
 
-void loadMapFromFile(kr_planning_msgs::VoxelMap& resp, const char* fname,
-                     double res, bool negate, double occ_th, double free_th,
-                     double* origin, MapMode mode) {
+void loadMapFromFile(kr_planning_msgs::VoxelMap& resp,
+                     const char* fname,
+                     double res,
+                     bool negate,
+                     double occ_th,
+                     double free_th,
+                     double* origin,
+                     MapMode mode) {
   SDL_Surface* img;
 
   unsigned char* pixels;
@@ -82,7 +89,7 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp, const char* fname,
   // Copy the image data into the map structure
   resp.dim.x = img->w;
   resp.dim.y = img->h;
-  resp.dim.z = 1;
+  resp.dim.z = 100;
   resp.resolution = res;
   resp.origin.x = *(origin);
   resp.origin.y = *(origin + 1);
@@ -97,7 +104,7 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp, const char* fname,
            resp->map.info.origin.orientation.w = q.w();
            */
   // Allocate space to hold the data
-  resp.data.resize(resp.dim.x * resp.dim.y);
+  resp.data.resize(resp.dim.x * resp.dim.y * resp.dim.z);
 
   // Get values that we'll need to iterate through the pixels
   rowstride = img->pitch;
@@ -112,46 +119,50 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp, const char* fname,
 
   // Copy pixel data into the map structure
   pixels = (unsigned char*)(img->pixels);
-  for (j = 0; j < resp.dim.y; j++) {
-    for (i = 0; i < resp.dim.x; i++) {
-      // Compute mean of RGB for this pixel
-      p = pixels + j * rowstride + i * n_channels;
-      color_sum = 0;
-      for (k = 0; k < avg_channels; k++) color_sum += *(p + (k));
-      color_avg = color_sum / (double)avg_channels;
+  for (int m = 0; m < resp.dim.z; m++) {
+    for (j = 0; j < resp.dim.y; j++) {
+      for (i = 0; i < resp.dim.x; i++) {
+        // Compute mean of RGB for this pixel
+        p = pixels + j * rowstride + i * n_channels;
+        color_sum = 0;
+        for (k = 0; k < avg_channels; k++) color_sum += *(p + (k));
+        color_avg = color_sum / (double)avg_channels;
 
-      if (n_channels == 1)
-        alpha = 1;
-      else
-        alpha = *(p + n_channels - 1);
+        if (n_channels == 1)
+          alpha = 1;
+        else
+          alpha = *(p + n_channels - 1);
 
-      if (negate) color_avg = 255 - color_avg;
+        if (negate) color_avg = 255 - color_avg;
 
-      if (mode == RAW) {
-        value = color_avg;
-        resp.data[MAP_IDX(resp.dim.x, i, resp.dim.y - j - 1)] = value;
-        continue;
+        if (mode == RAW) {
+          value = color_avg;
+          resp.data[MAP_IDX(resp.dim.x, resp.dim.y, i, resp.dim.y - j - 1, m)] =
+              value;
+          continue;
+        }
+
+        // If negate is true, we consider blacker pixels free, and whiter
+        // pixels occupied.  Otherwise, it's vice versa.
+        occ = (255 - color_avg) / 255.0;
+
+        // Apply thresholds to RGB means to determine occupancy values for
+        // map.  Note that we invert the graphics-ordering of the pixels to
+        // produce a map with cell (0,0) in the lower-left corner.
+        if (occ > occ_th)
+          value = +100;
+        else if (occ < free_th)
+          value = 0;
+        else if (mode == TRINARY || alpha < 1.0)
+          value = -1;
+        else {
+          double ratio = (occ - free_th) / (occ_th - free_th);
+          value = 99 * ratio;
+        }
+
+        resp.data[MAP_IDX(resp.dim.x, resp.dim.y, i, resp.dim.y - j - 1, m)] =
+            value;
       }
-
-      // If negate is true, we consider blacker pixels free, and whiter
-      // pixels occupied.  Otherwise, it's vice versa.
-      occ = (255 - color_avg) / 255.0;
-
-      // Apply thresholds to RGB means to determine occupancy values for
-      // map.  Note that we invert the graphics-ordering of the pixels to
-      // produce a map with cell (0,0) in the lower-left corner.
-      if (occ > occ_th)
-        value = +100;
-      else if (occ < free_th)
-        value = 0;
-      else if (mode == TRINARY || alpha < 1.0)
-        value = -1;
-      else {
-        double ratio = (occ - free_th) / (occ_th - free_th);
-        value = 99 * ratio;
-      }
-
-      resp.data[MAP_IDX(resp.dim.x, i, resp.dim.y - j - 1)] = value;
     }
   }
 
