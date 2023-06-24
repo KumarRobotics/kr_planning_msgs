@@ -87,9 +87,11 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp,
   }
 
   // Copy the image data into the map structure
-  resp.dim.x = img->w;
-  resp.dim.y = img->h;
-  resp.dim.z = 100;
+  resp.dim.x = int(20/res);//img->w;
+  resp.dim.y = int(10/res);//img->h;
+  double ratio_map_to_img_x = img->w / resp.dim.x;
+  double ratio_map_to_img_y = img->h / resp.dim.y;
+  resp.dim.z = int(10/res);
   resp.resolution = res;
   resp.origin.x = *(origin);
   resp.origin.y = *(origin + 1);
@@ -122,8 +124,10 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp,
   for (int m = 0; m < resp.dim.z; m++) {
     for (j = 0; j < resp.dim.y; j++) {
       for (i = 0; i < resp.dim.x; i++) {
+        int j_px = int(j * ratio_map_to_img_y);
+        int i_px = int(i * ratio_map_to_img_x);
         // Compute mean of RGB for this pixel
-        p = pixels + j * rowstride + i * n_channels;
+        p = pixels + j_px * rowstride + i_px * n_channels;
         color_sum = 0;
         for (k = 0; k < avg_channels; k++) color_sum += *(p + (k));
         color_avg = color_sum / (double)avg_channels;
@@ -145,7 +149,7 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp,
         // If negate is true, we consider blacker pixels free, and whiter
         // pixels occupied.  Otherwise, it's vice versa.
         occ = (255 - color_avg) / 255.0;
-
+        if (m == 0) std::cout << "occ: " << occ << std::endl;
         // Apply thresholds to RGB means to determine occupancy values for
         // map.  Note that we invert the graphics-ordering of the pixels to
         // produce a map with cell (0,0) in the lower-left corner.
@@ -159,7 +163,7 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp,
           double ratio = (occ - free_th) / (occ_th - free_th);
           value = 99 * ratio;
         }
-        if (m == 0 || m == resp.dim.z - 1) value = +100;//planning taking shortcuts above and below obstacles
+        // if (m == 0 || m == resp.dim.z - 1) value = +100;//planning taking shortcuts above and below obstacles
         resp.data[MAP_IDX(resp.dim.x, resp.dim.y, i, resp.dim.y - j - 1, m)] =
             value;
       }
