@@ -38,7 +38,7 @@ class SplineTrajectoryVisual {
   Eigen::VectorXd evaluate(const kr_planning_msgs::SplineTrajectory& msg,
                            double t,
                            uint deriv_num) const;
-  std::vector<float> differentiate(const std::vector<float>& p) const;
+  std::vector<float> differentiate(const std::vector<float>& p, float segment_time) const;
 
  private:
   std::vector<std::unique_ptr<rviz::BillboardLine>> poss_;

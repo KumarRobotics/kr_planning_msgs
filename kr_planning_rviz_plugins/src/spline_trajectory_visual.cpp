@@ -120,11 +120,11 @@ std::vector<Eigen::VectorXd> SplineTrajectoryVisual::sample(
 }
 
 std::vector<float> SplineTrajectoryVisual::differentiate(
-    const std::vector<float>& p) const {
+    const std::vector<float>& p, float segment_time) const {
   if (p.size() < 2) return std::vector<float>();
   std::vector<float> v;
   for (int i = 1; i < p.size(); i++) {
-    v.push_back(p[i] * static_cast<float>(i));
+    v.push_back(p[i] * static_cast<float>(i) / segment_time);
   }
   return v;
 }
@@ -141,7 +141,7 @@ Eigen::VectorXd SplineTrajectoryVisual::evaluate(
     for (auto poly : spline.segs) {
       auto poly_coeffs = poly.coeffs;
       for (int d = 0; d < deriv_num; d++) {
-        poly_coeffs = differentiate(poly_coeffs);
+        poly_coeffs = differentiate(poly_coeffs, poly.dt);
       }
       result(dim) = poly_coeffs[0];
 
