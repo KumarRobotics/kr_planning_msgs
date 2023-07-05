@@ -7,4 +7,6 @@ float64[] thrust
 geometry_msgs/Point[] moment
 float64[] t
 int32 N
+geometry_msgs/Quaternion inital_attitude
+geometry_msgs/Point initial_omega
 
