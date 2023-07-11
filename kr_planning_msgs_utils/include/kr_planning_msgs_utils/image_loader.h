@@ -91,7 +91,7 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp,
   resp.dim.y = int(10/res);//img->h;
   double ratio_map_to_img_x = img->w / resp.dim.x;
   double ratio_map_to_img_y = img->h / resp.dim.y;
-  resp.dim.z = int(10/res);
+  resp.dim.z = int(1/res);//give it some room for polytope to be not too close to edge
   resp.resolution = res;
   resp.origin.x = *(origin);
   resp.origin.y = *(origin + 1);
