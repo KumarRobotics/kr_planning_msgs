@@ -149,7 +149,6 @@ void loadMapFromFile(kr_planning_msgs::VoxelMap& resp,
         // If negate is true, we consider blacker pixels free, and whiter
         // pixels occupied.  Otherwise, it's vice versa.
         occ = (255 - color_avg) / 255.0;
-        if (m == 0) std::cout << "occ: " << occ << std::endl;
         // Apply thresholds to RGB means to determine occupancy values for
         // map.  Note that we invert the graphics-ordering of the pixels to
         // produce a map with cell (0,0) in the lower-left corner.
