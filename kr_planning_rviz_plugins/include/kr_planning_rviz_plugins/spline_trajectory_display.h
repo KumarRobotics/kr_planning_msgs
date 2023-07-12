@@ -4,6 +4,7 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <kr_planning_msgs/SplineTrajectory.h>
+#include <kr_planning_rviz_plugins/spline_trajectory_visual.h>
 #include <rviz/frame_manager.h>
 #include <rviz/load_resource.h>
 #include <rviz/message_filter_display.h>
@@ -12,8 +13,6 @@
 #include <rviz/properties/float_property.h>
 #include <rviz/properties/int_property.h>
 #include <rviz/visualization_manager.h>
-
-#include "spline_trajectory_visual.h"
 
 namespace kr {
 class SplineTrajectoryDisplay
@@ -32,21 +31,14 @@ class SplineTrajectoryDisplay
   void updatePosColorAndAlpha();
   void updateVelColorAndAlpha();
   void updateAccColorAndAlpha();
-  void updateJrkColorAndAlpha();
-  void updateYawColorAndAlpha();
   void updatePosScale();
   void updateVelScale();
   void updateAccScale();
-  void updateJrkScale();
-  void updateYawScale();
-  void updateYawTriangleScale();
-  void updateYawTriangleAngle();
   void updateVelVis();
   void updateAccVis();
   void updateJrkVis();
   void updateYawVis();
   void updateNum();
-  void updateYawNum();
 
  private:
   void processMessage(const kr_planning_msgs::SplineTrajectory::ConstPtr& msg);
@@ -70,6 +62,5 @@ class SplineTrajectoryDisplay
   kr_planning_msgs::SplineTrajectory trajectory_;
 };
 }  // namespace kr
-
 
 #endif  // MAP_PLAN_PLANNING_ROS_UTILS_SRC_PLANNING_RVIZ_PLUGINS_SPLINE_TRAJECTORY_DISPLAY_H_

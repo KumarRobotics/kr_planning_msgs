@@ -35,10 +35,10 @@ class SplineTrajectoryVisual {
   void setAccVis(bool vis);
   std::vector<Eigen::VectorXd> sample(
       const kr_planning_msgs::SplineTrajectory& msg, int N, int deriv_num);
-  Eigen::VectorXd evaluate(const kr_planning_msgs::SplineTrajectory& msg,
+  static Eigen::VectorXd evaluate(const kr_planning_msgs::SplineTrajectory& msg,
                            double t,
-                           uint deriv_num) const;
-  std::vector<float> differentiate(const std::vector<float>& p, float segment_time) const;
+                           uint deriv_num);
+  static std::vector<float> differentiate(const std::vector<float>& p, float segment_time);
 
  private:
   std::vector<std::unique_ptr<rviz::BillboardLine>> poss_;

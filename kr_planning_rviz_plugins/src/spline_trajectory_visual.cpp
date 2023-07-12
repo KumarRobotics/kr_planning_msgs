@@ -120,7 +120,7 @@ std::vector<Eigen::VectorXd> SplineTrajectoryVisual::sample(
 }
 
 std::vector<float> SplineTrajectoryVisual::differentiate(
-    const std::vector<float>& p, float segment_time) const {
+    const std::vector<float>& p, float segment_time) {
   if (p.size() < 2) return std::vector<float>();
   std::vector<float> v;
   for (int i = 1; i < p.size(); i++) {
@@ -132,7 +132,7 @@ std::vector<float> SplineTrajectoryVisual::differentiate(
 Eigen::VectorXd SplineTrajectoryVisual::evaluate(
     const kr_planning_msgs::SplineTrajectory& msg,
     double t,
-    uint deriv_num) const {
+    uint deriv_num) {
   Eigen::VectorXd result(msg.dimensions);
 
   for (int dim = 0; dim < msg.dimensions; dim++) {

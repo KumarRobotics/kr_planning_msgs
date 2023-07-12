@@ -1,6 +1,7 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <kr_planning_msgs/Trajectory.h>
+#include <kr_planning_rviz_plugins/trajectory_visual.h>
 #include <rviz/frame_manager.h>
 #include <rviz/load_resource.h>
 #include <rviz/message_filter_display.h>
@@ -9,8 +10,6 @@
 #include <rviz/properties/float_property.h>
 #include <rviz/properties/int_property.h>
 #include <rviz/visualization_manager.h>
-
-#include "trajectory_visual.h"
 
 namespace kr {
 class TrajectoryDisplay
