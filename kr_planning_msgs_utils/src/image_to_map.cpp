@@ -28,22 +28,26 @@
  */
 
 /* Author: Brian Gerkey */
-//TODO(Laura) move somewhere that makes more sense
+// TODO(Laura) move somewhere that makes more sense
 
+#include <kr_planning_msgs_utils/image_loader.h>
+#include <kr_planning_rviz_plugins/data_ros_utils.h>
+#include <kr_planning_rviz_plugins/map_util.h>
 #include <libgen.h>
+#include <ros/ros.h>
+#include <sensor_msgs/PointCloud2.h>
+#include <sensor_msgs/point_cloud_conversion.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include <fstream>
-
-#include <kr_planning_msgs_utils/image_loader.h>
-#include <ros/ros.h>
-
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   ros::init(argc, argv, "create_map", ros::init_options::AnonymousName);
   ros::NodeHandle nh("~");
   ros::Publisher map_pub =
       nh.advertise<kr_planning_msgs::VoxelMap>("voxel_map", 1, true);
+  ros::Publisher cloud_pub =
+      nh.advertise<sensor_msgs::PointCloud2>("cloud", 1, true);
 
   std::string mapfname;
   double origin[3];
@@ -68,8 +72,8 @@ int main(int argc, char **argv) {
   ROS_INFO("Loading map from image \"%s\"", mapfname.c_str());
   kr_planning_msgs::VoxelMap map_resp;
   try {
-    map_server::loadMapFromFile(map_resp, mapfname.c_str(), res, negate, occ_th,
-                                free_th, origin, mode);
+    map_server::loadMapFromFile(
+        map_resp, mapfname.c_str(), res, negate, occ_th, free_th, origin, mode);
   } catch (std::runtime_error e) {
     ROS_ERROR("%s", e.what());
     exit(-1);
@@ -77,12 +81,24 @@ int main(int argc, char **argv) {
   // To make sure get a consistent time in simulation
   map_resp.header.frame_id = frame_id;
   map_resp.header.stamp = ros::Time::now();
-  ROS_INFO("Read a %.1f X %.1f map @ %.3lf m/cell", map_resp.dim.x,
-           map_resp.dim.y, map_resp.resolution);
-
+  ROS_INFO("Read a %.1f X %.1f map @ %.3lf m/cell",
+           map_resp.dim.x,
+           map_resp.dim.y,
+           map_resp.resolution);
   // Latched publisher for data
   map_pub.publish(map_resp);
 
+  kr::VoxelMapUtil map_util;
+  Vec3f ori(map_resp.origin.x, map_resp.origin.y, map_resp.origin.z);
+  Vec3i dim(map_resp.dim.x, map_resp.dim.y, map_resp.dim.z);
+  std::vector<signed char> map = map_resp.data;
+  map_util.setMap(ori, dim, map, res);
+  auto cloud = kr::vec_to_cloud(map_util.getCloud());
+  cloud.header = map_resp.header;
+  sensor_msgs::PointCloud2 cloud2;
+  sensor_msgs::convertPointCloudToPointCloud2(cloud, cloud2);
+
+  cloud_pub.publish(cloud2);
   ros::spin();
 
   return 0;

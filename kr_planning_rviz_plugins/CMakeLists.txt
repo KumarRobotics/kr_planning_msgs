@@ -28,7 +28,8 @@ set(QT_LIBRARIES Qt5::Widgets)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME} kr_planning_utils
-  CATKIN_DEPENDS kr_planning_msgs)
+  CATKIN_DEPENDS kr_planning_msgs
+  DEPENDS EIGEN3)
 
 add_library(kr_planning_utils src/utils/data_ros_utils.cpp src/utils/map_util.cpp)
 target_include_directories(kr_planning_utils PUBLIC ${catkin_INCLUDE_DIRS}

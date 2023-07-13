@@ -13,6 +13,8 @@
   <depend>kr_planning_msgs</depend>
   <depend>sdl</depend>
   <depend>sdl-image</depend>
+  <depend>kr_planning_rviz_plugins</depend>
+  <depend>sensor_msgs</depend>
 
   
   <export>

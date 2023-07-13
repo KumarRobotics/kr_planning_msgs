@@ -5,6 +5,7 @@
     name="image_to_map"
     output="screen">
     <remap from="~voxel_map" to="voxel_map"/>
+    <remap from="~cloud" to="cloud"/>
     <param name="file" value="$(find kr_planning_msgs_utils)/data/balls.png"/>
     <param name="resolution" value="0.25"/>
     <param name="frame_id" value="map"/>
