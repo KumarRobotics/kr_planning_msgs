@@ -28,6 +28,7 @@ geometry_msgs/Pose traj_end
 duration execution_time # time to execute trajectory
 int64 epoch
 int64 policy_status
+float32 computation_time
 ---
 # Action feedback
 duration computation_time
