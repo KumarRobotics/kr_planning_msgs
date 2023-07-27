@@ -29,6 +29,8 @@ duration execution_time # time to execute trajectory
 int64 epoch
 int64 policy_status
 float32 computation_time
+float32 compute_time_front_end
+float32 compute_time_back_end
 ---
 # Action feedback
 duration computation_time

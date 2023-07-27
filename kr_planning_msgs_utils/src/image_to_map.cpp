@@ -39,17 +39,21 @@
 #include <sensor_msgs/point_cloud_conversion.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <filesystem>
 
 #include <fstream>
 int main(int argc, char** argv) {
   ros::init(argc, argv, "create_map", ros::init_options::AnonymousName);
   ros::NodeHandle nh("~");
+
+  ros::Rate loop_rate(0.2);
+
   ros::Publisher map_pub =
       nh.advertise<kr_planning_msgs::VoxelMap>("voxel_map", 1, true);
   ros::Publisher cloud_pub =
       nh.advertise<sensor_msgs::PointCloud2>("cloud", 1, true);
 
-  std::string mapfname;
+  std::string mapfpath;
   double origin[3];
   int negate;
   double occ_th, free_th;
@@ -67,39 +71,88 @@ int main(int argc, char** argv) {
   nh.param("origin_y", origin[1], 0.0);
   nh.param("origin_z", origin[2], 0.0);
 
-  nh.param("file", mapfname, std::string(""));
-
-  ROS_INFO("Loading map from image \"%s\"", mapfname.c_str());
-  kr_planning_msgs::VoxelMap map_resp;
-  try {
-    map_server::loadMapFromFile(
-        map_resp, mapfname.c_str(), res, negate, occ_th, free_th, origin, mode);
-  } catch (std::runtime_error e) {
-    ROS_ERROR("%s", e.what());
-    exit(-1);
+  nh.param("file_path", mapfpath, std::string(""));
+  
+  while (ros::ok() && map_pub.getNumSubscribers() == 0) {
+    ROS_INFO("Waiting for subscriber to connect to %s",
+             map_pub.getTopic().c_str());
+    ros::Duration(0.1).sleep();
   }
-  // To make sure get a consistent time in simulation
-  map_resp.header.frame_id = frame_id;
-  map_resp.header.stamp = ros::Time::now();
-  ROS_INFO("Read a %.1f X %.1f map @ %.3lf m/cell",
-           map_resp.dim.x,
-           map_resp.dim.y,
-           map_resp.resolution);
-  // Latched publisher for data
-  map_pub.publish(map_resp);
 
-  kr::VoxelMapUtil map_util;
-  Vec3f ori(map_resp.origin.x, map_resp.origin.y, map_resp.origin.z);
-  Vec3i dim(map_resp.dim.x, map_resp.dim.y, map_resp.dim.z);
-  std::vector<signed char> map = map_resp.data;
-  map_util.setMap(ori, dim, map, res);
-  auto cloud = kr::vec_to_cloud(map_util.getCloud());
-  cloud.header = map_resp.header;
-  sensor_msgs::PointCloud2 cloud2;
-  sensor_msgs::convertPointCloudToPointCloud2(cloud, cloud2);
+  // iterate through the files in mapfpath and load them and populate map_resp with data
+  for (auto& p : std::filesystem::directory_iterator(mapfpath)) {
+    std::cout << p.path() << std::endl;
+    kr_planning_msgs::VoxelMap map_resp;
+    try {
+      map_server::loadMapFromFile(
+          map_resp, p.path().c_str(), res, negate, occ_th, free_th, origin, mode);
+    } catch (std::runtime_error e) {
+      ROS_ERROR("%s", e.what());
+      exit(-1);
+    }
+    // To make sure get a consistent time in simulation
+    map_resp.header.frame_id = frame_id;
+    map_resp.header.stamp = ros::Time::now();
+    ROS_INFO("Read a %.1f X %.1f map @ %.3lf m/cell",
+             map_resp.dim.x,
+             map_resp.dim.y,
+             map_resp.resolution);
+    // Latched publisher for data
+    map_pub.publish(map_resp);
 
-  cloud_pub.publish(cloud2);
-  ros::spin();
+    kr::VoxelMapUtil map_util;
+    Vec3f ori(map_resp.origin.x, map_resp.origin.y, map_resp.origin.z);
+    Vec3i dim(map_resp.dim.x, map_resp.dim.y, map_resp.dim.z);
+    std::vector<signed char> map = map_resp.data;
+    map_util.setMap(ori, dim, map, res);
+    auto cloud = kr::vec_to_cloud(map_util.getCloud());
+    cloud.header = map_resp.header;
+    sensor_msgs::PointCloud2 cloud2;
+    sensor_msgs::convertPointCloudToPointCloud2(cloud, cloud2);
 
+    cloud_pub.publish(cloud2);
+    ros::spinOnce();
+    loop_rate.sleep();
+  }
   return 0;
 }
+
+
+
+  // ROS_INFO("Loading map from directory \"%s\"", mapfpath.c_str());
+
+  // while (ros::ok()){
+
+  // }
+  // kr_planning_msgs::VoxelMap map_resp;
+  // try {
+  //   map_server::loadMapFromFile(
+  //       map_resp, mapfpath.c_str(), res, negate, occ_th, free_th, origin, mode);
+  // } catch (std::runtime_error e) {
+  //   ROS_ERROR("%s", e.what());
+  //   exit(-1);
+  // }
+  // // To make sure get a consistent time in simulation
+  // map_resp.header.frame_id = frame_id;
+  // map_resp.header.stamp = ros::Time::now();
+  // ROS_INFO("Read a %.1f X %.1f map @ %.3lf m/cell",
+  //          map_resp.dim.x,
+  //          map_resp.dim.y,
+  //          map_resp.resolution);
+  // // Latched publisher for data
+  // map_pub.publish(map_resp);
+
+  // kr::VoxelMapUtil map_util;
+  // Vec3f ori(map_resp.origin.x, map_resp.origin.y, map_resp.origin.z);
+  // Vec3i dim(map_resp.dim.x, map_resp.dim.y, map_resp.dim.z);
+  // std::vector<signed char> map = map_resp.data;
+  // map_util.setMap(ori, dim, map, res);
+  // auto cloud = kr::vec_to_cloud(map_util.getCloud());
+  // cloud.header = map_resp.header;
+  // sensor_msgs::PointCloud2 cloud2;
+  // sensor_msgs::convertPointCloudToPointCloud2(cloud, cloud2);
+
+  // cloud_pub.publish(cloud2);
+  // ros::spin();
+
+  // return 0;

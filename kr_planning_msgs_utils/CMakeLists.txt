@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(kr_planning_msgs_utils)
 
+set(CMAKE_CXX_STANDARD 17)
+
 find_package(catkin REQUIRED COMPONENTS 
               roscpp 
               kr_planning_msgs
