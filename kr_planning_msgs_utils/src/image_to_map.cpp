@@ -47,9 +47,9 @@ int main(int argc, char** argv) {
   ros::NodeHandle nh("~");
 
   ros::Rate loop_rate(0.2);
-
-  ros::Publisher map_pub =
-      nh.advertise<kr_planning_msgs::VoxelMap>("voxel_map", 1, true);
+  //Yifei: No longer publishing voxel from this node, moved to mapper node
+  // ros::Publisher map_pub =
+  //     nh.advertise<kr_planning_msgs::VoxelMap>("voxel_map", 1, true);
   ros::Publisher cloud_pub =
       nh.advertise<sensor_msgs::PointCloud2>("cloud", 1, true);
 
@@ -73,9 +73,9 @@ int main(int argc, char** argv) {
 
   nh.param("file_path", mapfpath, std::string(""));
   
-  while (ros::ok() && map_pub.getNumSubscribers() == 0) {
+  while (ros::ok() && cloud_pub.getNumSubscribers() == 0) {
     ROS_INFO("Waiting for subscriber to connect to %s",
-             map_pub.getTopic().c_str());
+             cloud_pub.getTopic().c_str());
     ros::Duration(0.1).sleep();
   }
   while (ros::ok()){
@@ -100,7 +100,7 @@ int main(int argc, char** argv) {
                 map_resp.dim.y,
                 map_resp.resolution);
         // Latched publisher for data
-        map_pub.publish(map_resp);
+        // map_pub.publish(map_resp);
 
         kr::VoxelMapUtil map_util;
         Vec3f ori(map_resp.origin.x, map_resp.origin.y, map_resp.origin.z);
