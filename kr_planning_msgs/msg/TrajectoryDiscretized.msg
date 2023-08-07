@@ -3,6 +3,7 @@ Header header
 geometry_msgs/Point[] pos
 geometry_msgs/Point[] vel
 geometry_msgs/Point[] acc
+float64[] yaw
 float64[] thrust
 geometry_msgs/Point[] moment
 float64[] t
