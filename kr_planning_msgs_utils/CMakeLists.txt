@@ -7,11 +7,12 @@ find_package(catkin REQUIRED COMPONENTS
               roscpp 
               kr_planning_msgs
               kr_planning_rviz_plugins
-              sensor_msgs)
+              sensor_msgs
+              std_srvs)
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
 
-catkin_package(CATKIN_DEPENDS roscpp kr_planning_msgs sensor_msgs kr_planning_rviz_plugins)  
+catkin_package(CATKIN_DEPENDS roscpp kr_planning_msgs sensor_msgs kr_planning_rviz_plugins std_srvs)  
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 add_executable(image_to_map src/image_to_map.cpp)
