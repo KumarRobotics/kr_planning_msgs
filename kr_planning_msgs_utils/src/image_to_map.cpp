@@ -96,7 +96,8 @@ bool image_to_map_server(std_srvs::Empty::Request& req,
     return false;
   }
   auto cloud2 = createCloud(iterator->path());
-  for (uint i = 0; i < 5; i++) {
+  for (uint i = 0; i < 5; i++) {  // publish multiple times so it is actually
+                                  // changed even when decay is on
     cloud_pub.publish(cloud2);
   }
   return true;
@@ -129,7 +130,7 @@ int main(int argc, char** argv) {
   while (ros::ok() && cloud_pub.getNumSubscribers() == 0) {
     ROS_INFO("Waiting for subscriber to connect to %s",
              cloud_pub.getTopic().c_str());
-    ros::Duration(0.1).sleep();
+    ros::Duration(0.3).sleep();
   }
   if (!service) {
     while (ros::ok()) {
@@ -149,7 +150,7 @@ int main(int argc, char** argv) {
 
   else {
     ros::ServiceServer service =
-        nh.advertiseService("/image_to_map", image_to_map_server);
+        nh.advertiseService("/gen_new_map", image_to_map_server);
     ros::spin();
   }
 
