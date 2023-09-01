@@ -31,6 +31,7 @@ int64 policy_status
 float32 computation_time
 float32 compute_time_front_end
 float32 compute_time_back_end
+float64 tracking_error
 ---
 # Action feedback
 duration computation_time
