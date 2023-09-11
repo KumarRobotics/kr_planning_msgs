@@ -28,7 +28,7 @@ geometry_msgs/Pose traj_end
 duration execution_time # time to execute trajectory
 int64 epoch
 int64 policy_status # using this for planner success details/ 0 no success, 1 front success, 2 poly gen success, 3 back success
-float32 computation_time
+float32 computation_time # used as polytope compute time
 float32 compute_time_front_end
 float32 compute_time_back_end
 float64 tracking_error
