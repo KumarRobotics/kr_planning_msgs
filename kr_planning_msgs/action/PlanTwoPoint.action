@@ -19,6 +19,7 @@ kr_planning_msgs/SplineTrajectory last_traj
 bool success
 bool killed
 kr_planning_msgs/Path path
+kr_planning_msgs/SplineTrajectory search_traj
 kr_planning_msgs/SplineTrajectory traj
 geometry_msgs/Pose[] p_stop
 geometry_msgs/Twist[] v_stop
