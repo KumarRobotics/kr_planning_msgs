@@ -1,0 +1,20 @@
+# Action goal
+geometry_msgs/Pose p_init
+geometry_msgs/Pose p_final
+---
+# Action result
+bool success
+float64[] time_vec
+geometry_msgs/Pose[] pose # trajectory of position and velocity in world frame
+geometry_msgs/Twist[] twist # trajectory of velocity in world frame
+geometry_msgs/Wrench[] human_effort_world # trajectory of 
+geometry_msgs/Wrench[] robot_effort_world # trajectory of
+float64 total_time # time to execute trajectory
+geometry_msgs/Pose p_final
+---
+# Action feedback
+duration computation_time
+float32 percent_to_kill
+bool jps_done #true when JPS finishes
+bool decomp_done #true when decomposition done
+bool optim_setup_done #true when everything except gurobi solve is done
