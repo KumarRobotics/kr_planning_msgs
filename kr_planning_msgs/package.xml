@@ -18,3 +18,33 @@
   <export>
   </export>
 </package>
+
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>kr_planning_msgs</name>
+  <version>0.0.0</version>
+  <description>The kr_planning_msgs package</description>
+
+  <maintainer email="laurajar@seas.upenn.edu">Laura Jarin-Lipschitz</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- ament build system and IDL generators -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+
+  <!-- message/action interface dependencies -->
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>action_msgs</depend>
+
+  <!-- pull in the generated runtime support -->
+  <exec_depend>rosidl_default_runtime</exec_depend>
+
+  <!-- mark this as an interface‐only package -->
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
