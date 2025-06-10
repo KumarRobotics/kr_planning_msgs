@@ -4,10 +4,10 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <kr_planning_msgs/Path.h>
+#include <kr_planning_msgs/msg/path.hpp>
 #include <kr_planning_rviz_plugins/data_ros_utils.h>
-#include <rviz/ogre_helpers/billboard_line.h>
-#include <rviz/ogre_helpers/shape.h>
+#include <rviz_rendering/objects/billboard_line.hpp>
+#include <rviz_rendering/objects/shape.hpp>
 
 namespace kr {
 class PathVisual {
@@ -28,8 +28,8 @@ class PathVisual {
   void setNodeScale(float s);
 
  private:
-  std::vector<std::unique_ptr<rviz::BillboardLine>> lines_;
-  std::vector<std::unique_ptr<rviz::Shape>> nodes_;
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> lines_;
+  std::vector<std::unique_ptr<rviz_rendering::Shape>> nodes_;
 
   Ogre::SceneNode* frame_node_;
   Ogre::SceneManager* scene_manager_;

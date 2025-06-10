@@ -4,9 +4,9 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <kr_planning_msgs/PrimitiveArray.h>
+#include <kr_planning_msgs/msg/primitive_array.hpp>
 #include <kr_planning_rviz_plugins/data_type.h>
-#include <rviz/ogre_helpers/billboard_line.h>
+#include <rviz_rendering/objects/billboard_line.hpp>
 
 namespace kr {
 class PrimitiveVisual {
@@ -16,7 +16,7 @@ class PrimitiveVisual {
 
   virtual ~PrimitiveVisual();
 
-  void setMessage(const std::vector<kr_planning_msgs::Primitive>& msgs);
+  void setMessage(const std::vector<kr_planning_msgs::msg::Primitive>& msgs);
 
   void setFramePosition(const Ogre::Vector3& position);
   void setFrameOrientation(const Ogre::Quaternion& orientation);
@@ -41,11 +41,11 @@ class PrimitiveVisual {
   void setYawVis(bool vis);
 
  private:
-  std::vector<std::unique_ptr<rviz::BillboardLine>> poss_;
-  std::vector<std::unique_ptr<rviz::BillboardLine>> vels_;
-  std::vector<std::unique_ptr<rviz::BillboardLine>> accs_;
-  std::vector<std::unique_ptr<rviz::BillboardLine>> jrks_;
-  std::vector<std::unique_ptr<rviz::BillboardLine>> yaws_;
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> poss_;
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> vels_;
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> accs_;
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> jrks_;
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> yaws_;
 
   Ogre::SceneNode* frame_node_;
   Ogre::SceneManager* scene_manager_;

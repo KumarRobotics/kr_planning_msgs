@@ -1,26 +1,27 @@
 #pragma once
 
-#include <geometry_msgs/Twist.h>
-#include <kr_planning_msgs/PathArray.h>
-#include <kr_planning_msgs/Trajectory.h>
+#include <geometry_msgs/msg/twist.hpp>
+#include <kr_planning_msgs/msg/path_array.hpp>
+#include <kr_planning_msgs/msg/trajectory.hpp>
 #include <kr_planning_rviz_plugins/data_type.h>
-#include <sensor_msgs/PointCloud.h>
-#include <tf_conversions/tf_eigen.h>
+#include <sensor_msgs/msg/point_cloud.hpp>
+// #include <tf_conversions/tf_eigen.h>
+#include <tf2_eigen/tf2_eigen.hpp>
 
 #include <string>
 #include <utility>
 #include <vector>
 
 namespace kr {
-inline Vec3f pose_to_eigen(const geometry_msgs::Pose& pose) {
+inline Vec3f pose_to_eigen(const geometry_msgs::msg::Pose& pose) {
   return Vec3f(pose.position.x, pose.position.y, pose.position.z);
 }
 
-inline Vec3f twist_to_eigen(const geometry_msgs::Twist& twist) {
+inline Vec3f twist_to_eigen(const geometry_msgs::msg::Twist& twist) {
   return Vec3f(twist.linear.x, twist.linear.y, twist.linear.z);
 }
 
-inline Vec3f vec_to_eigen(const geometry_msgs::Vector3& v) {
+inline Vec3f vec_to_eigen(const geometry_msgs::msg::Vector3& v) {
   return Vec3f(v.x, v.y, v.z);
 }
 
@@ -33,17 +34,19 @@ inline vec_Vec3f vec2_to_vec3(const vec_Vec2f& pts2d, double z = 0) {
   return pts;
 }
 
-inline Aff3f toTF(const geometry_msgs::Pose& p) {
-  tf::Pose Ttf;
-  tf::poseMsgToTF(p, Ttf);
+inline Aff3f toTF(const geometry_msgs::msg::Pose& p) {
+  // tf::Pose Ttf;
+  // tf::poseMsgToTF(p, Ttf);
+  // Eigen::Affine3d Td;
+  // tf::poseTFToEigen(Ttf, Td);
   Eigen::Affine3d Td;
-  tf::poseTFToEigen(Ttf, Td);
+  tf2::fromMsg(p, Td);
   return Td.cast<double>();
 }
 
 template <int Dim>
-sensor_msgs::PointCloud vec_to_cloud(const vec_Vecf<Dim>& pts, double h = 0) {
-  sensor_msgs::PointCloud cloud;
+sensor_msgs::msg::PointCloud vec_to_cloud(const vec_Vecf<Dim>& pts, double h = 0) {
+  sensor_msgs::msg::PointCloud cloud;
   cloud.points.resize(pts.size());
 
   for (unsigned int i = 0; i < pts.size(); i++) {
@@ -54,18 +57,18 @@ sensor_msgs::PointCloud vec_to_cloud(const vec_Vecf<Dim>& pts, double h = 0) {
   return cloud;
 }
 
-vec_Vec3f cloud_to_vec(const sensor_msgs::PointCloud& cloud);
+vec_Vec3f cloud_to_vec(const sensor_msgs::msg::PointCloud& cloud);
 
-vec_Vec3f cloud_to_vec_filter(const sensor_msgs::PointCloud& cloud,
+vec_Vec3f cloud_to_vec_filter(const sensor_msgs::msg::PointCloud& cloud,
                               const double eps);
 
-vec_Vec3f ros_to_path(const kr_planning_msgs::Path& msg);
+vec_Vec3f ros_to_path(const kr_planning_msgs::msg::Path& msg);
 
 template <int Dim>
-kr_planning_msgs::Path path_to_ros(const vec_Vecf<Dim>& path, double h = 0) {
-  kr_planning_msgs::Path msg;
+kr_planning_msgs::msg::Path path_to_ros(const vec_Vecf<Dim>& path, double h = 0) {
+  kr_planning_msgs::msg::Path msg;
   for (const auto& itt : path) {
-    geometry_msgs::Point pt;
+    geometry_msgs::msg::Point pt;
     pt.x = itt(0);
     pt.y = itt(1);
     pt.z = Dim == 2 ? h : itt(2);
@@ -75,20 +78,20 @@ kr_planning_msgs::Path path_to_ros(const vec_Vecf<Dim>& path, double h = 0) {
 }
 
 template <int Dim>
-kr_planning_msgs::PathArray path_array_to_ros(const vec_E<vec_Vecf<Dim>>& paths,
+kr_planning_msgs::msg::PathArray path_array_to_ros(const vec_E<vec_Vecf<Dim>>& paths,
                                               double h = 0) {
-  kr_planning_msgs::PathArray msg;
+  kr_planning_msgs::msg::PathArray msg;
   for (const auto& it : paths) msg.paths.push_back(path_to_ros(it, h));
   return msg;
 }
 
 template <int Dim>
-kr_planning_msgs::PathArray path_array_to_ros(
+kr_planning_msgs::msg::PathArray path_array_to_ros(
     const std::vector<std::pair<std::string, vec_Vecf<Dim>>>& paths,
     double h = 0) {
-  kr_planning_msgs::PathArray msg;
+  kr_planning_msgs::msg::PathArray msg;
   for (const auto& it : paths) {
-    kr_planning_msgs::Path path_msg = path_to_ros(it.second, h);
+    kr_planning_msgs::msg::Path path_msg = path_to_ros(it.second, h);
     path_msg.name = it.first;
     msg.paths.push_back(path_msg);
   }
@@ -100,11 +103,11 @@ double v(double t, std::vector<double> c);
 double a(double t, std::vector<double> c);
 double j(double t, std::vector<double> c);
 double evaluator(double t, std::vector<double> c, int deriv_num);
-Eigen::VectorXd evaluate(const kr_planning_msgs::Trajectory& msg,
+Eigen::VectorXd evaluate(const kr_planning_msgs::msg::Trajectory& msg,
                          double t,
                          int deriv_num);
 
-std::vector<Eigen::VectorXd> sample(const kr_planning_msgs::Trajectory& msg,
+std::vector<Eigen::VectorXd> sample(const kr_planning_msgs::msg::Trajectory& msg,
                                     int N,
                                     int deriv_num);
 

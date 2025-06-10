@@ -19,7 +19,7 @@ SplineTrajectoryVisual::~SplineTrajectoryVisual() {
 }
 
 void SplineTrajectoryVisual::setMessage(
-    const kr_planning_msgs::SplineTrajectory& msg) {
+    const kr_planning_msgs::msg::SplineTrajectory& msg) {
   poss_.clear();
   vels_.clear();
   accs_.clear();
@@ -47,7 +47,7 @@ void SplineTrajectoryVisual::setMessage(
     if (i < waypoints_pos.size() - 1) {
       const auto p2 = waypoints_pos[i + 1];
       const Ogre::Vector3 pos2(p2(0), p2(1), p2(2));
-      poss_[i].reset(new rviz::BillboardLine(scene_manager_, frame_node_));
+      poss_[i].reset(new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
       poss_[i]->addPoint(pos1);
       poss_[i]->addPoint(pos2);
     }
@@ -55,7 +55,7 @@ void SplineTrajectoryVisual::setMessage(
     if (vel_vis_) {
       const Vec3f p3 = p1_pos + R * p1_vel;
       const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
-      vels_[i].reset(new rviz::BillboardLine(scene_manager_, frame_node_));
+      vels_[i].reset(new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
       vels_[i]->addPoint(pos1);
       vels_[i]->addPoint(pos3);
     }
@@ -63,7 +63,7 @@ void SplineTrajectoryVisual::setMessage(
     if (acc_vis_) {
       const Vec3f p3 = p1_pos + R * p1_acc;
       const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
-      accs_[i].reset(new rviz::BillboardLine(scene_manager_, frame_node_));
+      accs_[i].reset(new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
       accs_[i]->addPoint(pos1);
       accs_[i]->addPoint(pos3);
     }
@@ -110,7 +110,7 @@ void SplineTrajectoryVisual::setAccScale(float s) {
 }
 
 std::vector<Eigen::VectorXd> SplineTrajectoryVisual::sample(
-    const kr_planning_msgs::SplineTrajectory& msg, int N, int deriv_num) {
+    const kr_planning_msgs::msg::SplineTrajectory& msg, int N, int deriv_num) {
   std::vector<Eigen::VectorXd> ps(N + 1);
   double total_time = msg.data.front().t_total;
   double dt = total_time / N;
@@ -130,7 +130,7 @@ std::vector<float> SplineTrajectoryVisual::differentiate(
 }
 
 Eigen::VectorXd SplineTrajectoryVisual::evaluate(
-    const kr_planning_msgs::SplineTrajectory& msg,
+    const kr_planning_msgs::msg::SplineTrajectory& msg,
     double t,
     uint deriv_num) {
   Eigen::VectorXd result(msg.dimensions);

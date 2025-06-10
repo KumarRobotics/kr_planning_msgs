@@ -14,7 +14,7 @@ TrajectoryVisual::~TrajectoryVisual() {
   scene_manager_->destroySceneNode(frame_node_);
 }
 
-void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory& msg) {
+void TrajectoryVisual::setMessage(const kr_planning_msgs::msg::Trajectory& msg) {
   poss_.clear();
   vels_.clear();
   accs_.clear();
@@ -59,7 +59,7 @@ void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory& msg) {
     if (i < waypoints_pos.size() - 1) {
       const auto p2 = waypoints_pos[i + 1];
       const Ogre::Vector3 pos2(p2(0), p2(1), p2(2));
-      poss_[i].reset(new rviz::BillboardLine(scene_manager_, frame_node_));
+      poss_[i].reset(new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
       poss_[i]->addPoint(pos1);
       poss_[i]->addPoint(pos2);
     }
@@ -67,7 +67,7 @@ void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory& msg) {
     if (vel_vis_) {
       const Vec3f p3 = p1_pos + R * p1_vel;
       const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
-      vels_[i].reset(new rviz::BillboardLine(scene_manager_, frame_node_));
+      vels_[i].reset(new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
       vels_[i]->addPoint(pos1);
       vels_[i]->addPoint(pos3);
     }
@@ -75,7 +75,7 @@ void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory& msg) {
     if (acc_vis_) {
       const Vec3f p3 = p1_pos + R * p1_acc;
       const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
-      accs_[i].reset(new rviz::BillboardLine(scene_manager_, frame_node_));
+      accs_[i].reset(new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
       accs_[i]->addPoint(pos1);
       accs_[i]->addPoint(pos3);
     }
@@ -83,7 +83,7 @@ void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory& msg) {
     if (jrk_vis_) {
       const Vec3f p3 = p1_pos + R * p1_jrk;
       const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
-      jrks_[i].reset(new rviz::BillboardLine(scene_manager_, frame_node_));
+      jrks_[i].reset(new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
       jrks_[i]->addPoint(pos1);
       jrks_[i]->addPoint(pos3);
     }
@@ -91,7 +91,7 @@ void TrajectoryVisual::setMessage(const kr_planning_msgs::Trajectory& msg) {
     if (yaw_vis_) {
       Vec3f d(syaw_, 0, 0);
       for (int i = 0; i < yaw_num_; i++) {
-        yaws_[i].reset(new rviz::BillboardLine(scene_manager_, frame_node_));
+        yaws_[i].reset(new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
         const auto keyframe = waypoints_yaw[i];
         double yaw = keyframe[3];
         double yaw1 = yaw + dyaw_;

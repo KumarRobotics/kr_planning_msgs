@@ -27,11 +27,13 @@ find_package(rosidl_default_generators REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(action_msgs REQUIRED)
-
+find_package(builtin_interfaces REQUIRED)
+find_package(std_msgs REQUIRED)
 # 4) Grab all of your .msg and .action files
-file(GLOB MSG_FILES "msg/*.msg")
-file(GLOB ACTION_FILES "action/*.action")
-
+# file(GLOB MSG_FILES "msg/*.msg")
+# file(GLOB ACTION_FILES "action/*.action")
+file(GLOB MSG_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "msg/*.msg")
+file(GLOB ACTION_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "action/*.action")
 # 5) Generate ROS 2 interfaces from them
 rosidl_generate_interfaces(${PROJECT_NAME}
   ${MSG_FILES}
@@ -40,6 +42,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
     geometry_msgs
     nav_msgs
     action_msgs
+    builtin_interfaces
+    std_msgs
 )
 
 # 6) Export that we need the generated runtime library

@@ -1,14 +1,15 @@
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 #include <kr_planning_rviz_plugins/map_display.h>
+// #include <boost/make_shared.hpp>
 
 namespace kr {
 MapDisplay::MapDisplay()
-    : point_cloud_common_(new rviz::PointCloudCommon(this)) {
+    : point_cloud_common_(new rviz_default_plugins::PointCloudCommon(this)) {
   // PointCloudCommon sets up a callback queue with a thread for each
   // instance.  Use that for processing incoming messages.
 
-  state_property_ = new rviz::EnumProperty(
+  state_property_ = new rviz_common::properties::EnumProperty(
       "State",
       "Occupied",
       "Visualize voxels at three different states: "
@@ -21,25 +22,25 @@ MapDisplay::MapDisplay()
   state_property_->addOption("Bound", 3);
 
   bound_scale_property_ =
-      new rviz::FloatProperty("BoundScale",
+      new rviz_common::properties::FloatProperty("BoundScale",
                               0.1,
                               "Line width of the bounding box.",
                               this,
                               SLOT(updateBoundScale()));
 
   mesh_height_property_ =
-      new rviz::FloatProperty("MeshHeight",
+      new rviz_common::properties::FloatProperty("MeshHeight",
                               0.5,
                               "Select height to visualize mesh.",
                               this,
                               SLOT(updateMeshHeight()));
   mesh_color_property_ =
-      new rviz::ColorProperty("MeshColor",
+      new rviz_common::properties::ColorProperty("MeshColor",
                               QColor(0, 170, 255),
                               "Mesh color.",
                               this,
                               SLOT(updateMeshColorAndAlpha()));
-  mesh_alpha_property_ = new rviz::FloatProperty(
+  mesh_alpha_property_ = new rviz_common::properties::FloatProperty(
       "MeshAlpha",
       0.2,
       "0 is fully transparent, 1.0 is fully opaque, only affect mesh",
@@ -55,7 +56,7 @@ MapDisplay::MapDisplay()
 MapDisplay::~MapDisplay() { delete point_cloud_common_; }
 
 void MapDisplay::setMap(std::shared_ptr<VoxelMapUtil>& map_util,
-                        const kr_planning_msgs::VoxelMap& msg) {
+                        const kr_planning_msgs::msg::VoxelMap& msg) {
   Vec3f ori(msg.origin.x, msg.origin.y, msg.origin.z);
   Vec3i dim(msg.dim.x, msg.dim.y, msg.dim.z);
   double res = msg.resolution;
@@ -65,7 +66,7 @@ void MapDisplay::setMap(std::shared_ptr<VoxelMapUtil>& map_util,
 }
 
 void MapDisplay::getMap(std::shared_ptr<VoxelMapUtil>& map_util,
-                        kr_planning_msgs::VoxelMap& map) {
+                        kr_planning_msgs::msg::VoxelMap& map) {
   Vec3f ori = map_util->getOrigin();
   Vec3i dim = map_util->getDim();
   double res = map_util->getRes();
@@ -87,7 +88,7 @@ void MapDisplay::onInitialize() {
   point_cloud_common_->initialize(context_, scene_node_);
   // Use the threaded queue for processing of incoming messages
   // Use the threaded queue for processing of incoming messages
-  update_nh_.setCallbackQueue(context_->getThreadedQueue());
+  // update_nh_.setCallbackQueue(context_->getThreadedQueue());
 }
 
 vec_E<vec_Vec3f> MapDisplay::getBound() {
@@ -191,14 +192,14 @@ vec_E<vec_Vec3f> MapDisplay::getBound() {
   return bs;
 }
 
-void MapDisplay::processMessage(const kr_planning_msgs::VoxelMapConstPtr& msg) {
+void MapDisplay::processMessage(kr_planning_msgs::msg::VoxelMap::ConstSharedPtr msg) {
   setMap(map_util_, *msg);
 
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position_, orientation_)) {
-    ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
-              msg->header.frame_id.c_str(),
-              qPrintable(fixed_frame_));
+    // ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
+    //           msg->header.frame_id.c_str(),
+    //           qPrintable(fixed_frame_));
     return;
   }
 
@@ -215,7 +216,7 @@ void MapDisplay::processMessage(const kr_planning_msgs::VoxelMapConstPtr& msg) {
   visual->setScale(scale);
 
   visual_ = visual;
-  header_ptr_ = std::make_shared<std_msgs::Header>(msg->header);
+  header_ptr_ = std::make_shared<std_msgs::msg::Header>(msg->header);
 
   int state = state_property_->getOptionInt();
   visualizeMessage(state);
@@ -256,27 +257,27 @@ void MapDisplay::visualizeMessage(int state) {
   switch (state) {
     case 0: {
       visuals_mesh_.clear();
-      sensor_msgs::PointCloud cloud = vec_to_cloud(map_util_->getCloud());
+      sensor_msgs::msg::PointCloud cloud = vec_to_cloud(map_util_->getCloud());
       cloud.header = *header_ptr_;
       point_cloud_common_->addMessage(
-          boost::make_shared<sensor_msgs::PointCloud>(cloud));
+          std::make_shared<sensor_msgs::msg::PointCloud>(cloud));
       break;
     }
     case 1: {
-      sensor_msgs::PointCloud cloud = vec_to_cloud(map_util_->getCloud());
+      sensor_msgs::msg::PointCloud cloud = vec_to_cloud(map_util_->getCloud());
       cloud.header = *header_ptr_;
       point_cloud_common_->addMessage(
-          boost::make_shared<sensor_msgs::PointCloud>(cloud));
+          std::make_shared<sensor_msgs::msg::PointCloud>(cloud));
 
       vec_Vec3f free_cloud = map_util_->getFreeCloud();
       visualizeMesh(free_cloud, map_util_->getRes());
       break;
     }
     case 2: {
-      sensor_msgs::PointCloud cloud = vec_to_cloud(map_util_->getCloud());
+      sensor_msgs::msg::PointCloud cloud = vec_to_cloud(map_util_->getCloud());
       cloud.header = *header_ptr_;
       point_cloud_common_->addMessage(
-          boost::make_shared<sensor_msgs::PointCloud>(cloud));
+          std::make_shared<sensor_msgs::msg::PointCloud>(cloud));
 
       vec_Vec3f unknown_cloud = map_util_->getUnknownCloud();
       visualizeMesh(unknown_cloud, map_util_->getRes());
@@ -330,5 +331,5 @@ void MapDisplay::reset() {
 }
 }  // namespace kr
 
-#include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(kr::MapDisplay, rviz::Display)
+#include <pluginlib/class_list_macros.hpp>
+PLUGINLIB_EXPORT_CLASS(kr::MapDisplay, rviz_common::Display)

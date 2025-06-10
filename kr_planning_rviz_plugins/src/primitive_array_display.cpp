@@ -3,86 +3,86 @@
 namespace kr {
 PrimitiveArrayDisplay::PrimitiveArrayDisplay() {
   num_property_ =
-      new rviz::IntProperty("Num",
+      new rviz_common::properties::IntProperty("Num",
                             10,
                             "Number of samples of each primitive to display.",
                             this,
                             SLOT(updateNum()));
   yaw_triangle_scale_property_ =
-      new rviz::FloatProperty("YawTriangleScale",
+      new rviz_common::properties::FloatProperty("YawTriangleScale",
                               0.5,
                               "0.5 is the default value.",
                               this,
                               SLOT(updateYawTriangleScale()));
   yaw_triangle_angle_property_ =
-      new rviz::FloatProperty("YawTriangleAngle",
+      new rviz_common::properties::FloatProperty("YawTriangleAngle",
                               0.7,
                               "0.7 is the default value.",
                               this,
                               SLOT(updateYawTriangleAngle()));
-  yaw_num_property_ = new rviz::IntProperty(
+  yaw_num_property_ = new rviz_common::properties::IntProperty(
       "NumYaw",
       2,
       "Number of yaw samples of each primitive to display.",
       this,
       SLOT(updateYawNum()));
-  pos_color_property_ = new rviz::ColorProperty("PosColor",
+  pos_color_property_ = new rviz_common::properties::ColorProperty("PosColor",
                                                 QColor(204, 51, 204),
                                                 "Color to draw the Pos.",
                                                 this,
                                                 SLOT(updatePosColorAndAlpha()));
-  vel_color_property_ = new rviz::ColorProperty("VelColor",
+  vel_color_property_ = new rviz_common::properties::ColorProperty("VelColor",
                                                 QColor(85, 85, 255),
                                                 "Color to draw the Vel.",
                                                 this,
                                                 SLOT(updateVelColorAndAlpha()));
-  acc_color_property_ = new rviz::ColorProperty("AccColor",
+  acc_color_property_ = new rviz_common::properties::ColorProperty("AccColor",
                                                 QColor(10, 200, 55),
                                                 "Color to draw the Acc.",
                                                 this,
                                                 SLOT(updateAccColorAndAlpha()));
-  jrk_color_property_ = new rviz::ColorProperty("JrkColor",
+  jrk_color_property_ = new rviz_common::properties::ColorProperty("JrkColor",
                                                 QColor(200, 20, 55),
                                                 "Color to draw the Acc.",
                                                 this,
                                                 SLOT(updateJrkColorAndAlpha()));
-  yaw_color_property_ = new rviz::ColorProperty("YawColor",
+  yaw_color_property_ = new rviz_common::properties::ColorProperty("YawColor",
                                                 QColor(100, 20, 55),
                                                 "Color to draw the Yaw.",
                                                 this,
                                                 SLOT(updateYawColorAndAlpha()));
-  pos_scale_property_ = new rviz::FloatProperty("PosScale",
+  pos_scale_property_ = new rviz_common::properties::FloatProperty("PosScale",
                                                 0.1,
                                                 "0.1 is the default value.",
                                                 this,
                                                 SLOT(updatePosScale()));
-  vel_scale_property_ = new rviz::FloatProperty("VelScale",
+  vel_scale_property_ = new rviz_common::properties::FloatProperty("VelScale",
                                                 0.02,
                                                 "0.02 is the default value.",
                                                 this,
                                                 SLOT(updateVelScale()));
-  acc_scale_property_ = new rviz::FloatProperty("AccScale",
+  acc_scale_property_ = new rviz_common::properties::FloatProperty("AccScale",
                                                 0.02,
                                                 "0.02 is the default value.",
                                                 this,
                                                 SLOT(updateAccScale()));
-  jrk_scale_property_ = new rviz::FloatProperty("JrkScale",
+  jrk_scale_property_ = new rviz_common::properties::FloatProperty("JrkScale",
                                                 0.02,
                                                 "0.02 is the default value.",
                                                 this,
                                                 SLOT(updateJrkScale()));
-  yaw_scale_property_ = new rviz::FloatProperty("YawScale",
+  yaw_scale_property_ = new rviz_common::properties::FloatProperty("YawScale",
                                                 0.05,
                                                 "0.05 is the default value.",
                                                 this,
                                                 SLOT(updateYawScale()));
-  vel_vis_property_ = new rviz::BoolProperty(
+  vel_vis_property_ = new rviz_common::properties::BoolProperty(
       "VelVis", 0, "Visualize Vel?", this, SLOT(updateVelVis()));
-  acc_vis_property_ = new rviz::BoolProperty(
+  acc_vis_property_ = new rviz_common::properties::BoolProperty(
       "AccVis", 0, "Visualize Acc?", this, SLOT(updateAccVis()));
-  jrk_vis_property_ = new rviz::BoolProperty(
+  jrk_vis_property_ = new rviz_common::properties::BoolProperty(
       "JrkVis", 0, "Visualize Jrk?", this, SLOT(updateJrkVis()));
-  yaw_vis_property_ = new rviz::BoolProperty(
+  yaw_vis_property_ = new rviz_common::properties::BoolProperty(
       "YawVis", 0, "Visualize Yaw?", this, SLOT(updateYawVis()));
 }
 
@@ -162,12 +162,12 @@ void PrimitiveArrayDisplay::updateNum() { visualizeMessage(); }
 void PrimitiveArrayDisplay::updateYawNum() { visualizeMessage(); }
 
 void PrimitiveArrayDisplay::processMessage(
-    const kr_planning_msgs::PrimitiveArray::ConstPtr& msg) {
+    kr_planning_msgs::msg::PrimitiveArray::ConstSharedPtr msg) {
   if (!context_->getFrameManager()->getTransform(
           msg->header.frame_id, msg->header.stamp, position_, orientation_)) {
-    ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
-              msg->header.frame_id.c_str(),
-              qPrintable(fixed_frame_));
+    // ROS_DEBUG("Error transforming from frame '%s' to frame '%s'",
+    //           msg->header.frame_id.c_str(),
+    //           qPrintable(fixed_frame_));
     return;
   }
 
@@ -240,5 +240,5 @@ void PrimitiveArrayDisplay::visualizeMessage() {
 }
 }  // namespace kr
 
-#include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(kr::PrimitiveArrayDisplay, rviz::Display)
+#include <pluginlib/class_list_macros.hpp>
+PLUGINLIB_EXPORT_CLASS(kr::PrimitiveArrayDisplay, rviz_common::Display)

@@ -13,7 +13,7 @@ PrimitiveVisual::~PrimitiveVisual() {
 }
 
 void PrimitiveVisual::setMessage(
-    const std::vector<kr_planning_msgs::Primitive>& msgs) {
+    const std::vector<kr_planning_msgs::msg::Primitive>& msgs) {
   poss_.clear();
   vels_.clear();
   accs_.clear();
@@ -54,7 +54,7 @@ void PrimitiveVisual::setMessage(
   R << cos(theta), -sin(theta), 0, sin(theta), cos(theta), 0, 0, 0, 1;
 
   for (size_t n = 0; n < N; n++) {
-    kr_planning_msgs::Trajectory traj_viz_msg;
+    kr_planning_msgs::msg::Trajectory traj_viz_msg;
     traj_viz_msg.primitives = msgs;
     const auto waypoints_pos = sample(traj_viz_msg, num_ - 1, 0);
     const auto waypoints_vel = sample(traj_viz_msg, num_ - 1, 1);
@@ -74,7 +74,7 @@ void PrimitiveVisual::setMessage(
         const auto p2 = waypoints_pos[i + 1];
         const Ogre::Vector3 pos2(p2(0), p2(1), p2(2));
         poss_[n * (num_ - 1) + i].reset(
-            new rviz::BillboardLine(scene_manager_, frame_node_));
+            new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
         poss_[n * (num_ - 1) + i]->addPoint(pos1);
         poss_[n * (num_ - 1) + i]->addPoint(pos2);
       }
@@ -83,7 +83,7 @@ void PrimitiveVisual::setMessage(
         const Vec3f p3 = p1_pos + R * p1_vel;
         const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
         vels_[n * num_ + i].reset(
-            new rviz::BillboardLine(scene_manager_, frame_node_));
+            new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
         vels_[n * num_ + i]->addPoint(pos1);
         vels_[n * num_ + i]->addPoint(pos3);
       }
@@ -92,7 +92,7 @@ void PrimitiveVisual::setMessage(
         const Vec3f p3 = p1_pos + R * p1_acc;
         const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
         accs_[n * num_ + i].reset(
-            new rviz::BillboardLine(scene_manager_, frame_node_));
+            new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
         accs_[n * num_ + i]->addPoint(pos1);
         accs_[n * num_ + i]->addPoint(pos3);
       }
@@ -101,7 +101,7 @@ void PrimitiveVisual::setMessage(
         const Vec3f p3 = p1_pos + R * p1_jrk;
         const Ogre::Vector3 pos3(p3(0), p3(1), p3(2));
         jrks_[n * num_ + i].reset(
-            new rviz::BillboardLine(scene_manager_, frame_node_));
+            new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
         jrks_[n * num_ + i]->addPoint(pos1);
         jrks_[n * num_ + i]->addPoint(pos3);
       }
@@ -110,7 +110,7 @@ void PrimitiveVisual::setMessage(
         Vec3f d(syaw_, 0, 0);
         for (int i = 0; i < yaw_num_; i++) {
           yaws_[n * yaw_num_ + i].reset(
-              new rviz::BillboardLine(scene_manager_, frame_node_));
+              new rviz_rendering::BillboardLine(scene_manager_, frame_node_));
           const auto keyframe = waypoints_yaw[i];
           double yaw = keyframe(3);
           double yaw1 = yaw + dyaw_;

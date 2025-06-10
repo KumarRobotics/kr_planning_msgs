@@ -4,9 +4,9 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
-#include <kr_planning_msgs/SplineTrajectory.h>
+#include <kr_planning_msgs/msg/spline_trajectory.hpp>
 #include <kr_planning_rviz_plugins/data_type.h>
-#include <rviz/ogre_helpers/billboard_line.h>
+#include <rviz_rendering/objects/billboard_line.hpp>
 
 #include <Eigen/Dense>
 #include <memory>
@@ -19,7 +19,7 @@ class SplineTrajectoryVisual {
 
   virtual ~SplineTrajectoryVisual();
 
-  void setMessage(const kr_planning_msgs::SplineTrajectory& msg);
+  void setMessage(const kr_planning_msgs::msg::SplineTrajectory& msg);
 
   void setFramePosition(const Ogre::Vector3& position);
   void setFrameOrientation(const Ogre::Quaternion& orientation);
@@ -34,16 +34,16 @@ class SplineTrajectoryVisual {
   void setVelVis(bool vis);
   void setAccVis(bool vis);
   std::vector<Eigen::VectorXd> sample(
-      const kr_planning_msgs::SplineTrajectory& msg, int N, int deriv_num);
-  static Eigen::VectorXd evaluate(const kr_planning_msgs::SplineTrajectory& msg,
+      const kr_planning_msgs::msg::SplineTrajectory& msg, int N, int deriv_num);
+  static Eigen::VectorXd evaluate(const kr_planning_msgs::msg::SplineTrajectory& msg,
                            double t,
                            uint deriv_num);
   static std::vector<float> differentiate(const std::vector<float>& p, float segment_time);
 
  private:
-  std::vector<std::unique_ptr<rviz::BillboardLine>> poss_;
-  std::vector<std::unique_ptr<rviz::BillboardLine>> vels_;
-  std::vector<std::unique_ptr<rviz::BillboardLine>> accs_;
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> poss_;
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> vels_;
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> accs_;
 
   Ogre::SceneNode* frame_node_;
   Ogre::SceneManager* scene_manager_;
