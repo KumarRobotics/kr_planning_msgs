@@ -8,4 +8,5 @@ bool success
 kr_planning_msgs/Path path
 ---
 # Action feedback
-duration computation_time
+# duration computation_time
+builtin_interfaces/Duration computation_time

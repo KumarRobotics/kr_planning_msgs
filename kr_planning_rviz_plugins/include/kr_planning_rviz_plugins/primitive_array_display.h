@@ -1,20 +1,29 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
-#include <kr_planning_msgs/PrimitiveArray.h>
-#include <rviz/frame_manager.h>
-#include <rviz/load_resource.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/int_property.h>
-#include <rviz/visualization_manager.h>
+#include <kr_planning_msgs/msg/primitive_array.hpp>
+// #include <rviz_common/frame_manager_iface.hpp>
+// #include <rviz_common/load_resource.hpp>
+// #include <rviz_common/message_filter_display.hpp>
+// #include <rviz_common/properties/bool_property.hpp>
+// #include <rviz_common/properties/color_property.hpp>
+// #include <rviz_common/properties/float_property.hpp>
+// #include <rviz_common/properties/int_property.hpp>
+// #include <rviz_common/visualization_manager.hpp>
+
+#include <rviz_common/frame_manager_iface.hpp>  // Replaces rviz_common/frame_manager_iface.hpp
+#include <rviz_common/load_resource.hpp>       // Replaces rviz_common/load_resource.hpp
+#include <rviz_common/message_filter_display.hpp> // Replaces rviz_common/message_filter_display.hpp
+#include <rviz_common/properties/bool_property.hpp> // Replaces rviz_common/properties/bool_property.hpp
+#include <rviz_common/properties/color_property.hpp> // Replaces rviz_common/properties/color_property.hpp
+#include <rviz_common/properties/float_property.hpp> // Replaces rviz_common/properties/float_property.hpp
+#include <rviz_common/properties/int_property.hpp>  // Replaces rviz_common/properties/int_property.hpp
+#include <rviz_common/visualization_manager.hpp> // Replaces rviz_common/visualization_manager.hpp
 
 #include "primitive_visual.h"
 
 namespace kr {
 class PrimitiveArrayDisplay
-    : public rviz::MessageFilterDisplay<kr_planning_msgs::PrimitiveArray> {
+    : public rviz_common::MessageFilterDisplay<kr_planning_msgs::msg::PrimitiveArray> {
   Q_OBJECT
  public:
   PrimitiveArrayDisplay();
@@ -46,33 +55,33 @@ class PrimitiveArrayDisplay
   void updateYawNum();
 
  private:
-  void processMessage(const kr_planning_msgs::PrimitiveArray::ConstPtr& msg);
+  void processMessage(kr_planning_msgs::msg::PrimitiveArray::ConstSharedPtr msg);
   void visualizeMessage();
 
   std::shared_ptr<PrimitiveVisual> visual_;
 
-  rviz::ColorProperty* pos_color_property_;
-  rviz::ColorProperty* vel_color_property_;
-  rviz::ColorProperty* acc_color_property_;
-  rviz::ColorProperty* jrk_color_property_;
-  rviz::ColorProperty* yaw_color_property_;
-  rviz::FloatProperty* pos_scale_property_;
-  rviz::FloatProperty* vel_scale_property_;
-  rviz::FloatProperty* acc_scale_property_;
-  rviz::FloatProperty* jrk_scale_property_;
-  rviz::FloatProperty* yaw_scale_property_;
-  rviz::FloatProperty* yaw_triangle_scale_property_;
-  rviz::FloatProperty* yaw_triangle_angle_property_;
-  rviz::BoolProperty* vel_vis_property_;
-  rviz::BoolProperty* acc_vis_property_;
-  rviz::BoolProperty* jrk_vis_property_;
-  rviz::BoolProperty* yaw_vis_property_;
-  rviz::IntProperty* num_property_;
-  rviz::IntProperty* yaw_num_property_;
+  rviz_common::properties::ColorProperty* pos_color_property_;
+  rviz_common::properties::ColorProperty* vel_color_property_;
+  rviz_common::properties::ColorProperty* acc_color_property_;
+  rviz_common::properties::ColorProperty* jrk_color_property_;
+  rviz_common::properties::ColorProperty* yaw_color_property_;
+  rviz_common::properties::FloatProperty* pos_scale_property_;
+  rviz_common::properties::FloatProperty* vel_scale_property_;
+  rviz_common::properties::FloatProperty* acc_scale_property_;
+  rviz_common::properties::FloatProperty* jrk_scale_property_;
+  rviz_common::properties::FloatProperty* yaw_scale_property_;
+  rviz_common::properties::FloatProperty* yaw_triangle_scale_property_;
+  rviz_common::properties::FloatProperty* yaw_triangle_angle_property_;
+  rviz_common::properties::BoolProperty* vel_vis_property_;
+  rviz_common::properties::BoolProperty* acc_vis_property_;
+  rviz_common::properties::BoolProperty* jrk_vis_property_;
+  rviz_common::properties::BoolProperty* yaw_vis_property_;
+  rviz_common::properties::IntProperty* num_property_;
+  rviz_common::properties::IntProperty* yaw_num_property_;
 
   Ogre::Vector3 position_;
   Ogre::Quaternion orientation_;
 
-  kr_planning_msgs::PrimitiveArray prs_msg_;
+  kr_planning_msgs::msg::PrimitiveArray prs_msg_;
 };
 }  // namespace kr

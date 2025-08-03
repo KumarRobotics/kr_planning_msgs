@@ -1,4 +1,4 @@
-Header header
+std_msgs/Header header
 # Name is used by the plugin
 string name
 # Path is consist of multiple ordered waypoints

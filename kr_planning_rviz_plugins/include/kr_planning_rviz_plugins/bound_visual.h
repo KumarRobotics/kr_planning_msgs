@@ -5,28 +5,52 @@
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreVector3.h>
 #include <kr_planning_rviz_plugins/data_type.h>
-#include <rviz/ogre_helpers/billboard_line.h>
+// #include <rviz_rendering/objects/billboard_line.hpp>
+#include <rviz_rendering/objects/billboard_line.hpp>
+
+// namespace kr {
+// class BoundVisual {
+//  public:
+//   BoundVisual(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
+//   ~BoundVisual();
+
+//   void setMessage(const vec_E<vec_Vec3f>& bds);
+//   void setFramePosition(const Ogre::Vector3& position);
+//   void setFrameOrientation(const Ogre::Quaternion& orientation);
+
+//   void setColor(float r, float g, float b, float a);
+//   void setScale(float s);
+
+//  private:
+//   std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> objs_;
+
+//   Ogre::SceneNode* frame_node_;
+
+//   Ogre::SceneManager* scene_manager_;
+// };
+
+
+
+// }  // namespace kr
 
 namespace kr {
 class BoundVisual {
- public:
+public:
   BoundVisual(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
   ~BoundVisual();
 
   void setMessage(const vec_E<vec_Vec3f>& bds);
   void setFramePosition(const Ogre::Vector3& position);
   void setFrameOrientation(const Ogre::Quaternion& orientation);
-
   void setColor(float r, float g, float b, float a);
   void setScale(float s);
 
- private:
-  std::vector<std::unique_ptr<rviz::BillboardLine>> objs_;
-
-  Ogre::SceneNode* frame_node_;
-
+private:
+  std::vector<std::unique_ptr<rviz_rendering::BillboardLine>> objs_;
   Ogre::SceneManager* scene_manager_;
+  Ogre::SceneNode* frame_node_;
 };
+
 }  // namespace kr
 
 #endif

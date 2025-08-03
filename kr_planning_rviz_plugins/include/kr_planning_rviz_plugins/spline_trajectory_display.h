@@ -3,20 +3,20 @@
 #define MAP_PLAN_PLANNING_ROS_UTILS_SRC_PLANNING_RVIZ_PLUGINS_SPLINE_TRAJECTORY_DISPLAY_H_
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
-#include <kr_planning_msgs/SplineTrajectory.h>
+#include <kr_planning_msgs/msg/spline_trajectory.hpp>
 #include <kr_planning_rviz_plugins/spline_trajectory_visual.h>
-#include <rviz/frame_manager.h>
-#include <rviz/load_resource.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/int_property.h>
-#include <rviz/visualization_manager.h>
+#include <rviz_common/frame_manager_iface.hpp>
+#include <rviz_common/load_resource.hpp>
+#include <rviz_common/message_filter_display.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/int_property.hpp>
+#include <rviz_common/visualization_manager.hpp>
 
 namespace kr {
 class SplineTrajectoryDisplay
-    : public rviz::MessageFilterDisplay<kr_planning_msgs::SplineTrajectory> {
+    : public rviz_common::MessageFilterDisplay<kr_planning_msgs::msg::SplineTrajectory> {
   Q_OBJECT
  public:
   SplineTrajectoryDisplay();
@@ -41,25 +41,25 @@ class SplineTrajectoryDisplay
   void updateNum();
 
  private:
-  void processMessage(const kr_planning_msgs::SplineTrajectory::ConstPtr& msg);
+  void processMessage(kr_planning_msgs::msg::SplineTrajectory::ConstSharedPtr msg);
   void visualizeMessage();
 
   std::shared_ptr<SplineTrajectoryVisual> visual_;
 
-  rviz::ColorProperty* pos_color_property_;
-  rviz::ColorProperty* vel_color_property_;
-  rviz::ColorProperty* acc_color_property_;
-  rviz::FloatProperty* pos_scale_property_;
-  rviz::FloatProperty* vel_scale_property_;
-  rviz::FloatProperty* acc_scale_property_;
-  rviz::BoolProperty* vel_vis_property_;
-  rviz::BoolProperty* acc_vis_property_;
-  rviz::IntProperty* num_property_;
+  rviz_common::properties::ColorProperty* pos_color_property_;
+  rviz_common::properties::ColorProperty* vel_color_property_;
+  rviz_common::properties::ColorProperty* acc_color_property_;
+  rviz_common::properties::FloatProperty* pos_scale_property_;
+  rviz_common::properties::FloatProperty* vel_scale_property_;
+  rviz_common::properties::FloatProperty* acc_scale_property_;
+  rviz_common::properties::BoolProperty* vel_vis_property_;
+  rviz_common::properties::BoolProperty* acc_vis_property_;
+  rviz_common::properties::IntProperty* num_property_;
 
   Ogre::Vector3 position_;
   Ogre::Quaternion orientation_;
 
-  kr_planning_msgs::SplineTrajectory trajectory_;
+  kr_planning_msgs::msg::SplineTrajectory trajectory_;
 };
 }  // namespace kr
 

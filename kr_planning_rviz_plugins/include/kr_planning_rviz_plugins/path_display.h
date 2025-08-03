@@ -1,18 +1,20 @@
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
-#include <kr_planning_msgs/Path.h>
-#include <rviz/frame_manager.h>
-#include <rviz/load_resource.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/enum_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/visualization_manager.h>
+#include <kr_planning_msgs/msg/path.hpp>
+#include <rviz_common/frame_manager_iface.hpp>
+#include <rviz_common/load_resource.hpp>
+#include <rviz_common/message_filter_display.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/enum_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/visualization_manager.hpp>
+
+
 
 #include "path_visual.h"
 
 namespace kr {
-class PathDisplay : public rviz::MessageFilterDisplay<kr_planning_msgs::Path> {
+class PathDisplay : public rviz_common::MessageFilterDisplay<kr_planning_msgs::msg::Path> {
   Q_OBJECT
 
  public:
@@ -31,15 +33,15 @@ class PathDisplay : public rviz::MessageFilterDisplay<kr_planning_msgs::Path> {
   void updateNodeScale();
 
  private:
-  void processMessage(const kr_planning_msgs::Path::ConstPtr& msg);
+  void processMessage(kr_planning_msgs::msg::Path::ConstSharedPtr msg);
   void visualizeMessage();
 
   std::shared_ptr<PathVisual> visual_;
 
-  rviz::ColorProperty* line_color_property_;
-  rviz::ColorProperty* node_color_property_;
-  rviz::FloatProperty* line_scale_property_;
-  rviz::FloatProperty* node_scale_property_;
+  rviz_common::properties::ColorProperty* line_color_property_;
+  rviz_common::properties::ColorProperty* node_color_property_;
+  rviz_common::properties::FloatProperty* line_scale_property_;
+  rviz_common::properties::FloatProperty* node_scale_property_;
 
   Ogre::Vector3 position_;
   Ogre::Quaternion orientation_;
